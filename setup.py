@@ -4,7 +4,7 @@ name = "clean_ipynb"
 
 setup(
     name=name,
-    version="0.0.1",
+    version="0.0.1b",
     url="https://github.com/KwatME/clean_ipynb",
     author="Kwat ME",
     author_email="kwatme8@gmail.com",
