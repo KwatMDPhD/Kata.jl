@@ -1,6 +1,6 @@
 # Clean .ipynb
 
-Clean .ipynb (isort, black, clear output, and more) :sunflower:
+Clean .ipynb ([isort](https://github.com/timothycrosley/isort), [black](https://github.com/ambv/black), clear output, and more) :sunflower:
 
 # Install
 
