@@ -5,8 +5,8 @@ from .clean_ipynb import clean_ipynb
 
 @command()
 @argument("ipynb-file-paths", nargs=-1, type=Path(exists=True))
-@option("--back-up", "-b", is_flag=True, help="Whether to back up .ipynb")
-@option("--keep-output", "-k", is_flag=True, help="Whether to keep output .ipynb")
+@option("--back-up", "-b", is_flag=True, help="Flag to back up .ipynb")
+@option("--keep-output", "-k", is_flag=True, help="Flag to keep .ipynb output")
 def command_line_interface(ipynb_file_paths, back_up, keep_output):
     """
     Clean .ipynb one cell at a time inplace by: running isort, running black, and clearing output.
