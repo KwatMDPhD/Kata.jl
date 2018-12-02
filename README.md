@@ -10,15 +10,21 @@ Clean .ipynb one cell at a time inplace by: running [isort](https://github.com/t
 pip install clean_ipynb
 ```
 
-## Use
-
-Clean `notebook/test.ipynb`
+## Clean specified `.ipynb`
 
 ```sh
-clean_ipynb --back-up notebook/input.ipynb
+clean_ipynb eagle.ipynb
 ```
 
-Find and clean `*.ipynb` recursively
+```sh
+clean_ipynb eagle.ipynb honeybadger.ipynb
+```
+
+```sh
+clean_ipynb *.ipynb
+```
+
+## Find and clean multiple `.ipynb`
 
 ```sh
 find . -name '*.ipynb' -exec clean_ipynb --back-up {} \;
