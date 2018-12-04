@@ -11,7 +11,8 @@ from .clean_ipynb import clean_ipynb
 @option("--version", is_flag=True, help="Show the version and exit.")
 def command_line_interface(ipynb_file_paths, back_up, keep_output, version):
     """
-    Clean .ipynb one cell at a time inplace by: running isort, running black, and clearing output.
+    Clean .ipynb inplace by clearing output and formatting the code with isort
+    and black.
 
     (clean_ipynb is in beta, so use --back-up flag just in case.)
     """

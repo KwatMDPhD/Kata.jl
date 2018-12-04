@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name=NAME,
     version=VERSION,
-    url="https://github.com/KwatME/clean_ipynb",
+    url="https://github.com/KwatME/{}".format(NAME),
     author="Kwat ME",
     author_email="kwatme8@gmail.com",
     python_requires=">=3.6",

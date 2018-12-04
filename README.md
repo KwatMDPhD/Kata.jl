@@ -1,6 +1,6 @@
 # Clean .ipynb
 
-Clean `.ipynb` one cell at a time inplace by: running [isort](https://github.com/timothycrosley/isort), running [black](https://github.com/ambv/black), and clearing output :sunflower:
+Clean `.ipynb` inplace by clearing output and formatting the code with [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black) :sunflower:
 
 (`clean_ipynb` is in beta, so use `--back-up` flag just in case.)
 
