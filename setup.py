@@ -8,7 +8,7 @@ setup(
     author="Kwat ME",
     author_email="kwatme8@gmail.com",
     python_requires=">=3.6",
-    install_requires=("black", "click"),
+    install_requires=("black", "click==7.0"),
     packages=(NAME,),
     py_modules=(NAME,),
     entry_points={

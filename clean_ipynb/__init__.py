@@ -1,3 +1,3 @@
 NAME = "clean_ipynb"
 
-VERSION = "0.0.3b"
+VERSION = "0.0.4b"
