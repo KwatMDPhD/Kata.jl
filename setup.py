@@ -1,5 +1,6 @@
-from clean_ipynb import NAME, VERSION
 from setuptools import setup
+
+from clean_ipynb import NAME, VERSION
 
 setup(
     name=NAME,
@@ -7,7 +8,6 @@ setup(
     url="https://github.com/KwatME/{}".format(NAME),
     author="Kwat Medetgul-Ernar (Huwate Yeerna)",
     author_email="kwatme8@gmail.com",
-    license="LICENSE",
     python_requires=">=3.6",
     install_requires=("black", "click==7.0"),
     packages=(NAME,),
