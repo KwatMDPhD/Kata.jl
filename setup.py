@@ -1,6 +1,5 @@
-from setuptools import setup
-
 from clean_ipynb import NAME, VERSION
+from setuptools import setup
 
 setup(
     name=NAME,
