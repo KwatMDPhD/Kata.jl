@@ -5,7 +5,11 @@ from .clean_python_code import clean_python_code
 from .clear_ipynb_output import clear_ipynb_output
 
 
-def clean_ipynb(ipynb_file_path, back_up, keep_output):
+def clean_ipynb(ipynb_file_path, black_opts, back_up, keep_output):
+    """
+    :param black_opts: additional arguments to pass to black utility
+    :type black_opts: list of str
+    """
 
     if back_up:
 
@@ -23,7 +27,7 @@ def clean_ipynb(ipynb_file_path, back_up, keep_output):
 
         if cell_dict["cell_type"] == "code":
 
-            clean_lines = clean_python_code("".join(cell_dict["source"])).split("\n")
+            clean_lines = clean_python_code("".join(cell_dict["source"]), black_opts).split("\n")
 
             if len(clean_lines) == 1 and clean_lines[0] == "":
 
