@@ -9,7 +9,7 @@ setup(
     author_email="kwatme8@gmail.com",
     packages=find_packages(),
     python_requires=">=3.6",
-    install_requires=("black", "click==7.0"),
+    install_requires=("black", "click==7.0", "jupyter", "isort"),
     entry_points={
         "console_scripts": ("{0}={0}.{1}:{1}".format(NAME, "command_line_interface"),)
     },
