@@ -1,53 +1,47 @@
-# Clean .ipynb
+### Clean IPYNB/PY
+Small CLI program capable of cleaning ```.ipynb``` and ```.py``` source. Tidy and remove redundant imports (via [autoflake](https://github.com/myint/autoflake)), sort imports (via [isort](https://github.com/timothycrosley/isort)), lint and standardize (via [black](https://github.com/ambv/black)). Apply equally to entire ```.py``` or ```.ipynb``` files. Additionally, clear all ```.ipynb``` cell outputs and execution counts (squeeze those diffs!). Forked from KwatMe's orginal [repo](https://github.com/KwatME/clean_ipynb).
 
-Clean .ipynb inplace by clearing output and formatting the code with [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black) :sunflower:
-
-## Install
-
-Install from PyPI
-
+### 1.0 Up and Running
+Via git pip:
 ```sh
-pip install clean_ipynb
+pip install git+https://github.com/samhardyhey/clean_ipynb
 ```
 
-Install from GitHub (here)
-
+Via source:
 ```sh
-git clone https://github.com/KwatME/clean_ipynb
-
+git clone https://github.com/samhardyhey/clean_ipynb
 cd clean_ipynb
-
 pip install .
 ```
 
-## Use
-
-Clean 1 .ipynb
-
+### 2.0 Use
+Clean ```.ipynb``` source:
 ```sh
-clean_ipynb eagle.ipynb
+clean_ipynb a_single_notebook.ipynb
 ```
 
-Clean 2 .ipynb
-
+Or ```.py``` source:
 ```sh
-clean_ipynb eagle.ipynb honeybadger.ipynb
+clean_ipynb a_single_script.py
 ```
 
-Clean all .ipynb
-
+Or an entire directory recursively:
 ```sh
-clean_ipynb *.ipynb
+clean_ipynb <some_dir_containing_py_ipynb_source>
 ```
 
-Recursively find and clean all .ipynb
-
+Clean with specific features if necessary (uses all features by default):
 ```sh
-find -name '*.ipynb' -exec clean_ipynb {} \;
+clean_ipynb <some_dir_containing_py_ipynb_source> -py True -isort True -black False -autoflake False
 ```
 
-## Improve
+A full list of parameters can be found via:
+```sh
+clean_ipynb --help
+```
 
-When you encounter a problem, please [submitting an issue](https://github.com/KwatME/clean_ipynb/issues/new).
-
-When you want to improve the code, please fork it and open a pull request when ready.
+### Todo
+* **Unit tests.** Null parameter, invalid parameter edge cases etc.
+* **Reimplement sub-command arg parsing.** Parse specific black/autoflake/isort args to main CLI.
+* **Remove subprocess calls.** Reach into subprograms, natively use without subprocess calls.
+* **Parameterise clear notebook.** As an explicit CLI arg.

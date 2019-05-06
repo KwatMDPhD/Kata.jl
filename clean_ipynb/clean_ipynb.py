@@ -1,6 +1,4 @@
-import glob
 from json import dump, load
-from shutil import copyfile
 from subprocess import run
 from multiprocessing.dummy import Pool
 from multiprocessing import cpu_count
