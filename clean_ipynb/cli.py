@@ -22,6 +22,7 @@ def main(path, py=True, ipynb=True, autoflake=True, isort=True, black=True):
         raise ValueError("Provide a valid path to a file or directory")
 
     if path.is_dir():
+        # recursively apply to all .py source within dir
         msg.info(f"Recursively cleaning directory: {path}")
         if py:
             for e in glob.iglob(path.as_posix() + "/**/*.py", recursive=True):
@@ -31,6 +32,7 @@ def main(path, py=True, ipynb=True, autoflake=True, isort=True, black=True):
                 except:
                     msg.fail(f"Unable to clean file: {e}")
         if ipynb:
+            # recursively apply to all .ipynb source within dir
             for e in glob.iglob(path.as_posix() + "/**/*.ipynb", recursive=True):
                 try:
                     msg.info(f"Cleaning file: {e}")
@@ -51,6 +53,5 @@ def main(path, py=True, ipynb=True, autoflake=True, isort=True, black=True):
             if ipynb and path.suffix == ".ipynb":
                 clean_ipynb(path, autoflake, isort, black)
 
-
-if __name__ == "main":
+def main_wrapper():
     plac.call(main)
