@@ -4,14 +4,10 @@ from shutil import copyfile
 from subprocess import run
 from multiprocessing.dummy import Pool
 from multiprocessing import cpu_count
-from wasabi import Printer
-from pathlib import Path
 from subprocess import PIPE, Popen
 from autoflake import fix_code
-import plac
 
 pool = Pool(cpu_count())
-msg = Printer()
 
 
 def clean_python_code(python_code, isort=True, black=True, autoflake=True):
@@ -111,51 +107,3 @@ def clean_py(py_file_path, autoflake=True, isort=True, black=True):
 
     clean_lines = clean_python_code("".join(source))
     create_file(Path(py_file_path), clean_lines)
-
-
-@plac.annotations(
-    path=("File or dir to clean", "positional", None, str),
-    py=("Apply to .py source", "option", None, bool),
-    ipynb=("Apply to .ipynb source", "option", None, bool),
-    autoflake=("Apply autoflake to source", "option", None, bool),
-    isort=("Apply isort to source", "option", None, bool),
-    black=("Apply black to source", "option", None, bool),
-)
-def main(path, py=True, ipynb=True, autoflake=True, isort=True, black=True):
-    path = Path(path)
-    if not path.exists():
-        raise ValueError("Provide a valid path to a file or directory")
-
-    if path.is_dir():
-        msg.info(f"Recursively cleaning directory: {path}")
-        if py:
-            for e in glob.iglob(path.as_posix() + "/**/*.py", recursive=True):
-                try:
-                    msg.info(f"Cleaning file: {e}")
-                    clean_py(e, autoflake, isort, black)
-                except:
-                    msg.fail(f"Unable to clean file: {e}")
-        if ipynb:
-            for e in glob.iglob(path.as_posix() + "/**/*.ipynb", recursive=True):
-                try:
-                    msg.info(f"Cleaning file: {e}")
-                    clean_ipynb(e, autoflake, isort, black)
-                except:
-                    msg.fail(f"Unable to clean file: {e}")
-
-    if path.is_file():
-        msg.info(f"Cleaning file: {path}")
-
-        if path.suffix not in [".py", ".ipynb"]:
-            # valid extensions
-            raise ValueError("Ensure valid .py or .ipynb path is provided")
-
-            if py and path.suffix == ".py":
-                clean_py(path, autoflake, isort, black)
-
-            if ipynb and path.suffix == ".ipynb":
-                clean_ipynb(path, autoflake, isort, black)
-
-
-if __name__ == "main":
-    plac.call(main)

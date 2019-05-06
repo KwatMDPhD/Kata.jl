@@ -9,9 +9,8 @@ setup(
     author_email="kwatme8@gmail.com",
     packages=find_packages(),
     entry_points={
-        "console_scripts": ['clean_ipynb = clean_ipynb.clean_ipynb:main']
+        "console_scripts": ['clean_ipynb=clean_ipynb.cli:main']
     },
     python_requires=">=3.6",
     install_requires=("black", "wasabi", "isort", "jupyter", "autoflake", "plac"),
-    entry_points={"console_scripts": ("{0}={0}.{1}:{1}".format(NAME, "clean_ipynb"),)},
 )
