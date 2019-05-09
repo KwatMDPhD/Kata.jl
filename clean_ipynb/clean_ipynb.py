@@ -1,4 +1,5 @@
 import re
+from functools import partial
 from json import dump, load
 from multiprocessing import cpu_count
 from multiprocessing.dummy import Pool
@@ -67,10 +68,12 @@ def clear_ipynb_output(ipynb_file_path):
     )
 
 
-def clean_ipynb_cell(cell_dict):
+def clean_ipynb_cell(cell_dict, autoflake=True, isort=True, black=True):
     # clean a single cell within a jupyter notebook
     if cell_dict["cell_type"] == "code":
-        clean_lines = clean_python_code("".join(cell_dict["source"])).split("\n")
+        clean_lines = clean_python_code(
+            "".join(cell_dict["source"]), isort=isort, black=black, autoflake=autoflake
+        ).split("\n")
 
         if len(clean_lines) == 1 and clean_lines[0] == "":
             clean_lines = []
@@ -92,8 +95,11 @@ def clean_ipynb(
     with open(ipynb_file_path) as ipynb_file:
         ipynb_dict = load(ipynb_file)
 
+    clean_cell_with_options = partial(
+        clean_ipynb_cell, isort=isort, black=black, autoflake=autoflake
+    )
     # mulithread the map operation
-    processed_cells = pool.map(clean_ipynb_cell, ipynb_dict["cells"])
+    processed_cells = pool.map(clean_cell_with_options, ipynb_dict["cells"])
     ipynb_dict["cells"] = processed_cells
 
     with open(ipynb_file_path, "w") as ipynb_file:
@@ -111,5 +117,7 @@ def clean_py(py_file_path, autoflake=True, isort=True, black=True):
     with open(py_file_path, "r") as file:
         source = file.read()
 
-    clean_lines = clean_python_code("".join(source))
-    create_file(Path(py_file_path), clean_lines)
+    clean_lines = clean_python_code(
+        "".join(source), isort=isort, black=black, autoflake=autoflake
+    )
+    create_file(Path(py_file_path), clean_lines + "\n")
