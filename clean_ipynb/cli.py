@@ -1,9 +1,10 @@
-import plac
 import glob
+from pathlib import Path
+
+import plac
 from wasabi import Printer
-from pathlib import Path
+
 from .clean_ipynb import clean_ipynb, clean_py
-from pathlib import Path
 
 msg = Printer()
 

@@ -1,14 +1,19 @@
+import re
 from json import dump, load
-from subprocess import run
-from multiprocessing.dummy import Pool
 from multiprocessing import cpu_count
-from subprocess import PIPE, Popen
+from multiprocessing.dummy import Pool
+from pathlib import Path
+from subprocess import PIPE, Popen, run
+
 from autoflake import fix_code
 
 pool = Pool(cpu_count())
 
 
 def clean_python_code(python_code, isort=True, black=True, autoflake=True):
+    # temporarily comment out ipython %magic to avoid black errors
+    python_code = re.sub("^%", "##%##", python_code, flags=re.M)
+
     # run source code string through autoflake, isort, and black
     if autoflake:
         # programmatic autoflake
@@ -42,7 +47,10 @@ def clean_python_code(python_code, isort=True, black=True, autoflake=True):
             universal_newlines=True,
         )
 
-    return pipe.communicate()[0].strip()
+    cleaned_code = pipe.communicate()[0].strip()
+    # restore ipython %magic
+    cleaned_code = re.sub("^##%##", "%", cleaned_code, flags=re.M)
+    return cleaned_code
 
 
 def clear_ipynb_output(ipynb_file_path):
