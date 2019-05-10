@@ -4,12 +4,12 @@ Small CLI program capable of cleaning ```.ipynb``` and ```.py``` source. Tidy an
 ### 1.0 Up and Running
 Via git pip:
 ```sh
-pip install git+https://github.com/samhardyhey/clean_ipynb
+pip install git+https://github.com/KwatME/clean_ipynb
 ```
 
 Via source:
 ```sh
-git clone https://github.com/samhardyhey/clean_ipynb
+git clone https://github.com/KwatME/clean_ipynb
 cd clean_ipynb
 pip install .
 ```
@@ -32,7 +32,7 @@ clean_ipynb <some_dir_containing_py_ipynb_source>
 
 Clean with specific features if necessary (uses all features by default):
 ```sh
-clean_ipynb <some_dir_containing_py_ipynb_source> -py True -isort True -black False -autoflake False
+clean_ipynb <some_dir_containing_py_ipynb_source> -no-black -no-autoflake
 ```
 
 A full list of parameters can be found via:
@@ -44,4 +44,4 @@ clean_ipynb --help
 * **Unit tests.** Null parameter, invalid parameter edge cases etc.
 * **Reimplement sub-command arg parsing.** Parse specific black/autoflake/isort args to main CLI.
 * **Remove subprocess calls.** Reach into subprograms, natively use without subprocess calls.
-* **Parameterise clear notebook.** As an explicit CLI arg.
+* **Autoflake for ipynb sources.** Keep imported modules which are not used immediately in the cell they are imported in. The current default behaviour is problematic when imports are re-used throughout a notebook but only defined once in a cell dedicated just to this. Current workaround: use the flags `-no-py -no-autoflake` for jupyter notebooks, and `-no-ipynb` for python files (to avoid repeat operations when applied to directories).
