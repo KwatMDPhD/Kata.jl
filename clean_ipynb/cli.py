@@ -1,7 +1,7 @@
+import argparse
 import glob
 from pathlib import Path
 
-import plac
 from wasabi import Printer
 
 from .clean_ipynb import clean_ipynb, clean_py
@@ -9,40 +9,9 @@ from .clean_ipynb import clean_ipynb, clean_py
 msg = Printer()
 
 
-@plac.annotations(
-    path=("File or dir to clean", "positional", None, str),
-    no_py=("Do not apply to .py source", "flag"),
-    no_ipynb=("Do not apply to .ipynb source", "flag"),
-    no_autoflake=("Do not apply autoflake to source", "flag"),
-    no_isort=("Do not apply isort to source", "flag"),
-    no_black=("Do not apply black to source", "flag"),
-    keep_output=("Do not clear jupyter notebook output", "flag"),
-)
 def main(
-    path,
-    no_py=False,
-    no_ipynb=False,
-    no_autoflake=False,
-    no_isort=False,
-    no_black=False,
-    keep_output=False,
+    path, py=True, ipynb=True, autoflake=True, isort=True, black=True, clear_output=True
 ):
-    if no_py and no_ipynb:
-        raise ValueError(
-            "Processing of both Python and Jupyter notebook files disabled."
-        )
-    if no_autoflake and no_isort and no_black and keep_output:
-        raise ValueError(
-            "All processing disabled. Remove one or more flags to permit processing."
-        )
-
-    py = not no_py
-    ipynb = not no_ipynb
-    autoflake = not no_autoflake
-    isort = not no_isort
-    black = not no_black
-    clear_output = not keep_output
-
     path = Path(path)
     if not path.exists():
         raise ValueError("Provide a valid path to a file or directory")
@@ -66,7 +35,7 @@ def main(
                 except:
                     msg.fail(f"Unable to clean file: {e}")
 
-    if path.is_file():
+    elif path.is_file():
         if path.suffix not in [".py", ".ipynb"]:
             # valid extensions
             raise ValueError("Ensure valid .py or .ipynb path is provided")
@@ -81,4 +50,45 @@ def main(
 
 
 def main_wrapper():
-    plac.call(main)
+    parser = argparse.ArgumentParser(description="Clean .py and .ipynb files.")
+    parser.add_argument("path", nargs="+", help="File(s) or dir(s) to clean")
+    parser.add_argument("-p", "--no-py", help="Ignore .py sources", action="store_true")
+    parser.add_argument(
+        "-n", "--no-ipynb", help="Ignore .ipynb sources", action="store_true"
+    )
+    parser.add_argument(
+        "-f", "--no-autoflake", help="Do not apply autoflake", action="store_true"
+    )
+    parser.add_argument(
+        "-i", "--no-isort", help="Do not apply isort", action="store_true"
+    )
+    parser.add_argument(
+        "-b", "--no-black", help="Do not apply black", action="store_true"
+    )
+    parser.add_argument(
+        "-o",
+        "--keep-output",
+        help="Do not clear jupyter notebook output",
+        action="store_true",
+    )
+    args = parser.parse_args()
+
+    if args.no_py and args.no_ipynb:
+        raise ValueError(
+            "Processing of both Python and Jupyter notebook files disabled."
+        )
+    if args.no_autoflake and args.no_isort and args.no_black and args.keep_output:
+        raise ValueError(
+            "All processing disabled. Remove one or more flags to permit processing."
+        )
+
+    for path in args.path:
+        main(
+            path,
+            py=not args.no_py,
+            ipynb=not args.no_ipynb,
+            autoflake=not args.no_autoflake,
+            isort=not args.no_isort,
+            black=not args.no_black,
+            clear_output=not args.keep_output,
+        )
