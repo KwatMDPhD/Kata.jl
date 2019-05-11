@@ -4,6 +4,7 @@ from pathlib import Path
 
 from wasabi import Printer
 
+from . import VERSION
 from .clean_ipynb import clean_ipynb, clean_py
 
 msg = Printer()
@@ -50,7 +51,14 @@ def main(
 
 
 def main_wrapper():
-    parser = argparse.ArgumentParser(description="Clean .py and .ipynb files.")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Tidy and remove redundant imports (via autoflake), sort imports (via "
+            "isort), lint and standardize (via black). Apply equally to entire .py or "
+            ".ipynb files, or directories containing such files. Additionally, clear "
+            "all .ipynb cell outputs and execution counts (squeeze those diffs!)."
+        )
+    )
     parser.add_argument("path", nargs="+", help="File(s) or dir(s) to clean")
     parser.add_argument("-p", "--no-py", help="Ignore .py sources", action="store_true")
     parser.add_argument(
@@ -70,6 +78,13 @@ def main_wrapper():
         "--keep-output",
         help="Do not clear jupyter notebook output",
         action="store_true",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        help=f"Show the %(prog)s version number",
+        action="version",
+        version=f"%(prog)s {VERSION}",
     )
     args = parser.parse_args()
 
