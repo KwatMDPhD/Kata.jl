@@ -73,7 +73,7 @@ def clean_ipynb_cell(cell_dict, autoflake=True, isort=True, black=True):
     if cell_dict["cell_type"] == "code":
         clean_lines = clean_python_code(
             "".join(cell_dict["source"]), isort=isort, black=black, autoflake=autoflake
-        ).split("\n")
+        ).split(sep="\n")
 
         if len(clean_lines) == 1 and clean_lines[0] == "":
             clean_lines = []
