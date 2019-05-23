@@ -5,7 +5,7 @@ from clean_ipynb import NAME, VERSION
 setup(
     name=NAME,
     version=VERSION,
-    url="https://github.com/KwatME/{}".format(NAME),
+    url=f"https://github.com/KwatME/{NAME}",
     author="Kwat Medetgul-Ernar",
     author_email="kwatme8@gmail.com",
     packages=find_packages(),
