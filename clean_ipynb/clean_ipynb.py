@@ -92,8 +92,8 @@ def clean_ipynb(
     if clear_output:
         clear_ipynb_output(ipynb_file_path)
 
-    with open(ipynb_file_path) as ipynb_file:
-        ipynb_dict = load(ipynb_file)
+    with open(ipynb_file_path) as io:
+        ipynb_dict = load(io)
 
     clean_cell_with_options = partial(
         clean_ipynb_cell, isort=isort, black=black, autoflake=autoflake
@@ -102,9 +102,9 @@ def clean_ipynb(
     processed_cells = pool.map(clean_cell_with_options, ipynb_dict["cells"])
     ipynb_dict["cells"] = processed_cells
 
-    with open(ipynb_file_path, "w") as ipynb_file:
-        dump(ipynb_dict, ipynb_file, indent=1)
-        ipynb_file.write("\n")
+    with open(ipynb_file_path, "w") as io:
+        dump(ipynb_dict, io, indent=1)
+        io.write("\n")
 
 
 def create_file(file_path, contents):
@@ -114,8 +114,8 @@ def create_file(file_path, contents):
 
 def clean_py(py_file_path, autoflake=True, isort=True, black=True):
     # load, clean and write .py source, write cleaned file back to disk
-    with open(py_file_path, "r") as file:
-        source = file.read()
+    with open(py_file_path, "r") as io:
+        source = io.read()
 
     clean_lines = clean_python_code(
         "".join(source), isort=isort, black=black, autoflake=autoflake
