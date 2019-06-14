@@ -3,12 +3,12 @@ Small CLI program capable of cleaning ```.ipynb``` and ```.py``` sources. Tidy a
 
 ### 1.0 Up and Running
 Via git pip:
-```sh
+```bash
 pip install git+https://github.com/KwatME/clean_ipynb
 ```
 
 Via source:
-```sh
+```bash
 git clone https://github.com/KwatME/clean_ipynb
 cd clean_ipynb
 pip install .
@@ -16,32 +16,32 @@ pip install .
 
 ### 2.0 Use
 Clean ```.ipynb``` source:
-```sh
+```bash
 clean_ipynb a_single_notebook.ipynb
 ```
 
 Or ```.py``` source:
-```sh
+```bash
 clean_ipynb a_single_script.py
 ```
 
 Or an entire directory recursively:
-```sh
+```bash
 clean_ipynb <some_dir_containing_py_ipynb_source>
 ```
 
 Or a list of files and directories:
-```sh
+```bash
 clean_ipynb a_single_script.py <some_dir_containing_py_ipynb_source>
 ```
 
 Clean without specific features if necessary (uses all features by default):
-```sh
+```bash
 clean_ipynb <some_dir_containing_py_ipynb_source> --no-black --no-autoflake
 ```
 
 A full list of parameters can be found via:
-```sh
+```bash
 clean_ipynb --help
 ```
 
