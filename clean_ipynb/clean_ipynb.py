@@ -1,6 +1,6 @@
 import re
 from functools import partial
-from json import dump, load
+from json import dump, load, loads
 from multiprocessing import cpu_count
 from multiprocessing.dummy import Pool
 from pathlib import Path
@@ -10,12 +10,41 @@ from autoflake import fix_code
 
 pool = Pool(cpu_count())
 
+# These are default tools which are run using piping
+tools_with_pipe = {
+    "black": {
+        "command": "black",
+        "args": ['-'],
+        "active": True
+    },
+    "isort": {
+        "command": "isort",
+        "args": ['-'],
+        "active": True
+    },
+    "yapf": {
+        "command": "yapf",
+        "args": [],
+        "active": False
+    }
+}
 
-def clean_python_code(python_code, isort=True, black=True, autoflake=True):
+def check_user_input_format(inp):
+    for key, value in inp:
+        if not isinstance(value, dict):
+            raise ValueError(f"Error in JSON provided: `{key}` doesn't have attribute of type JSON Object - \"{key}\": {value}")
+        if not ('command' in value) or not isinstance(value['command'], str):
+            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `command` or it is not a string - \"{key}\": {value}")
+        if not ('args' in value) or not isinstance(value['args'], list):
+            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `args` or it is not a array - \"{key}\": {value}")
+        if not ('active' in value) or not isinstance(value['active'], bool):
+            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `active` or it is not a boolean - \"{key}\": {value}")        
+
+def clean_python_code(python_code, autoflake=True, tools_json=False):
     # temporarily comment out ipython %magic to avoid black errors
     python_code = re.sub("^%", "##%##", python_code, flags=re.M)
 
-    # run source code string through autoflake, isort, and black
+    # run source code string through autoflake
     if autoflake:
         # programmatic autoflake
         python_code = fix_code(
@@ -26,27 +55,36 @@ def clean_python_code(python_code, isort=True, black=True, autoflake=True):
             remove_unused_variables=True,
         )
 
+    # process tools_json if provided
+    if isinstance(tools_json, str):
+        test_file = Path(tools_json)
+        if test_file.is_file():
+            # json file's path is provided
+            with open(tools_json, 'r') as f:
+                user_tools_with_pipe = load(f)
+        else:
+            # json directly provided as string
+            user_tools_with_pipe = loads(tools_json)
+        check_user_input_format(user_tools_with_pipe)
+        # Update tools_with_pipe from configurations of user with users preferences taking precedence
+        tools_with_pipe = {**tools_with_pipe, **user_tools_with_pipe}
+
     pipe = Popen(
         ("echo", python_code), stdout=PIPE, stderr=PIPE, universal_newlines=True
     )
+    
+    # run source code through elements in tools_with_pipe.keys()
+    for tool in tools_with_pipe:
+        if tool.active:
+            # TODO: Handle errors occured here using `try`
+            pipe = Popen(
+                (tool.command, ' '.join(tool.args)),
+                stdin=pipe.stdout,
+                stdout=PIPE,
+                stderr=PIPE,
+                universal_newlines=True,
+            )
 
-    if isort:
-        pipe = Popen(
-            ("isort", "-"),
-            stdin=pipe.stdout,
-            stdout=PIPE,
-            stderr=PIPE,
-            universal_newlines=True,
-        )
-
-    if black:
-        pipe = Popen(
-            ("black", "-"),
-            stdin=pipe.stdout,
-            stdout=PIPE,
-            stderr=PIPE,
-            universal_newlines=True,
-        )
 
     cleaned_code = pipe.communicate()[0].strip()
     # restore ipython %magic
@@ -68,11 +106,11 @@ def clear_ipynb_output(ipynb_file_path):
     )
 
 
-def clean_ipynb_cell(cell_dict, autoflake=True, isort=True, black=True):
+def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False, yapf=False):
     # clean a single cell within a jupyter notebook
     if cell_dict["cell_type"] == "code":
         clean_lines = clean_python_code(
-            "".join(cell_dict["source"]), isort=isort, black=black, autoflake=autoflake
+            "".join(cell_dict["source"]), tools_json=tools_json, autoflake=autoflake, yapf=yapf
         ).split(sep="\n")
 
         if len(clean_lines) == 1 and clean_lines[0] == "":
@@ -86,7 +124,7 @@ def clean_ipynb_cell(cell_dict, autoflake=True, isort=True, black=True):
 
 
 def clean_ipynb(
-    ipynb_file_path, clear_output=True, autoflake=True, isort=True, black=True
+    ipynb_file_path, clear_output=True, autoflake=True, tools_json=False
 ):
     # load, clean and write .ipynb source in-place, back to original file
     if clear_output:
@@ -96,7 +134,7 @@ def clean_ipynb(
         ipynb_dict = load(io)
 
     clean_cell_with_options = partial(
-        clean_ipynb_cell, isort=isort, black=black, autoflake=autoflake
+        clean_ipynb_cell, tools_json=tools_json, autoflake=autoflake
     )
     # mulithread the map operation
     processed_cells = pool.map(clean_cell_with_options, ipynb_dict["cells"])
@@ -112,12 +150,12 @@ def create_file(file_path, contents):
     file_path.open("w", encoding="utf-8").write(contents)
 
 
-def clean_py(py_file_path, autoflake=True, isort=True, black=True):
+def clean_py(py_file_path, autoflake=True, tools_json=False):
     # load, clean and write .py source, write cleaned file back to disk
     with open(py_file_path, "r") as io:
         source = io.read()
 
     clean_lines = clean_python_code(
-        "".join(source), isort=isort, black=black, autoflake=autoflake
+        "".join(source), tools_json=tools_json, autoflake=autoflake
     )
     create_file(Path(py_file_path), clean_lines + "\n")
