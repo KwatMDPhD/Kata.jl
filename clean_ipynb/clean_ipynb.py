@@ -42,7 +42,7 @@ def check_user_input_format(inp):
 
 def clean_python_code(python_code, autoflake=True, tools_json=False):
     global tools_with_pipe
-    # temporarily comment out ipython %magic to avoid black errors
+    # temporarily comment out ipython %magic to avoid black / yapf errors
     python_code = re.sub("^%", "##%##", python_code, flags=re.M)
 
     # run source code string through autoflake
@@ -107,11 +107,11 @@ def clear_ipynb_output(ipynb_file_path):
     )
 
 
-def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False, yapf=False):
+def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False):
     # clean a single cell within a jupyter notebook
     if cell_dict["cell_type"] == "code":
         clean_lines = clean_python_code(
-            "".join(cell_dict["source"]), tools_json=tools_json, autoflake=autoflake, yapf=yapf
+            "".join(cell_dict["source"]), tools_json=tools_json, autoflake=autoflake
         ).split(sep="\n")
 
         if len(clean_lines) == 1 and clean_lines[0] == "":
