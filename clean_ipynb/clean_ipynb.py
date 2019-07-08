@@ -5,6 +5,7 @@ from multiprocessing import cpu_count
 from multiprocessing.dummy import Pool
 from pathlib import Path
 from subprocess import PIPE, Popen, run
+from collections import OrderedDict
 
 from autoflake import fix_code
 
