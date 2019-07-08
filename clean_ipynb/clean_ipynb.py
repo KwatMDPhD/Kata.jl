@@ -41,6 +41,7 @@ def check_user_input_format(inp):
             raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `active` or it is not a boolean - \"{key}\": {value}")        
 
 def clean_python_code(python_code, autoflake=True, tools_json=False):
+    global tools_with_pipe
     # temporarily comment out ipython %magic to avoid black errors
     python_code = re.sub("^%", "##%##", python_code, flags=re.M)
 
@@ -74,11 +75,11 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
     )
     
     # run source code through elements in tools_with_pipe.keys()
-    for tool in tools_with_pipe:
-        if tool.active:
+    for tool in tools_with_pipe.values():
+        if tool['active']:
             # TODO: Handle errors occured here using `try`
             pipe = Popen(
-                (tool.command, ' '.join(tool.args)),
+                (tool['command'], ' '.join(tool['args'])),
                 stdin=pipe.stdout,
                 stdout=PIPE,
                 stderr=PIPE,

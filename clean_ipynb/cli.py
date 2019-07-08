@@ -128,6 +128,8 @@ def main_wrapper():
             "active": True
         }
 
+    json_final = False
+
     if args.tools_json:
         test_file = Path(args.tools_json)
         if not (args.no_black or args.yes_yapf or args.no_isort):
