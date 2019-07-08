@@ -71,18 +71,25 @@ clean_ipynb --help
         "args": ["<arg1>", "<arg2>", ...],
         "active": <boolean_incicating_whether_to_use_this_tool>
     }, 
-    "<other>": {
-        ....
+    "<other_tool>": {
+        ...
     }, 
     ...
 }
 ```
 
-Ex: If you want to use `autopep8` instead of 
+Ex: If you want to use `autopep8` instead of `black`
 ```json
 {
+    "black": {
+        "command": "black",
+        "args": ["-"],
+        "active": false
+    },
     "autopep8": {
-
+        "command": "autopep8",
+        "args": [],
+        "active": true
     }
 }
 ```
