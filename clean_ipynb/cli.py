@@ -1,6 +1,7 @@
 import argparse
 import glob
 from pathlib import Path
+from json import dumps
 
 from wasabi import Printer
 
@@ -124,7 +125,7 @@ def main_wrapper():
         # Enable yapf in json
         json_create_helper_dict['yapf'] = {
             "command": "yapf",
-            "args": ['-'],
+            "args": [],
             "active": True
         }
 
@@ -139,12 +140,12 @@ def main_wrapper():
             with open(args.tools_json, 'r') as f:
                 user_tools_with_pipe = load(f)
             json_create_helper_dict = {**json_create_helper_dict, **user_tools_with_pipe}
-            json_final = dumps(json_create_helper_dict)
         else:
             # json directly provided as string
             user_tools_with_pipe = loads(tools_json)
             json_create_helper_dict = {**json_create_helper_dict, **user_tools_with_pipe}
-            json_final = dumps(json_create_helper_dict)
+
+    json_final = dumps(json_create_helper_dict)
 
     for path in args.path:
         main(
