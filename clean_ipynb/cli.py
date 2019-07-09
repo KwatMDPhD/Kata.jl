@@ -78,7 +78,10 @@ def main_wrapper():
         "-y", "--yes-yapf", help="Apply yapf instead of black", action="store_true"
     )
     parser.add_argument(
-        "-j", "--tools-json", help="Use Custom Tools using JSON (This has higher precedence over flags -b, -y, -i if conficting intentions are made) - either provide json as string to this flag or give path of json to this flag", action="store_true"
+        "-j",
+        "--tools-json",
+        help="Use Custom Tools using JSON (This has higher precedence over flags -b, -y, -i if conficting intentions are made) - either provide json as string to this flag or give path of json to this flag",
+        action="store_true",
     )
     parser.add_argument(
         "-o",
@@ -99,7 +102,14 @@ def main_wrapper():
         raise ValueError(
             "Processing of both Python and Jupyter notebook files disabled."
         )
-    if args.no_autoflake and args.no_isort and args.no_black and (not args.yes_yapf) and (not args.json_tools) and args.keep_output:
+    if (
+        args.no_autoflake
+        and args.no_isort
+        and args.no_black
+        and (not args.yes_yapf)
+        and (not args.json_tools)
+        and args.keep_output
+    ):
         raise ValueError(
             "All processing disabled. Remove one or more flags to permit processing."
         )
@@ -108,24 +118,24 @@ def main_wrapper():
 
     if args.no_black or args.yes_yapf:
         # Disable black in json
-        json_create_helper_dict['black'] = {
+        json_create_helper_dict["black"] = {
             "command": "black",
-            "args": ['-'],
-            "active": False
+            "args": ["-"],
+            "active": False,
         }
     if args.no_isort:
         # Disable isort in json
-        json_create_helper_dict['isort'] = {
+        json_create_helper_dict["isort"] = {
             "command": "isort",
-            "args": ['-'],
-            "active": False
+            "args": ["-"],
+            "active": False,
         }
     if args.yes_yapf:
         # Enable yapf in json
-        json_create_helper_dict['yapf'] = {
+        json_create_helper_dict["yapf"] = {
             "command": "yapf",
-            "args": ['-'],
-            "active": True
+            "args": ["-"],
+            "active": True,
         }
 
     json_final = False
@@ -136,14 +146,20 @@ def main_wrapper():
             json_final = args.tools_json
         elif test_file.is_file():
             # json file's path is provided
-            with open(args.tools_json, 'r') as f:
+            with open(args.tools_json, "r") as f:
                 user_tools_with_pipe = load(f)
-            json_create_helper_dict = {**json_create_helper_dict, **user_tools_with_pipe}
+            json_create_helper_dict = {
+                **json_create_helper_dict,
+                **user_tools_with_pipe,
+            }
             json_final = dumps(json_create_helper_dict)
         else:
             # json directly provided as string
             user_tools_with_pipe = loads(tools_json)
-            json_create_helper_dict = {**json_create_helper_dict, **user_tools_with_pipe}
+            json_create_helper_dict = {
+                **json_create_helper_dict,
+                **user_tools_with_pipe,
+            }
             json_final = dumps(json_create_helper_dict)
 
     for path in args.path:
