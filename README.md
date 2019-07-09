@@ -60,7 +60,6 @@ clean_ipynb --help
 - Important to note:
   - Generic Tools mentioned in `json` are done in order, so you can decide which order to run formatters (this is enabled through ordered dicts)
     - This ensures that your tools are used in the order you specified (Except for `black` & `isort` which if active, will always be run at first in order `black`, `isort`)
-    - And the
   - If conflicting configurations are specified in flags & `json` (Ex: for which formatter to use `black` or `yapf`), the one in `json` takes precedence
 
 #### JSON Format
