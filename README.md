@@ -59,6 +59,7 @@ clean_ipynb --help
 ### 3.0 Features
 
 - Added support for generic tooling i.e, use any tool for python code 
+- Make sure that tool when used along with arguments doesn't output to stderr when no errors have occured. Ex: `black` does this, we need to use `-q` flag to stop it from doing so
 - It is reqired that the `command` when passed with `args` takes input from stdin & returns output in stdout, else your file wont get updated by tool
 - Use of generic is supported by using `JSON` 
   - `-j` or `--tools-json` flag is used to provide `json` 
@@ -69,9 +70,14 @@ clean_ipynb --help
   - `yapf` disabled
 - Important to note:
   - Generic Tools mentioned in `json` are done in order, so you can decide which order to run formatters (this is enabled through ordered dicts)
+<<<<<<< HEAD
     - This ensures that your tools are used in the order you specified (Except for `black` & `isort` which if active, will always be run at first in order `black` , `isort` )
     - And the
   - If conflicting configurations are specified in flags & `json` (Ex: for which formatter to use `black` or `yapf` ), the one in `json` takes precedence
+=======
+    - This ensures that your tools are used in the order you specified (Except for `black` & `isort` which if active, will always be run at first in order `black`, `isort`)
+  - If conflicting configurations are specified in flags & `json` (Ex: for which formatter to use `black` or `yapf`), the one in `json` takes precedence
+>>>>>>> 41ae7911305975a15291ee8ccab7f5c8e05cc4ab
 
 #### JSON Format
 
@@ -95,7 +101,7 @@ Ex: If you want to use `autopep8` instead of `black`
 {
     "black": {
         "command": "black",
-        "args": ["-"],
+        "args": ["-q", "-"],
         "active": false
     },
     "autopep8": {

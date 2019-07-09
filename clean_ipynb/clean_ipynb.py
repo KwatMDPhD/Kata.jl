@@ -13,14 +13,32 @@ pool = Pool(cpu_count())
 
 # These are default tools which are run using piping
 tools_with_pipe = {
+<<<<<<< HEAD
     "black": {"command": "black", "args": ["-"], "active": True},
     "isort": {"command": "isort", "args": ["-"], "active": True},
     "yapf": {"command": "yapf", "args": [], "active": False},
+=======
+    "black": {
+        "command": "black",
+        "args": ['-q', '-'],
+        "active": True
+    },
+    "isort": {
+        "command": "isort",
+        "args": ['-'],
+        "active": True
+    },
+    "yapf": {
+        "command": "yapf",
+        "args": [],
+        "active": False
+    }
+>>>>>>> 41ae7911305975a15291ee8ccab7f5c8e05cc4ab
 }
 
 
 def check_user_input_format(inp):
-    for key, value in inp:
+    for key, value in inp.items():
         if not isinstance(value, dict):
             raise ValueError(
                 f'Error in JSON provided: `{key}` doesn\'t have attribute of type JSON Object - "{key}": {value}'
@@ -69,6 +87,7 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
         # Update tools_with_pipe from configurations of user with users preferences taking precedence
         tools_with_pipe = {**tools_with_pipe, **user_tools_with_pipe}
 
+<<<<<<< HEAD
     pipe = Popen(
         ("echo", python_code), stdout=PIPE, stderr=PIPE, universal_newlines=True
     )
@@ -80,15 +99,29 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
             pipe = Popen(
                 (tool["command"], " ".join(tool["args"])),
                 stdin=pipe.stdout,
+=======
+    # run source code through elements in tools_with_pipe.keys()
+    for tool in tools_with_pipe.values():
+        if tool['active']:
+            pipe = Popen(
+                ([tool['command']] + tool['args']),
+                stdin=PIPE,
+>>>>>>> 41ae7911305975a15291ee8ccab7f5c8e05cc4ab
                 stdout=PIPE,
                 stderr=PIPE,
                 universal_newlines=True,
             )
+            python_code, stderrdata = pipe.communicate(python_code)
+            if stderrdata != "":
+                raise Exception(stderrdata)
 
+<<<<<<< HEAD
     cleaned_code = pipe.communicate()[0].strip()
+=======
+>>>>>>> 41ae7911305975a15291ee8ccab7f5c8e05cc4ab
     # restore ipython %magic
-    cleaned_code = re.sub("^##%##", "%", cleaned_code, flags=re.M)
-    return cleaned_code
+    python_code = re.sub("^##%##", "%", python_code, flags=re.M)
+    return python_code
 
 
 def clear_ipynb_output(ipynb_file_path):
