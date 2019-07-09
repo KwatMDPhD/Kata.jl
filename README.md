@@ -83,7 +83,7 @@ Ex: If you want to use `autopep8` instead of `black`
 {
     "black": {
         "command": "black",
-        "args": ["-"],
+        "args": ["-q", "-"],
         "active": false
     },
     "autopep8": {
