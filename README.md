@@ -48,6 +48,7 @@ clean_ipynb --help
 ### 3.0 Features
 
 - Added support for generic tooling i.e, use any tool for python code 
+- Make sure that tool when used along with arguments doesn't output to stderr when no errors have occured. Ex: `black` does this, we need to use `-q` flag to stop it from doing so
 - It is reqired that the `command` when passed with `args` takes input from stdin & returns output in stdout, else your file wont get updated by tool
 - Use of generic is supported by using `JSON`
   - `-j` or `--tools-json` flag is used to provide `json`
