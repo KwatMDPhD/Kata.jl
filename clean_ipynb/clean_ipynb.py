@@ -109,11 +109,12 @@ def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False):
         clean_lines = clean_python_code(
             "".join(cell_dict["source"]), tools_json=tools_json, autoflake=autoflake
         ).split(sep="\n")
-
         if len(clean_lines) == 1 and clean_lines[0] == "":
             clean_lines = []
         else:
             clean_lines[:-1] = [clean_line + "\n" for clean_line in clean_lines[:-1]]
+        rem_extra_new_line = clean_lines[-2][:-1]
+        clean_lines[-2] = rem_extra_new_line
         cell_dict["source"] = clean_lines
         return cell_dict
     else:
