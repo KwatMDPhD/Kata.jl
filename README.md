@@ -121,5 +121,5 @@ Ex: If you want to use `autopep8` instead of `black`
 - [x] ~~**Reimplement sub-command arg parsing.** Parse specific black/autoflake/isort args to main CLI.~~ (Done with 3.0, by using JSON String / File as input)
 - [ ] **Remove subprocess calls.** Reach into subprograms, natively use without subprocess calls.
 - [ ] **Autoflake for ipynb sources.** Keep module imports which are only used in other cells. This will require awareness of all code cells at once for the application of autoflake. Current workaround: Disables autoflake (by hardcoding) for Jupyter notebooks, and `--no-ipynb` for Python files (to avoid repeat operations when applied to identical inputs for both sets of flags).
-* **Read from standard input and write to standard output.** Exhibit behaviour analogous to other tools such as [black](https://github.com/ambv/black) which do this if `-` is used as a filename.
+- [ ] **Read from standard input and write to standard output.** Exhibit behaviour analogous to other tools such as [black](https://github.com/ambv/black) which do this if `-` is used as a filename.
 - [x] ~~**Handle errors of pipes gracefully** Use try to catch errors~~
