@@ -67,7 +67,7 @@ def main_wrapper():
         "-n", "--no-ipynb", help="Ignore .ipynb sources", action="store_true"
     )
     parser.add_argument(
-        "-f", "--no-autoflake", help="Do not apply autoflake", action="store_true"
+        "-f", "--no-autoflake", help="Do not apply autoflake (By default does not use autoflake for ipynb)", action="store_true"
     )
     parser.add_argument(
         "-i", "--no-isort", help="Do not apply isort", action="store_true"
