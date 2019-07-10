@@ -5,7 +5,6 @@ from multiprocessing import cpu_count
 from multiprocessing.dummy import Pool
 from pathlib import Path
 from subprocess import PIPE, Popen, run
-from collections import OrderedDict
 
 from autoflake import fix_code
 
@@ -13,33 +12,31 @@ pool = Pool(cpu_count())
 
 # These are default tools which are run using piping
 tools_with_pipe = {
-    "black": {
-        "command": "black",
-        "args": ['-q', '-'],
-        "active": True
-    },
-    "isort": {
-        "command": "isort",
-        "args": ['-'],
-        "active": True
-    },
-    "yapf": {
-        "command": "yapf",
-        "args": [],
-        "active": False
-    }
+    "black": {"command": "black", "args": ["-q", "-"], "active": True},
+    "isort": {"command": "isort", "args": ["-"], "active": True},
+    "yapf": {"command": "yapf", "args": [], "active": False},
 }
+
 
 def check_user_input_format(inp):
     for key, value in inp.items():
         if not isinstance(value, dict):
-            raise ValueError(f"Error in JSON provided: `{key}` doesn't have attribute of type JSON Object - \"{key}\": {value}")
-        if not ('command' in value) or not isinstance(value['command'], str):
-            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `command` or it is not a string - \"{key}\": {value}")
-        if not ('args' in value) or not isinstance(value['args'], list):
-            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `args` or it is not a array - \"{key}\": {value}")
-        if not ('active' in value) or not isinstance(value['active'], bool):
-            raise ValueError(f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `active` or it is not a boolean - \"{key}\": {value}")        
+            raise ValueError(
+                f'Error in JSON provided: `{key}` doesn\'t have attribute of type JSON Object - "{key}": {value}'
+            )
+        if not ("command" in value) or not isinstance(value["command"], str):
+            raise ValueError(
+                f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `command` or it is not a string - \"{key}\": {value}"
+            )
+        if not ("args" in value) or not isinstance(value["args"], list):
+            raise ValueError(
+                f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `args` or it is not a array - \"{key}\": {value}"
+            )
+        if not ("active" in value) or not isinstance(value["active"], bool):
+            raise ValueError(
+                f"Error in JSON provided: `{key}`'s JSON Object either doesn't have attribute `active` or it is not a boolean - \"{key}\": {value}"
+            )
+
 
 def clean_python_code(python_code, autoflake=True, tools_json=False):
     global tools_with_pipe
@@ -63,7 +60,7 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
         test_file = Path(tools_json)
         if test_file.is_file():
             # json file's path is provided
-            with open(tools_json, 'r') as f:
+            with open(tools_json, "r") as f:
                 user_tools_with_pipe = load(f)
         else:
             # json directly provided as string
@@ -74,9 +71,9 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
 
     # run source code through elements in tools_with_pipe.keys()
     for tool in tools_with_pipe.values():
-        if tool['active']:
+        if tool["active"]:
             pipe = Popen(
-                ([tool['command']] + tool['args']),
+                ([tool["command"]] + tool["args"]),
                 stdin=PIPE,
                 stdout=PIPE,
                 stderr=PIPE,
@@ -123,9 +120,7 @@ def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False):
         return cell_dict
 
 
-def clean_ipynb(
-    ipynb_file_path, clear_output=False, autoflake=True, tools_json=False
-):
+def clean_ipynb(ipynb_file_path, clear_output=False, autoflake=True, tools_json=False):
     # load, clean and write .ipynb source in-place, back to original file
     if clear_output:
         clear_ipynb_output(ipynb_file_path)
@@ -159,3 +154,4 @@ def clean_py(py_file_path, autoflake=True, tools_json=False):
         "".join(source), tools_json=tools_json, autoflake=autoflake
     )
     create_file(Path(py_file_path), clean_lines + "\n")
+
