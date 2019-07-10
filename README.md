@@ -1,13 +1,17 @@
-### Clean IPYNB/PY
-Small CLI program capable of cleaning ```.ipynb``` and ```.py``` sources. Tidy and remove redundant imports (via [autoflake](https://github.com/myint/autoflake)), sort imports (via [isort](https://github.com/timothycrosley/isort)), lint and standardize (via [black](https://github.com/ambv/black)). Apply equally to entire ```.py``` or ```.ipynb``` files. Additionally, clear all ```.ipynb``` cell outputs and execution counts (squeeze those diffs!). Forked from KwatMe's orginal [repo](https://github.com/KwatME/clean_ipynb).
+# Clean .ipynb | .py
+
+Small CLI program capable of cleaning ` `  ` .ipynb `  `  ` and `  `  ` .py `  `  ` sources. Tidy and remove redundant imports (via [autoflake](https://github.com/myint/autoflake)), sort imports (via [isort](https://github.com/timothycrosley/isort)), lint and standardize (via [black](https://github.com/ambv/black)). Apply equally to entire `  `  ` .py `  `  ` or `  `  ` .ipynb `  `  ` files. Additionally, clear all `  `  ` .ipynb `  ` ` cell outputs and execution counts (squeeze those diffs!). Forked from KwatMe's orginal [repo](https://github.com/KwatME/clean_ipynb).
 
 ### 1.0 Up and Running
+
 Via git pip:
+
 ```bash
 pip install git+https://github.com/KwatME/clean_ipynb
 ```
 
 Via source:
+
 ```bash
 git clone https://github.com/KwatME/clean_ipynb
 cd clean_ipynb
@@ -15,32 +19,39 @@ pip install .
 ```
 
 ### 2.0 Use
-Clean ```.ipynb``` source:
+
+Clean ` `  ` .ipynb `  ` ` source:
+
 ```bash
 clean_ipynb a_single_notebook.ipynb
 ```
 
-Or ```.py``` source:
+Or ` `  ` .py `  ` ` source:
+
 ```bash
 clean_ipynb a_single_script.py
 ```
 
 Or an entire directory recursively:
+
 ```bash
 clean_ipynb <some_dir_containing_py_ipynb_source>
 ```
 
 Or a list of files and directories:
+
 ```bash
 clean_ipynb a_single_script.py <some_dir_containing_py_ipynb_source>
 ```
 
 Clean without specific features if necessary (uses all features by default):
+
 ```bash
 clean_ipynb <some_dir_containing_py_ipynb_source> --no-black --no-autoflake
 ```
 
 A full list of parameters can be found via:
+
 ```bash
 clean_ipynb --help
 ```
@@ -50,17 +61,23 @@ clean_ipynb --help
 - Added support for generic tooling i.e, use any tool for python code 
 - Make sure that tool when used along with arguments doesn't output to stderr when no errors have occured. Ex: `black` does this, we need to use `-q` flag to stop it from doing so
 - It is reqired that the `command` when passed with `args` takes input from stdin & returns output in stdout, else your file wont get updated by tool
-- Use of generic is supported by using `JSON`
-  - `-j` or `--tools-json` flag is used to provide `json`
-  - This flag takes both `<path/to/json>` and also `json` as string `{...}`
+- Use of generic is supported by using `JSON` 
+  - `-j` or `--tools-json` flag is used to provide `json` 
+  - This flag takes both `<path/to/json>` and also `json` as string `{...}` 
 - Generic tooling has by default:
   - `black` enabled
   - `isort` enabled
   - `yapf` disabled
 - Important to note:
   - Generic Tools mentioned in `json` are done in order, so you can decide which order to run formatters (this is enabled through ordered dicts)
+<<<<<<< HEAD
+    - This ensures that your tools are used in the order you specified (Except for `black` & `isort` which if active, will always be run at first in order `black` , `isort` )
+    - And the
+  - If conflicting configurations are specified in flags & `json` (Ex: for which formatter to use `black` or `yapf` ), the one in `json` takes precedence
+=======
     - This ensures that your tools are used in the order you specified (Except for `black` & `isort` which if active, will always be run at first in order `black`, `isort`)
   - If conflicting configurations are specified in flags & `json` (Ex: for which formatter to use `black` or `yapf`), the one in `json` takes precedence
+>>>>>>> 41ae7911305975a15291ee8ccab7f5c8e05cc4ab
 
 #### JSON Format
 
@@ -78,7 +95,8 @@ clean_ipynb --help
 }
 ```
 
-Ex: If you want to use `autopep8` instead of `black`
+Ex: If you want to use `autopep8` instead of `black` 
+
 ```json
 {
     "black": {
@@ -95,6 +113,7 @@ Ex: If you want to use `autopep8` instead of `black`
 ```
 
 ### Todo
+
 * **Unit tests.** Null parameter, invalid parameter edge cases etc.
 * **Reimplement sub-command arg parsing.** Parse specific black/autoflake/isort args to main CLI.
 * **Remove subprocess calls.** Reach into subprograms, natively use without subprocess calls.
