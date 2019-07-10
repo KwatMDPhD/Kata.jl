@@ -83,8 +83,8 @@ def main_wrapper():
     )
     parser.add_argument(
         "-o",
-        "--keep-output",
-        help="Do not clear jupyter notebook output",
+        "--clear-output",
+        help="Clear jupyter notebook output",
         action="store_true",
     )
     parser.add_argument(
@@ -100,7 +100,7 @@ def main_wrapper():
         raise ValueError(
             "Processing of both Python and Jupyter notebook files disabled."
         )
-    if args.no_autoflake and args.no_isort and args.no_black and (not args.yes_yapf) and (not args.json_tools) and args.keep_output:
+    if args.no_autoflake and args.no_isort and args.no_black and (not args.yes_yapf) and (not args.json_tools) and (not args.keep_output):
         raise ValueError(
             "All processing disabled. Remove one or more flags to permit processing."
         )
@@ -154,5 +154,5 @@ def main_wrapper():
             ipynb=not args.no_ipynb,
             autoflake=not args.no_autoflake,
             tools_json=json_final,
-            clear_output=not args.keep_output,
+            clear_output=args.keep_output,
         )

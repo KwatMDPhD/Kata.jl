@@ -124,7 +124,7 @@ def clean_ipynb_cell(cell_dict, autoflake=True, tools_json=False):
 
 
 def clean_ipynb(
-    ipynb_file_path, clear_output=True, autoflake=True, tools_json=False
+    ipynb_file_path, clear_output=False, autoflake=True, tools_json=False
 ):
     # load, clean and write .ipynb source in-place, back to original file
     if clear_output:
