@@ -45,6 +45,7 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
     global tools_with_pipe
     # temporarily comment out ipython %magic to avoid black / yapf errors
     python_code = re.sub("^%", "##%##", python_code, flags=re.M)
+    python_code = re.sub("^!", "##!##", python_code, flags=re.M)
 
     # run source code string through autoflake
     if autoflake:
@@ -87,6 +88,7 @@ def clean_python_code(python_code, autoflake=True, tools_json=False):
 
     # restore ipython %magic
     python_code = re.sub("^##%##", "%", python_code, flags=re.M)
+    python_code = re.sub("^##!##", "!", python_code, flags=re.M)
     return python_code
 
 
