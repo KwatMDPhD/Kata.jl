@@ -1,16 +1,15 @@
-from clean_ipynb import NAME, VERSION
-from setuptools import find_packages, setup
+from setuptools import setup
+
+name = "clean_ipynb"
 
 setup(
-    name=NAME,
-    version=VERSION,
-    url="https://github.com/KwatME/{}".format(NAME),
-    author="Kwat Medetgul-Ernar (Huwate Yeerna)",
+    name=name,
+    url="https://github.com/KwatME/{}".format(name),
+    version="0.6.0",
+    author="Kwat Medetgul-Ernar",
     author_email="kwatme8@gmail.com",
-    packages=find_packages(),
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     install_requires=("black", "click==7.0"),
-    entry_points={
-        "console_scripts": ("{0}={0}.{1}:{1}".format(NAME, "command_line_interface"),)
-    },
+    packages=(name,),
+    entry_points={"console_scripts": ("{0}={0}.{1}:{1}".format(name, "cli"),)},
 )
