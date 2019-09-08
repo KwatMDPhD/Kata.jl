@@ -51,7 +51,7 @@ def clean_ipynb(ipynb_file_path, back_up, keep_output):
 
             cell_dict["source"] = clean_lines
 
-    with open(ipynb_file_path, "w") as io:
+    with open(ipynb_file_path, mode="w") as io:
 
         dump(ipynb_dict, io, indent=1)
 
