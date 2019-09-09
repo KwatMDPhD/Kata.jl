@@ -1,7 +1,6 @@
 from json import dump, load
 from shutil import copyfile
 
-from .clean_julia_code import clean_julia_code
 from .clean_python_code import clean_python_code
 from .clear_ipynb_output import clear_ipynb_output
 
@@ -21,8 +20,6 @@ def clean_ipynb(ipynb_file_path, back_up, keep_output):
         ipynb_dict = load(io)
 
     language = ipynb_dict["metadata"]["language_info"]["name"]
-
-    print("Language = {}".format(language))
 
     if language == "python":
 
