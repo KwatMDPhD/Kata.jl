@@ -7,8 +7,9 @@ def clear_ipynb_output(ipynb_file_path):
         (
             "jupyter",
             "nbconvert",
-            "--ClearOutputPreprocessor.enabled=True",
             "--inplace",
+            "--ClearOutputPreprocessor.enabled=True",
+            "--log-level=0",
             ipynb_file_path,
         ),
         check=True,
