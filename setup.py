@@ -9,7 +9,7 @@ setup(
     author="Kwat Medetgul-Ernar",
     author_email="kwatme8@gmail.com",
     python_requires=">=3.7",
-    install_requires=("black", "click==7.0"),
+    install_requires=("autoflake", "black", "click", "isort"),
     packages=(name,),
     entry_points={"console_scripts": ("{0}={0}.{1}:{1}".format(name, "cli"),)},
 )
