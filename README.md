@@ -7,7 +7,11 @@ Clean .ipynb by clearning output and formatting code cells of [Python](https://w
 ### Install clean_ipynb
 
 ``` bash
-pip install clean_ipynb
+git clone https://github.com/KwatME/clean_ipynb
+
+cd clean_ipynb
+
+pip install .
 ```
 
 ### Install Julia and JuliaFormatter.jl
