@@ -8,7 +8,9 @@ from .clean_ipynb import clean_ipynb
 @option("--overwrite", is_flag=True)
 def cli(ipynb_file_paths, overwrite):
     """
-    Clean .ipynb by clearning output and formatting Python (isort and black) and Julia code (JuliaFormatter.jl).
+    Clean .ipynb.
+
+    https://github.com/KwatME/clean_ipynb
     """
 
     for ipynb_file_path in ipynb_file_paths:

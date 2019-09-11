@@ -7,7 +7,7 @@ def clean_julia_code(code):
         (
             "julia",
             "--eval",
-            'using JuliaFormatter: format_text; text = """{}"""; print(format_text(text))'.format(
+            'using JuliaFormatter: format_text; print(format_text("""{}"""))'.format(
                 code
             ),
         ),

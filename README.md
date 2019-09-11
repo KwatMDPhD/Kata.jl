@@ -1,26 +1,18 @@
 # Clean .ipynb
 
-Clean .ipynb by clearning output and formatting code cells of [Python](https://www.python.org) (with [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and [Julia](https://julialang.org) (with [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
+Simple program that cleans Jupyter notebook (.ipynb)
+
+clean_ipynb clears output and formats code cell of [Python](https://www.python.org) using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black) and [Julia](https://julialang.org) using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl).
 
 ## Install
 
-### Install clean_ipynb
-
 ``` bash
-git clone https://github.com/KwatME/clean_ipynb
-
-cd clean_ipynb
-
-pip install .
+pip install clean_ipynb
 ```
 
-### Install Julia and JuliaFormatter.jl
-
-Without these installation, `clean_ipynb` skips formatting Julia code.
+Optionally, install Julia and JuliaFormatter.jl for formatting Julia code.
 
 ## Use
-
-### Clean specified .ipynb
 
 ``` bash
 clean_ipynb a.ipynb
@@ -33,8 +25,6 @@ clean_ipynb a.ipynb b.ipynb
 ``` bash
 clean_ipynb *.ipynb
 ```
-
-### Find and clean multiple .ipynb
 
 ``` bash
 find . -name "*.ipynb" -exec clean_ipynb --overwrite {} \;
