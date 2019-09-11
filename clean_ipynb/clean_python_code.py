@@ -1,10 +1,10 @@
 from subprocess import PIPE, Popen
 
 
-def clean_python_code(python_code):
+def clean_python_code(code):
 
     completed_process = Popen(
-        ("echo", python_code), stdout=PIPE, stderr=PIPE, universal_newlines=True
+        ("echo", code), stdout=PIPE, stderr=PIPE, universal_newlines=True
     )
 
     completed_process = Popen(
