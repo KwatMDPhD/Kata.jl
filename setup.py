@@ -5,7 +5,7 @@ name = "clean_ipynb"
 setup(
     name=name,
     url="https://github.com/KwatME/{}".format(name),
-    version="0.6.0",
+    version="1.0.0",
     author="Kwat Medetgul-Ernar",
     author_email="kwatme8@gmail.com",
     python_requires=">=3.7",
