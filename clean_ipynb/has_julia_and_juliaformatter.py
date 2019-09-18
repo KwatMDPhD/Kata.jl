@@ -1,7 +1,7 @@
 from subprocess import CalledProcessError, run
 
 
-def can_clean_julia_code():
+def has_julia_and_juliaformatter():
 
     try:
 
