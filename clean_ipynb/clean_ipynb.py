@@ -1,10 +1,9 @@
 from json import dump, load
 from shutil import copyfile
 
-from .can_clean_julia_code import can_clean_julia_code
 from .clean_julia_code import clean_julia_code
 from .clean_python_code import clean_python_code
-from .clear_ipynb_output import clear_ipynb_output
+from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
 def clean_ipynb(ipynb_file_path, overwrite):
@@ -15,41 +14,57 @@ def clean_ipynb(ipynb_file_path, overwrite):
             ipynb_file_path, ipynb_file_path.replace(".ipynb", ".cleaned.ipynb")
         )
 
-    clear_ipynb_output(ipynb_file_path)
-
     with open(ipynb_file_path) as io:
 
         ipynb_dict = load(io)
 
     language = ipynb_dict["metadata"]["language_info"]["name"]
 
-    can_clean_julia_code_ = can_clean_julia_code()
+    can_clean_julia_code = has_julia_and_juliaformatter()
 
     if language == "python":
 
         clean_code = clean_python_code
 
-    elif language == "julia" and can_clean_julia_code_:
+    elif language == "julia" and can_clean_julia_code:
 
         clean_code = clean_julia_code
 
+    cells = []
+
     for cell_dict in ipynb_dict["cells"]:
+
+        cell_dict["execution_count"] = None
+
+        cell_dict["outputs"] = []
+
+        if (
+            "metadata" in cell_dict
+            and "jupyter" in cell_dict["metadata"]
+            and "source_hidden" in cell_dict["metadata"]["jupyter"]
+        ):
+
+            cell_dict["metadata"]["jupyter"].pop("source_hidden")
 
         if cell_dict["cell_type"] == "code":
 
-            clean_lines = clean_code("".join(cell_dict["source"])).split(sep="\n")
+            source_join_clean_split = clean_code("".join(cell_dict["source"])).split(
+                sep="\n"
+            )
 
-            if len(clean_lines) == 1 and clean_lines[0] == "":
+            if len(source_join_clean_split) == 1 and source_join_clean_split[0] == "":
 
-                clean_lines = []
+                continue
 
-            else:
+            source_join_clean_split[:-1] = [
+                "{}\n".format(line) for line in source_join_clean_split[:-1]
+            ]
 
-                clean_lines[:-1] = [
-                    "{}\n".format(clean_line) for clean_line in clean_lines[:-1]
-                ]
+            cell_dict["source"] = source_join_clean_split
 
-            cell_dict["source"] = clean_lines
+        cells.append(cell_dict)
+
+    ipynb_dict["cells"] = cells
 
     with open(ipynb_file_path, mode="w") as io:
 
