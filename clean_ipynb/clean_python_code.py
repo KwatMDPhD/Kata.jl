@@ -1,7 +1,11 @@
+import re
 from subprocess import PIPE, Popen
 
 
 def clean_python_code(code):
+
+    # temporarily comment out IPython %magic to avoid black errors
+    code = re.sub("^%", "##%##", python_code, flags=re.M)
 
     completed_process = Popen(
         ("echo", code), stdout=PIPE, stderr=PIPE, universal_newlines=True
@@ -23,4 +27,9 @@ def clean_python_code(code):
         universal_newlines=True,
     )
 
-    return completed_process.communicate()[0].strip()
+    cleaned_code = completed_process.communicate()[0].strip()
+
+    # restore IPython %magic
+    cleaned_code = re.sub("^##%##", "%", cleaned_code, flags=re.M)
+
+    return cleaned_code
