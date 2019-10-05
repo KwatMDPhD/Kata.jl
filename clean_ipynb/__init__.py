@@ -1,1 +1,1 @@
-"""Simple program that cleans Jupyter notebooks (.ipynb)."""
+"""Simple program that cleans Jupyter notebooks (.ipynb)"""
