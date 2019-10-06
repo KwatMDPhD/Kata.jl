@@ -1,10 +1,10 @@
-from re import sub
+from re import M, sub
 from subprocess import PIPE, Popen
 
 
 def clean_python_code(code):
 
-    code_ = sub("^%", "#cleaning...%", code, flags="m")
+    code_ = sub("^%", "#cleaning...%", code, flags=M)
 
     completed_process = Popen(
         ("echo", code_), stdout=PIPE, stderr=PIPE, universal_newlines=True
@@ -27,7 +27,7 @@ def clean_python_code(code):
     )
 
     clean_code = sub(
-        "^#cleaning...%", "%", completed_process.communicate()[0].strip(), flags="m"
+        "^#cleaning...%", "%", completed_process.communicate()[0].strip(), flags=M
     )
 
     return clean_code
