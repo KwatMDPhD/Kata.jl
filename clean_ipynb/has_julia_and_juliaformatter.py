@@ -9,6 +9,6 @@ def has_julia_and_juliaformatter():
 
         return True
 
-    except CalledProcessError:
+    except (CalledProcessError, FileNotFoundError):
 
         return False
