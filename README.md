@@ -17,7 +17,7 @@ clean_ipynb a.ipynb
 ```
 
 ``` bash
-clean_ipynb a.ipynb b.ipynb
+clean_ipynb --overwrite a.ipynb b.ipynb
 ```
 
 ``` bash
@@ -25,5 +25,5 @@ clean_ipynb *.ipynb
 ```
 
 ``` bash
-find . -name "*.ipynb" -exec clean_ipynb --overwrite {} \;
+find . -name "*.ipynb" -exec clean_ipynb {} \;
 ```
