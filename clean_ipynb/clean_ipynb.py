@@ -20,13 +20,11 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
     language = ipynb_dict["metadata"]["language_info"]["name"]
 
-    can_clean_julia_code = has_julia_and_juliaformatter()
-
     if language == "python":
 
         clean_code = clean_python_code
 
-    elif language == "julia" and can_clean_julia_code:
+    elif language == "julia" and can_clean_julia_code():
 
         clean_code = clean_julia_code
 
