@@ -3,6 +3,7 @@ from shutil import copyfile
 
 from .clean_julia_code import clean_julia_code
 from .clean_python_code import clean_python_code
+from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
 def clean_ipynb(ipynb_file_path, overwrite):
@@ -23,7 +24,7 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         clean_code = clean_python_code
 
-    elif language == "julia" and can_clean_julia_code():
+    elif language == "julia" and has_julia_and_juliaformatter():
 
         clean_code = clean_julia_code
 
