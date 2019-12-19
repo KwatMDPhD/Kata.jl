@@ -6,24 +6,30 @@ Simple program that cleans Jupyter notebooks (.ipynb)
 
 ## Install
 
-``` bash
+```bash
 pip install clean_ipynb
+```
+
+or
+
+```bash
+pip install git+https://github.com/KwatME/clean_ipynb
 ```
 
 ## Use
 
-``` bash
+```bash
 clean_ipynb a.ipynb
 ```
 
-``` bash
+```bash
 clean_ipynb --overwrite a.ipynb b.ipynb
 ```
 
-``` bash
+```bash
 clean_ipynb *.ipynb
 ```
 
-``` bash
+```bash
 find . -name "*.ipynb" -exec clean_ipynb {} \;
 ```
