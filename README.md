@@ -7,7 +7,7 @@ Simple program that cleans Jupyter notebooks (.ipynb)
 ## Get
 
 ```sh
-pip install git+https://github.com/kwatme/clean_ipynb
+pip install git+https://github.com/Guardiome/clean_ipynb
 ```
 
 ## Use
