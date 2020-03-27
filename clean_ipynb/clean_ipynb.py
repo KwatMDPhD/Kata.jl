@@ -36,9 +36,13 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
     for cell_dict in ipynb_dict["cells"]:
 
-        cell_dict["execution_count"] = None
+        if "execution_count" in cell_dict:
 
-        cell_dict["outputs"] = []
+            cell_dict["execution_count"] = None
+
+        if "outputs" in cell_dict:
+
+            cell_dict["outputs"] = []
 
         if (
             "metadata" in cell_dict
