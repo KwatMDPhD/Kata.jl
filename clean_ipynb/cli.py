@@ -10,7 +10,7 @@ def cli(ipynb_file_paths, overwrite):
     """
     Clean .ipynb.
 
-    https://github.com/KwatME/clean_ipynb
+    https://github.com/kwatme/clean_ipynb
     """
 
     for ipynb_file_path in ipynb_file_paths:
