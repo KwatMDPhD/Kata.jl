@@ -6,7 +6,7 @@ from .clean_python_code import clean_python_code
 from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
-def clean_ipynb(ipynb_file_path, overwrite):
+def clean_ipynb(ipynb_file_path, overwrite, formatOnly=False):
 
     if not overwrite:
 
@@ -17,8 +17,9 @@ def clean_ipynb(ipynb_file_path, overwrite):
     with open(ipynb_file_path) as io:
 
         ipynb_dict = load(io)
-
-    language = ipynb_dict["metadata"]["language_info"]["name"]
+    
+    language = ipynb_dict["metadata"].get('language_info', {}).get('name') #returns None if nested key not found
+    isColabNotebook = ipynb_dict["metadata"].get("colab")
 
     if language == "python":
 
@@ -28,6 +29,10 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         clean_code = clean_julia_code
 
+    # colab notebooks do not have a language tag so we check for a different dict key
+    elif language is None and isColabNotebook is not None:
+        clean_code = clean_python_code
+        
     else:
 
         return
@@ -39,10 +44,13 @@ def clean_ipynb(ipynb_file_path, overwrite):
         if "execution_count" in cell_dict:
 
             cell_dict["execution_count"] = None
+        
+        # omit deleting outputs if the flag onlyFormat is set to True    
+        if not formatOnly:
 
-        if "outputs" in cell_dict:
+            if "outputs" in cell_dict:
 
-            cell_dict["outputs"] = []
+                cell_dict["outputs"] = []
 
         if (
             "metadata" in cell_dict
