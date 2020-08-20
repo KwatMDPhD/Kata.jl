@@ -54,9 +54,9 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         if cell_dict["cell_type"] == "code":
 
-            source_join_clean_split = clean_code("".join(cell_dict["source"])).split(
-                sep="\n"
-            )
+            source_join_clean_split = clean_code(
+                "".join(cell_dict["source"])
+            ).splitlines()
 
             if len(source_join_clean_split) == 1 and source_join_clean_split[0] == "":
 
