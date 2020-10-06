@@ -17,7 +17,7 @@ clean_ipynb a.ipynb
 ```
 
 ```sh
-clean_ipynb --overwrite a.ipynb b.ipynb
+clean_ipynb --overwrite b.ipynb
 ```
 
 ```sh
