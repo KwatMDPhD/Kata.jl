@@ -44,13 +44,12 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
             cell_dict["outputs"] = []
 
-        if (
-            "metadata" in cell_dict
-            and "jupyter" in cell_dict["metadata"]
-            and "source_hidden" in cell_dict["metadata"]["jupyter"]
-        ):
+        if "metadata" in cell_dict:
+            if "jupyter" in cell_dict["metadata"] and "source_hidden" in cell_dict["metadata"]["jupyter"]:
+                cell_dict["metadata"]["jupyter"].pop("source_hidden")
 
-            cell_dict["metadata"]["jupyter"].pop("source_hidden")
+            if cell_dict["metadata"].get("solution2", "hidden") == "shown":
+                cell_dict["metadata"]["solution2"] = "hidden"
 
         if cell_dict["cell_type"] == "code":
 
