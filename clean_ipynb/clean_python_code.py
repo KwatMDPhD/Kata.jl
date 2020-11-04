@@ -26,8 +26,9 @@ def clean_python_code(code):
         universal_newlines=True,
     )
 
+    # TODO: try [:-1] instead of strip
     clean_code = sub(
-        "^# cleaning...%", "%", completed_process.communicate()[0].strip(), flags=M
+        r"^# cleaning...%", "%", completed_process.communicate()[0].strip(), flags=M
     )
 
     return clean_code
