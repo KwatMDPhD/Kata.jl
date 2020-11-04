@@ -7,9 +7,7 @@ from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
 def clean_ipynb(ipynb_file_path, overwrite):
-
     if not overwrite:
-
         ipynb_file_path = copyfile(
             ipynb_file_path, ipynb_file_path.replace(".ipynb", ".cleaned.ipynb")
         )
@@ -37,11 +35,9 @@ def clean_ipynb(ipynb_file_path, overwrite):
     for cell_dict in ipynb_dict["cells"]:
 
         if "execution_count" in cell_dict:
-
             cell_dict["execution_count"] = None
 
         if "outputs" in cell_dict:
-
             cell_dict["outputs"] = []
 
         if "metadata" in cell_dict:
@@ -52,20 +48,21 @@ def clean_ipynb(ipynb_file_path, overwrite):
                 cell_dict["metadata"]["solution2"] = "hidden"
 
         if cell_dict["cell_type"] == "code":
+            cell_content = "".join(cell_dict["source"])
+            if not any(sql_m in cell_content for sql_m in ['%%sql', '%sql']):
 
-            source_join_clean_split = clean_code(
-                "".join(cell_dict["source"])
-            ).splitlines()
+                source_join_clean_split = clean_code(
+                    cell_content
+                ).splitlines()
 
-            if len(source_join_clean_split) == 1 and source_join_clean_split[0] == "":
+                if len(source_join_clean_split) == 1 and source_join_clean_split[0] == "":
+                    continue
 
-                continue
+                source_join_clean_split[:-1] = [
+                    "{}\n".format(line) for line in source_join_clean_split[:-1]
+                ]
 
-            source_join_clean_split[:-1] = [
-                "{}\n".format(line) for line in source_join_clean_split[:-1]
-            ]
-
-            cell_dict["source"] = source_join_clean_split
+                cell_dict["source"] = source_join_clean_split
 
         cells.append(cell_dict)
 
