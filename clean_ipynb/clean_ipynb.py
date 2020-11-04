@@ -6,7 +6,7 @@ from .clean_python_code import clean_python_code
 from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
-def clean_ipynb(ipynb_file_path, overwrite, formatOnly=False):
+def clean_ipynb(ipynb_file_path, overwrite):
 
     if not overwrite:
 
@@ -44,11 +44,8 @@ def clean_ipynb(ipynb_file_path, overwrite, formatOnly=False):
         if "execution_count" in cell_dict:
 
             cell_dict["execution_count"] = None
-        
-        # omit deleting outputs if the flag onlyFormat is set to True    
-        if not formatOnly:
-
-            if "outputs" in cell_dict:
+       
+        if "outputs" in cell_dict:
 
                 cell_dict["outputs"] = []
 
