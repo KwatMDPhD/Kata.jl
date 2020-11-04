@@ -18,12 +18,9 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         ipynb_dict = load(io)
 
-    #returns None if nested key language_info not found
-    language = ipynb_dict["metadata"].get('language_info', {}).get('name', None) 
-     # colab notebooks do not have a language tag so we check for a different colab tag
-    isColabNotebook = ipynb_dict["metadata"].get("colab")
+    language = ipynb_dict["metadata"]["language_info"]["name"]
 
-    if language == "python":
+    if language == "python" or language == "ipython":
 
         clean_code = clean_python_code
 
