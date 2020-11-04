@@ -16,6 +16,7 @@ def clean_julia_code(code):
         universal_newlines=True,
     )
 
+    # TODO: try [:-1] instead of strip
     cleaned_code = completed_process.communicate()[0].strip()
 
     if code and not cleaned_code:
