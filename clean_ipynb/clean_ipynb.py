@@ -17,8 +17,10 @@ def clean_ipynb(ipynb_file_path, overwrite):
     with open(ipynb_file_path) as io:
 
         ipynb_dict = load(io)
-    
-    language = ipynb_dict["metadata"].get('language_info', {}).get('name', None) #returns None if nested key not found
+
+    #returns None if nested key language_info not found
+    language = ipynb_dict["metadata"].get('language_info', {}).get('name', None) 
+     # colab notebooks do not have a language tag so we check for a different colab tag
     isColabNotebook = ipynb_dict["metadata"].get("colab")
 
     if language == "python":
@@ -28,8 +30,7 @@ def clean_ipynb(ipynb_file_path, overwrite):
     elif language == "julia" and has_julia_and_juliaformatter():
 
         clean_code = clean_julia_code
-
-    # colab notebooks do not have a language tag so we check for a different dict key
+  
     elif language is None and isColabNotebook is not None:
         clean_code = clean_python_code
         
@@ -47,7 +48,7 @@ def clean_ipynb(ipynb_file_path, overwrite):
        
         if "outputs" in cell_dict:
 
-                cell_dict["outputs"] = []
+            cell_dict["outputs"] = []
 
         if "metadata" in cell_dict:
             if "jupyter" in cell_dict["metadata"] and "source_hidden" in cell_dict["metadata"]["jupyter"]:
