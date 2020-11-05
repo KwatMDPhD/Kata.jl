@@ -20,14 +20,17 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
     language = ipynb_dict["metadata"]["language_info"]["name"]
 
-    if language == "python":
+    if language == "python" or language == "ipython":
 
         clean_code = clean_python_code
 
     elif language == "julia" and has_julia_and_juliaformatter():
 
         clean_code = clean_julia_code
-
+  
+    elif language is None and isColabNotebook is not None:
+        clean_code = clean_python_code
+        
     else:
 
         return
@@ -39,7 +42,7 @@ def clean_ipynb(ipynb_file_path, overwrite):
         if "execution_count" in cell_dict:
 
             cell_dict["execution_count"] = None
-
+       
         if "outputs" in cell_dict:
 
             cell_dict["outputs"] = []
