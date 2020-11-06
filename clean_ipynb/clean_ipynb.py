@@ -18,18 +18,16 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         ipynb_dict = load(io)
 
-    language = ipynb_dict["metadata"]["language_info"]["name"]
+    language = ipynb_dict["metadata"].get('language_info', {}).get('name', None)
+    isColabNotebook = ipynb_dict["metadata"].get("colab") 
 
-    if language == "python" or language == "ipython":
+    if language == "python" or language == "ipython" or  isColabNotebook is not None:
 
         clean_code = clean_python_code
 
     elif language == "julia" and has_julia_and_juliaformatter():
 
         clean_code = clean_julia_code
-  
-    elif language is None and isColabNotebook is not None:
-        clean_code = clean_python_code
         
     else:
 
