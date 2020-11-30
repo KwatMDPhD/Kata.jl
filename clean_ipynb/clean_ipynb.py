@@ -16,17 +16,17 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         ipynb_dict = load(io)
 
-    language = ipynb_dict["metadata"].get('language_info', {}).get('name', None)
-    isColabNotebook = ipynb_dict["metadata"].get("colab") 
+    language = ipynb_dict["metadata"].get("language_info", {}).get("name", None)
+    isColabNotebook = ipynb_dict["metadata"].get("colab")
 
-    if language == "python" or language == "ipython" or  isColabNotebook is not None:
+    if language == "python" or language == "ipython" or isColabNotebook is not None:
 
         clean_code = clean_python_code
 
     elif language == "julia" and has_julia_and_juliaformatter():
 
         clean_code = clean_julia_code
-        
+
     else:
 
         return
@@ -37,12 +37,15 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         if "execution_count" in cell_dict:
             cell_dict["execution_count"] = None
-       
+
         if "outputs" in cell_dict:
             cell_dict["outputs"] = []
 
         if "metadata" in cell_dict:
-            if "jupyter" in cell_dict["metadata"] and "source_hidden" in cell_dict["metadata"]["jupyter"]:
+            if (
+                "jupyter" in cell_dict["metadata"]
+                and "source_hidden" in cell_dict["metadata"]["jupyter"]
+            ):
                 cell_dict["metadata"]["jupyter"].pop("source_hidden")
 
             if cell_dict["metadata"].get("solution2", "hidden") == "shown":
@@ -50,13 +53,14 @@ def clean_ipynb(ipynb_file_path, overwrite):
 
         if cell_dict["cell_type"] == "code":
             cell_content = "".join(cell_dict["source"])
-            if not any(sql_m in cell_content for sql_m in ['%%sql', '%sql']):
+            if not any(sql_m in cell_content for sql_m in ["%%sql", "%sql"]):
 
-                source_join_clean_split = clean_code(
-                    cell_content
-                ).splitlines()
+                source_join_clean_split = clean_code(cell_content).splitlines()
 
-                if len(source_join_clean_split) == 1 and source_join_clean_split[0] == "":
+                if (
+                    len(source_join_clean_split) == 1
+                    and source_join_clean_split[0] == ""
+                ):
                     continue
 
                 source_join_clean_split[:-1] = [
