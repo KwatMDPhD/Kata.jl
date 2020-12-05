@@ -1,4 +1,4 @@
-Program for cleaning Jupyter notebook (.ipynb).
+Command line program for cleaning Jupyter notebook (.ipynb).
 
 `clean_ipynb` clears output and formats [Python](https://www.python.org) code using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black) (out of the box) and [Julia](https://julialang.org) code using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl) (if `Julia` and `JuliaFormatter.jl` exist).
 
