@@ -1,3 +1,4 @@
+from click import secho
 from json import dump, load
 from shutil import copyfile
 
@@ -21,7 +22,7 @@ def clean_notebook(path, new):
         or "colab" in metadata
     ):
 
-        print("Skip notebook (is not python).")
+        secho("Skipped notebook (is not python).", dim=True)
 
         return
 

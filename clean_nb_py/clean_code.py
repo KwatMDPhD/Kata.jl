@@ -21,7 +21,7 @@ def clean_code(code):
 
     if communicate[1][:5] == "error":
 
-        secho("Bad cell:", fg="bright_yellow")
+        secho("Failed to clean:", fg="bright_yellow")
 
         secho(code, fg="bright_white", bg="black")
 
