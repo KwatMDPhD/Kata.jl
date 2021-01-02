@@ -1,0 +1,8 @@
+- id: clean_nb_py
+  name: clean_nb_py
+  description: Clean (python) jupyter notebook.
+  entry: clean_nb_py
+  require_serial: true
+  language: python
+  files: \.ipynb$
+  language_version: python3
