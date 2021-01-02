@@ -1,6 +1,6 @@
 Program for cleaning Jupyter notebook.
 
-`cleannbpy` is a command line program that clears output and formats [Python](https://www.python.org) code using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black).
+`cleannbpy` is a command line program that clears output and formats [python](https://www.python.org) code using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black).
 
 Official janitor of Google Colab.
 
