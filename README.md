@@ -41,4 +41,4 @@ cleannbpy --new notebook/dirty.ipynb
 
 And look at the result [notebook/dirty.clean.ipynb](notebook/dirty.clean.ipynb).
 
-## Checkout [clean_nb_jl](https://github.com/KwatME/clean_nb_jl)
+#### For cleaning julia notebook, check out [clean_nb_jl](https://github.com/KwatME/clean_nb_jl).
