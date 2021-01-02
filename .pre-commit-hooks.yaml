@@ -1,9 +1,0 @@
-- id: clean_ipynb
-  name: Clean Notebooks
-  entry: clean_ipynb
-  description: Ensure that committed Jupyter notebooks contain no have imports sorted and code formatted.
-  require_serial: true
-  args: ["--overwrite"]
-  language: python
-  files: \.ipynb$
-  language_version: python3
