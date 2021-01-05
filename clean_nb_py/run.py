@@ -1,5 +1,6 @@
 from subprocess import run
 
+
 def run_command(command, stdin):
 
     return run(

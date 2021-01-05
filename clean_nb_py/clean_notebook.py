@@ -1,6 +1,7 @@
-from click import secho
 from json import dump, load
 from shutil import copyfile
+
+from click import secho
 
 from .clean_code import clean_code
 

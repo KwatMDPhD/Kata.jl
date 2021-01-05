@@ -1,5 +1,6 @@
 from subprocess import PIPE, Popen
 
+
 def run_command(command, stdin):
 
     return Popen(
