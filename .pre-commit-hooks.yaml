@@ -1,7 +1,7 @@
-- id: cleannbpy
-  name: cleannbpy
-  description: Clean (python) jupyter notebook.
-  entry: cleannbpy
+- id: cleannb
+  name: cleannb
+  description: Clean jupyter notebook.
+  entry: cleannb
   require_serial: true
   language: python
   files: \.ipynb$
