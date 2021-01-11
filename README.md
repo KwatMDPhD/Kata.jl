@@ -1,8 +1,8 @@
-Program for cleaning Jupyter notebook.
+Command line program for cleaning Jupyter notebook.
 
 `cleannb` is a command line program that clears output and formats code written in:
 - [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black))
-- (coming soon) [julia](https://julialang.org) (using [CleanCode.jl](https://github.com/KwatME/CleanCode.jl))
+- [julia](https://julialang.org) (using [CleanCode.jl](https://github.com/KwatME/CleanCode.jl)) (coming soon)
 
 Official janitor of Google Colab.
 
