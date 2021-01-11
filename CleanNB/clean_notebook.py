@@ -26,6 +26,10 @@ def clean_notebook(path, new):
 
         language = "python"
 
+    if language == "julia":
+
+        secho("Cleaning julia code is coming soon...", dim=True)
+
     clean_cell_ = []
 
     for cell in nb["cells"]:
@@ -64,10 +68,6 @@ def clean_notebook(path, new):
                 clean_line_[:-1] = ["{}\n".format(line) for line in clean_line_[:-1]]
 
                 cell["source"] = clean_line_
-
-            elif language == "julia":
-
-                secho("Cleaning julia code is coming soon...", dim=True)
 
         clean_cell_.append(cell)
 
