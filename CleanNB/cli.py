@@ -8,9 +8,9 @@ from .clean_notebook import clean_notebook
 @option("--new", is_flag=True)
 def cli(paths, new):
     """
-    Clean Jupyter notebook (python).
+    Clean Jupyter notebook.
 
-    https://github.com/KwatME/clean_nb_py
+    https://github.com/KwatME/CleanNB.py
     """
 
     for path in paths:

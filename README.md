@@ -1,31 +1,31 @@
 Program for cleaning Jupyter notebook.
 
-`cleannbpy` is a command line program that clears output and formats [python](https://www.python.org) code using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black).
+`cleannb` is a command line program that clears output and formats [python](https://www.python.org) code using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black).
 
 Official janitor of Google Colab.
 
 ## Install
 
 ```sh
-pip install git+https://github.com/KwatME/clean_nb_py
+pip install git+https://github.com/KwatME/CleanNB.py
 ```
 
 ## Use
 
 ```sh
-cleannbpy a.ipynb
+cleannb a.ipynb
 ```
 
 ```sh
-cleannbpy a.ipynb b.ipynb
+cleannb a.ipynb b.ipynb
 ```
 
 ```sh
-cleannbpy *.ipynb
+cleannb *.ipynb
 ```
 
 ```sh
-find . -name "*.ipynb" -exec cleannbpy {} \;
+find . -name "*.ipynb" -exec cleannb {} \;
 ```
 
 ## Test
@@ -36,9 +36,11 @@ find . -name "*.ipynb" -exec cleannbpy {} \;
 Let's clean it:
 
 ```sh
-cleannbpy --new notebook/dirty.ipynb
+cleannb --new notebook/dirty.ipynb
 ```
 
 And look at the result [notebook/dirty.clean.ipynb](notebook/dirty.clean.ipynb).
 
-#### For cleaning julia notebook, check out [CleanNB.jl](https://github.com/KwatME/CleanNB.jl).
+## To do
+
+Clean julia code
