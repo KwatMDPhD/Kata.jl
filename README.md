@@ -1,6 +1,6 @@
-`cleannb` is a command line program that clears output and formats code written in:
-- [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black))
-- [julia](https://julialang.org) (using [CleanCode.jl](https://github.com/KwatME/CleanCode.jl)) (coming soon)
+`cleannb` is a command line program for cleaning jupyter notebook.
+
+It removes empty cells, clears output, and formats code written in [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) or (coming soon) [julia](https://julialang.org) (using [CleanCode.jl](https://github.com/KwatME/CleanCode.jl)).
 
 Official janitor of Google Colab.
 
@@ -40,7 +40,3 @@ cleannb --new notebook/dirty.ipynb
 ```
 
 And look at the result [notebook/dirty.clean.ipynb](notebook/dirty.clean.ipynb).
-
-## To do
-
-Clean julia code
