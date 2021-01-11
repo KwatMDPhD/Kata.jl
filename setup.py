@@ -9,8 +9,6 @@ setup(
     install_requires=("black", "click", "isort"),
     packages=(name,),
     entry_points={
-        "console_scripts": (
-            "{0}={1}.{2}:{2}".format(name.lower(), name, "cli"),
-        )
+        "console_scripts": ("{0}={1}.{2}:{2}".format(name.lower(), name, "cli"),)
     },
 )

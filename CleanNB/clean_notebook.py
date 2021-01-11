@@ -16,18 +16,17 @@ def clean_notebook(path, new):
 
         nb = load(io)
 
-    metadata = nb["metadata"]
+    language = ""
 
-    if not (
-        metadata.get("language_info", {}).get("name") in ("python", "ipython")
-        or "colab" in metadata
-    ):
+    if "language_info" in nb["metadata"]:
 
-        secho("Skipped notebook (is not python).", dim=True)
+        language = nb["metadata"]["language_info"]["name"]
 
-        return
+    if language == "ipython" or "colab" in nb["metadata"]:
 
-    clean_cells = []
+        language = "python"
+
+    clean_cell_ = []
 
     for cell in nb["cells"]:
 
@@ -39,23 +38,40 @@ def clean_notebook(path, new):
 
             cell["outputs"] = []
 
+        if (
+            "jupyter" in cell["metadata"]
+            and "source_hidden" in cell["metadata"]["jupyter"]
+        ):
+
+            cell["metadata"]["jupyter"].pop("source_hidden")
+
+        if "solution2" in cell["metadata"]:
+
+            cell["metadata"]["solution2"] = "hidden"
+
         if cell["cell_type"] == "code":
 
-            code = "".join(cell["source"])
+            if language == "python":
 
-            if code.strip() == "":
+                code = "".join(cell["source"])
 
-                continue
+                if code.strip() == "":
 
-            clean_lines = clean_code(code).splitlines()
+                    continue
 
-            clean_lines[:-1] = ["{}\n".format(line) for line in clean_lines[:-1]]
+                clean_line_ = clean_code(code).splitlines()
 
-            cell["source"] = clean_lines
+                clean_line_[:-1] = ["{}\n".format(line) for line in clean_line_[:-1]]
 
-        clean_cells.append(cell)
+                cell["source"] = clean_line_
 
-    nb["cells"] = clean_cells
+            elif language == "julia":
+
+                secho("Cleaning julia code is coming soon...", dim=True)
+
+        clean_cell_.append(cell)
+
+    nb["cells"] = clean_cell_
 
     with open(path, mode="w") as io:
 
