@@ -7,7 +7,7 @@ def log(message, kind="message"):
 
         bold, dim, fg, bg, err = False, True, None, None, False
 
-    elif kind == "messge":
+    elif kind == "message":
 
         bold, dim, fg, bg, err = True, False, "bright_green", "black", False
 
