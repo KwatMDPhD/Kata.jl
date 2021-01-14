@@ -1,5 +1,4 @@
-from click import secho
-
+from .log import log
 from .run_command import run_command
 
 
@@ -21,9 +20,9 @@ def clean_code(code):
 
     if communicate[1][:5] == "error":
 
-        secho("Failed to clean:", fg="bright_yellow")
+        log("Failed to clean:", kind="warn")
 
-        secho(code, fg="bright_white", bg="black")
+        log(code, kind="code")
 
         print()
 

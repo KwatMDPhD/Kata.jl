@@ -1,9 +1,8 @@
 from json import dump, load
 from shutil import copyfile
 
-from click import secho
-
 from .clean_code import clean_code
+from .log import log
 
 
 def clean_notebook(path, new):
@@ -28,7 +27,7 @@ def clean_notebook(path, new):
 
     if language == "julia":
 
-        secho("Cleaning julia code is coming soon...", dim=True)
+        log("Cleaning julia code is coming soon...", kind="whisper")
 
     clean_cell_ = []
 

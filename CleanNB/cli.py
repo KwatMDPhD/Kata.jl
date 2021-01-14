@@ -1,19 +1,21 @@
-from click import Path, argument, command, option, secho
+from click import Path, argument, command, option
 
 from .clean_notebook import clean_notebook
+from .log import log
 
 
-@argument("paths", nargs=-1, type=Path(exists=True))
+@command()
+@argument("path", type=Path(exists=True), required=True, nargs=-1)
 @option("--new", is_flag=True)
-def cli(paths, new):
+def cli(path, new):
     """
     Clean Jupyter notebook.
 
     https://github.com/KwatME/CleanNB.py
     """
 
-    for path in paths:
+    for a_path in path:
 
-        secho(path, fg="bright_green", bold=True)
+        log(a_path)
 
-        clean_notebook(path, new)
+        clean_notebook(a_path, new)
