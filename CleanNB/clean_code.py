@@ -20,7 +20,7 @@ def clean_code(code):
 
     if communicate[1][:5] == "error":
 
-        log("Failed to clean:", kind="warn")
+        log("Failed and skipped cleaning cell:", kind="warn")
 
         log(code, kind="code")
 
