@@ -1,13 +1,13 @@
 `cleannb` is a command line program for cleaning jupyter notebook.
 
-It removes empty cells, clears output, and formats code written in [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and (coming soon) [julia](https://julialang.org) (using [CleanCode.jl](https://github.com/KwatME/CleanCode.jl)).
+It removes empty cells, clears output, and formats code written in [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and [julia](https://julialang.org) (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
 
 Official janitor of Google Colab.
 
 ## Install
 
 ```sh
-pip install git+https://github.com/KwatME/CleanNB.py
+python3 -m pip install git+https://github.com/KwatME/CleanNB.py
 ```
 
 ## Use
