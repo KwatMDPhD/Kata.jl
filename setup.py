@@ -1,6 +1,6 @@
 from setuptools import setup
 
-name = "CleanNB"
+name = "cleannb"
 
 setup(
     name=name,
