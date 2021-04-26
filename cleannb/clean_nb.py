@@ -4,7 +4,6 @@ from shutil import copyfile
 from .clean_jl import clean_jl
 from .clean_py import clean_py
 from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
-from .log import log
 
 
 def clean_nb(path, new):

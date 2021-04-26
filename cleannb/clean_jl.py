@@ -1,4 +1,3 @@
-from .log import log
 from .pipe_command import pipe_command
 from .return_completed_process import return_completed_process
 
