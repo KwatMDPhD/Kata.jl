@@ -30,13 +30,16 @@ find . -name "*.ipynb" -exec cleannb {} \;
 
 ## Test
 
-[notebook/dirty.ipynb](notebook/dirty.ipynb) is a dirty notebook.
-(Make it dirtier and submit your pull request.)
+[notebook/](notebook/) has dirty notebooks.
 
-Let's clean it:
+Let's clean them:
 
 ```sh
-cleannb --new notebook/dirty.ipynb
+cleannb --new notebook/dirty_py.ipynb
 ```
 
-And look at the result [notebook/dirty.clean.ipynb](notebook/dirty.clean.ipynb).
+```sh
+cleannb --new notebook/dirty_jl.ipynb
+```
+
+And look at the results: [notebook/dirty_py.clean.ipynb](notebook/dirty_py.clean.ipynb) and [notebook/dirty_jl.clean.ipynb](notebook/dirty_jl.clean.ipynb).

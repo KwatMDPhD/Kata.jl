@@ -1,6 +1,6 @@
 from click import Path, argument, command, option
 
-from .clean_notebook import clean_notebook
+from .clean_nb import clean_nb
 from .log import log
 
 
@@ -18,4 +18,4 @@ def cli(path, new):
 
         log(a_path)
 
-        clean_notebook(a_path, new)
+        clean_nb(a_path, new)

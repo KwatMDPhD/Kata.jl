@@ -1,11 +1,13 @@
 from json import dump, load
 from shutil import copyfile
 
-from .clean_code import clean_code
+from .clean_jl import clean_jl
+from .clean_py import clean_py
+from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 from .log import log
 
 
-def clean_notebook(path, new):
+def clean_nb(path, new):
 
     if new:
 
@@ -15,19 +17,29 @@ def clean_notebook(path, new):
 
         nb = load(io)
 
-    language = ""
-
     if "language_info" in nb["metadata"]:
 
         language = nb["metadata"]["language_info"]["name"]
 
-    if language == "ipython" or "colab" in nb["metadata"]:
+        if language == "ipython" or "colab" in nb["metadata"]:
 
-        language = "python"
+            language = "python"
 
-    if language == "julia":
+    else:
 
-        log("Cleaning julia code is coming soon...", kind="whisper")
+        language = ""
+
+    if language == "julia" and has_julia_and_juliaformatter():
+
+        clean_function = clean_jl
+
+    elif language == "python":
+
+        clean_function = clean_py
+
+    else:
+
+        clean_function = None
 
     clean_cell_ = []
 
@@ -48,25 +60,19 @@ def clean_notebook(path, new):
 
             cell["metadata"]["jupyter"].pop("source_hidden")
 
-        if "solution2" in cell["metadata"]:
+        if cell["cell_type"] == "code" and clean_function is not None:
 
-            cell["metadata"]["solution2"] = "hidden"
+            code = "".join(cell["source"])
 
-        if cell["cell_type"] == "code":
+            if code.strip() == "":
 
-            if language == "python":
+                continue
 
-                code = "".join(cell["source"])
+            clean_line_ = clean_function(code).splitlines()
 
-                if code.strip() == "":
+            clean_line_[:-1] = ["{}\n".format(line) for line in clean_line_[:-1]]
 
-                    continue
-
-                clean_line_ = clean_code(code).splitlines()
-
-                clean_line_[:-1] = ["{}\n".format(line) for line in clean_line_[:-1]]
-
-                cell["source"] = clean_line_
+            cell["source"] = clean_line_
 
         clean_cell_.append(cell)
 

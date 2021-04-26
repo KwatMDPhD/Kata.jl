@@ -4,7 +4,7 @@ n = "cleannb"
 
 setup(
     name=n,
-    version="3.0.0",
+    version="3.1.0",
     python_requires=">=3.6",
     install_requires=("black", "click", "isort"),
     packages=(n,),
