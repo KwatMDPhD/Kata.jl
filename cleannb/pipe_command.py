@@ -1,7 +1,7 @@
-from subprocess import PIPE, Popen, run
+from subprocess import PIPE, Popen
 
 
-def run_command(command, stdin=None):
+def pipe_command(stdin, command):
 
     return Popen(
         command,
