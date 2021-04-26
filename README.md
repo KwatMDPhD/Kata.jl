@@ -30,10 +30,7 @@ find . -name "*.ipynb" -exec cleannb {} \;
 
 ## Test
 
-[notebook/](notebook/) has dirty notebooks:
-
-- [dirty_py.ipynb](notebook/dirty_py.ipynb)
-- [dirty_jl.ipynb](notebook/dirty_jl.ipynb)
+[notebook/](notebook/) has dirty notebooks: [dirty_py.ipynb](notebook/dirty_py.ipynb) and [dirty_jl.ipynb](notebook/dirty_jl.ipynb).
 
 Let's clean them:
 
@@ -45,7 +42,4 @@ cleannb --new notebook/dirty_py.ipynb
 cleannb --new notebook/dirty_jl.ipynb
 ```
 
-And look at the results:
-
-- [dirty_py.clean.ipynb](notebook/dirty_py.clean.ipynb)
-- [dirty_jl.clean.ipynb](notebook/dirty_jl.clean.ipynb)
+And look at the results: [dirty_py.clean.ipynb](notebook/dirty_py.clean.ipynb) and [dirty_jl.clean.ipynb](notebook/dirty_jl.clean.ipynb).
