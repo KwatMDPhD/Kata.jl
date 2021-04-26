@@ -35,11 +35,7 @@ find . -name "*.ipynb" -exec cleannb {} \;
 Let's clean them:
 
 ```sh
-cleannb --new notebook/dirty_py.ipynb
-```
-
-```sh
-cleannb --new notebook/dirty_jl.ipynb
+cleannb --new notebook/dirty_py.ipynb notebook/dirty_jl.ipynb
 ```
 
 And look at the results: [dirty_py.clean.ipynb](notebook/dirty_py.clean.ipynb) and [dirty_jl.clean.ipynb](notebook/dirty_jl.clean.ipynb).

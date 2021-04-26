@@ -1,14 +1,13 @@
-from subprocess import CalledProcessError
+from subprocess import CalledProcessError, run
 
 from .log import log
-from .run_command import run_command2
 
 
 def has_julia_and_juliaformatter():
 
     try:
 
-        run_command2(("julia", "--eval", "using JuliaFormatter"))
+        run(("julia", "--eval", "using JuliaFormatter"), check=True)
 
         return True
 

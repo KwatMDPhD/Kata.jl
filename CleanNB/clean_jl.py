@@ -18,7 +18,7 @@ def clean_jl(code):
 
     if communicate[1][:5] == "ERROR":
 
-        log("Failed and skipped cleaning cell:", kind="warn")
+        log("Skipped cleaning cell:", kind="warn")
 
         log(code, kind="code")
 
