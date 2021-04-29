@@ -67,11 +67,7 @@ def clean_nb(path, new):
 
                 continue
 
-            clean_line_ = clean_function(code).splitlines()
-
-            clean_line_[:-1] = ["{}\n".format(line) for line in clean_line_[:-1]]
-
-            cell["source"] = clean_line_
+            cell["source"] = clean_function(code).splitlines(True)
 
         clean_cell_.append(cell)
 
