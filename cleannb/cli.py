@@ -11,7 +11,7 @@ def cli(path, new):
     """
     Clean Jupyter notebook.
 
-    https://github.com/KwatME/CleanNB.py
+    https://github.com/KwatME/cleannb
     """
 
     for a_path in path:
