@@ -1,7 +1,13 @@
-from subprocess import PIPE, Popen
+from subprocess import (
+    PIPE,
+    Popen,
+)
 
 
-def pipe_command(stdin, command):
+def pipe_command(
+    stdin,
+    command,
+):
 
     return Popen(
         command,
