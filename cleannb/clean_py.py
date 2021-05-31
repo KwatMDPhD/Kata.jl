@@ -2,14 +2,12 @@ from .pipe_command import pipe_command
 from .return_completed_process import return_completed_process
 
 
-def clean_py(
-    code,
-):
+def clean_py(co):
 
-    completed_process = pipe_command(None, ("echo", code))
+    pr = pipe_command(None, ["echo", co])
 
-    completed_process = pipe_command(completed_process.stdout, ("isort", "-"))
+    pr = pipe_command(pr.stdout, ["isort", "-"])
 
-    completed_process = pipe_command(completed_process.stdout, ("black", "-"))
+    pr = pipe_command(pr.stdout, ["black", "-"])
 
-    return return_completed_process(completed_process, code)
+    return return_completed_process(pr, co)

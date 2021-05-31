@@ -1,26 +1,26 @@
 from click import secho
 
 
-def log(message, kind="message"):
+def log(me, ty="message"):
 
-    if kind == "whisper":
+    if ty == "whisper":
 
-        (bold, dim, fg, bg, err) = (False, True, None, None, False)
+        bo, di, fg, bg, er = False, True, None, None, False
 
-    elif kind == "message":
+    elif ty == "message":
 
-        (bold, dim, fg, bg, err) = (True, False, "bright_green", "black", False)
+        bo, di, fg, bg, er = True, False, "bright_green", "black", False
 
-    elif kind == "code":
+    elif ty == "code":
 
-        (bold, dim, fg, bg, err) = (True, False, "bright_white", "black", False)
+        bo, di, fg, bg, er = True, False, "bright_white", "black", False
 
-    elif kind == "warn":
+    elif ty == "warn":
 
-        (bold, dim, fg, bg, err) = (True, False, "bright_yellow", "black", False)
+        bo, di, fg, bg, er = True, False, "bright_yellow", "black", False
 
-    elif kind == "error":
+    elif ty == "error":
 
-        (bold, dim, fg, bg, err) = (True, False, "bright_red", "black", True)
+        bo, di, fg, bg, er = True, False, "bright_red", "black", True
 
-    secho(message, bold=bold, dim=dim, fg=fg, bg=bg, err=err)
+    secho(me, bold=bo, dim=di, fg=fg, bg=bg, err=er)

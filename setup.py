@@ -1,12 +1,14 @@
 from setuptools import setup
 
-n = "cleannb"
+na = "cleannb"
 
 setup(
-    name=n,
+    name=na,
     version="3.1.0",
     python_requires=">=3.6",
-    install_requires=("black", "click", "isort"),
-    packages=(n,),
-    entry_points={"console_scripts": ("{0}={1}.{2}:{2}".format(n.lower(), n, "cli"),)},
+    install_requires=["black", "click", "isort"],
+    packages=[na],
+    entry_points={
+        "console_scripts": ["{0}={0}.{1}:{1}".format(na, "cli")],
+    },
 )

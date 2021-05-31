@@ -14,8 +14,8 @@ def cli(path, new):
     https://github.com/KwatME/cleannb
     """
 
-    for a_path in path:
+    for pa in path:
 
-        log(a_path)
+        log(pa)
 
-        clean_nb(a_path, new)
+        clean_nb(pa, new)

@@ -6,74 +6,71 @@ from .clean_py import clean_py
 from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
-def clean_nb(path, new):
+def clean_nb(pa, ne):
 
-    if new:
+    if ne:
 
-        path = copyfile(path, path.replace(".ipynb", ".clean.ipynb"))
+        pa = copyfile(pa, pa.replace(".ipynb", ".clean.ipynb"))
 
-    with open(path) as io:
+    with open(pa) as io:
 
         nb = load(io)
 
     if "language_info" in nb["metadata"]:
 
-        language = nb["metadata"]["language_info"]["name"]
+        la = nb["metadata"]["language_info"]["name"]
 
-        if language == "ipython" or "colab" in nb["metadata"]:
+        if la == "ipython" or "colab" in nb["metadata"]:
 
-            language = "python"
-
-    else:
-
-        language = ""
-
-    if language == "julia" and has_julia_and_juliaformatter():
-
-        clean_function = clean_jl
-
-    elif language == "python":
-
-        clean_function = clean_py
+            la = "python"
 
     else:
 
-        clean_function = None
+        la = ""
 
-    clean_cell_ = []
+    if la == "julia" and has_julia_and_juliaformatter():
 
-    for cell in nb["cells"]:
+        fu = clean_jl
 
-        if "execution_count" in cell:
+    elif la == "python":
 
-            cell["execution_count"] = None
+        fu = clean_py
 
-        if "outputs" in cell:
+    else:
 
-            cell["outputs"] = []
+        fu = None
 
-        if (
-            "jupyter" in cell["metadata"]
-            and "source_hidden" in cell["metadata"]["jupyter"]
-        ):
+    ce_ = []
 
-            cell["metadata"]["jupyter"].pop("source_hidden")
+    for ce in nb["cells"]:
 
-        if cell["cell_type"] == "code" and clean_function is not None:
+        if "execution_count" in ce:
 
-            code = "".join(cell["source"])
+            ce["execution_count"] = None
 
-            if code.strip() == "":
+        if "outputs" in ce:
+
+            ce["outputs"] = []
+
+        if "jupyter" in ce["metadata"] and "source_hidden" in ce["metadata"]["jupyter"]:
+
+            ce["metadata"]["jupyter"].pop("source_hidden")
+
+        if ce["cell_type"] == "code" and fu is not None:
+
+            co = "".join(ce["source"])
+
+            if co.strip() == "":
 
                 continue
 
-            cell["source"] = clean_function(code).splitlines(True)
+            ce["source"] = fu(co).splitlines(True)
 
-        clean_cell_.append(cell)
+        ce_.append(ce)
 
-    nb["cells"] = clean_cell_
+    nb["cells"] = ce_
 
-    with open(path, mode="w") as io:
+    with open(pa, "w") as io:
 
         dump(nb, io, indent=1)
 

@@ -1,20 +1,20 @@
 from .log import log
 
 
-def return_completed_process(completed_process, code):
+def return_completed_process(pr, co):
 
-    (output, error) = completed_process.communicate()
+    ou, er = pr.communicate()
 
-    if error[:5].lower() == "error":
+    if er[:5].lower() == "error":
 
-        log("Skipped cleaning cell:", kind="warn")
+        log("Skipped cleaning cell:", ty="warn")
 
-        log(code, kind="code")
+        log(co, ty="code")
 
         print()
 
-        return code
+        return co
 
     else:
 
-        return output.strip()
+        return ou.strip()

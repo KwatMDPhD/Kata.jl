@@ -1,8 +1,6 @@
 from subprocess import PIPE, Popen
 
 
-def pipe_command(stdin, command):
+def pipe_command(st, co):
 
-    return Popen(
-        command, stdin=stdin, stdout=PIPE, stderr=PIPE, universal_newlines=True
-    )
+    return Popen(co, stdin=st, stdout=PIPE, stderr=PIPE, universal_newlines=True)
