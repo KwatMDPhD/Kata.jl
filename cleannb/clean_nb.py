@@ -1,36 +1,16 @@
-from json import (
-    dump,
-    load,
-)
-from shutil import (
-    copyfile,
-)
+from json import dump, load
+from shutil import copyfile
 
-from .clean_jl import (
-    clean_jl,
-)
-from .clean_py import (
-    clean_py,
-)
-from .has_julia_and_juliaformatter import (
-    has_julia_and_juliaformatter,
-)
+from .clean_jl import clean_jl
+from .clean_py import clean_py
+from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
-def clean_nb(
-    path,
-    new,
-):
+def clean_nb(path, new):
 
     if new:
 
-        path = copyfile(
-            path,
-            path.replace(
-                ".ipynb",
-                ".clean.ipynb",
-            ),
-        )
+        path = copyfile(path, path.replace(".ipynb", ".clean.ipynb"))
 
     with open(path) as io:
 
@@ -93,15 +73,8 @@ def clean_nb(
 
     nb["cells"] = clean_cell_
 
-    with open(
-        path,
-        mode="w",
-    ) as io:
+    with open(path, mode="w") as io:
 
-        dump(
-            nb,
-            io,
-            indent=1,
-        )
+        dump(nb, io, indent=1)
 
         io.write("\n")

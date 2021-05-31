@@ -1,36 +1,18 @@
-from subprocess import (
-    CalledProcessError,
-    run,
-)
+from subprocess import CalledProcessError, run
 
-from .log import (
-    log,
-)
+from .log import log
 
 
 def has_julia_and_juliaformatter():
 
     try:
 
-        run(
-            (
-                "julia",
-                "--eval",
-                "using JuliaFormatter",
-            ),
-            check=True,
-        )
+        run(("julia", "--eval", "using JuliaFormatter"), check=True)
 
         return True
 
-    except (
-        CalledProcessError,
-        FileNotFoundError,
-    ):
+    except (CalledProcessError, FileNotFoundError):
 
-        log(
-            "Missing julia or JuliaFormatter.",
-            kind="warn",
-        )
+        log("Missing julia or JuliaFormatter.", kind="warn")
 
         return False

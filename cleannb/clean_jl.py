@@ -1,9 +1,5 @@
-from .pipe_command import (
-    pipe_command,
-)
-from .return_completed_process import (
-    return_completed_process,
-)
+from .pipe_command import pipe_command
+from .return_completed_process import return_completed_process
 
 
 def clean_jl(
@@ -21,7 +17,4 @@ def clean_jl(
         ),
     )
 
-    return return_completed_process(
-        completed_process,
-        code,
-    )
+    return return_completed_process(completed_process, code)

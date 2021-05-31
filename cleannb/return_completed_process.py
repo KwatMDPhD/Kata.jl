@@ -1,29 +1,15 @@
-from .log import (
-    log,
-)
+from .log import log
 
 
-def return_completed_process(
-    completed_process,
-    code,
-):
+def return_completed_process(completed_process, code):
 
-    (
-        output,
-        error,
-    ) = completed_process.communicate()
+    (output, error) = completed_process.communicate()
 
     if error[:5].lower() == "error":
 
-        log(
-            "Skipped cleaning cell:",
-            kind="warn",
-        )
+        log("Skipped cleaning cell:", kind="warn")
 
-        log(
-            code,
-            kind="code",
-        )
+        log(code, kind="code")
 
         print()
 
