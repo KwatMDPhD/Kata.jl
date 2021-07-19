@@ -1,6 +1,6 @@
 from setuptools import setup
 
-na = "cleannb"
+na = "clean_nb"
 
 setup(
     name=na,
