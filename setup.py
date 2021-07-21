@@ -5,7 +5,8 @@ na = "clean_nb"
 setup(
     name=na,
     version="4.0.0",
-    python_requires=">=3.6",
+    url="https://github.com/KwatME/clean_nb",
+    python_requires=">=3.6.0",
     install_requires=["black", "click", "isort"],
     packages=[na],
     entry_points={
