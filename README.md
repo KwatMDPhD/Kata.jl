@@ -7,7 +7,7 @@ Official janitor of Google Colab.
 ## Install
 
 ```sh
-python3 -m pip install git+https://github.com/KwatME/clean_nb
+python -m pip install git+https://github.com/KwatME/clean_nb
 ```
 
 ## Use
