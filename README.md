@@ -1,4 +1,4 @@
-`clean_nb` is a command line program for cleaning jupyter notebook.
+`clean-nb` is a command line program for cleaning jupyter notebook.
 
 It removes empty cells, clears output, and formats code written in [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and [julia](https://julialang.org) (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
 
@@ -13,19 +13,19 @@ python -m pip install git+https://github.com/KwatME/clean_nb
 ## Use
 
 ```sh
-clean_nb a.ipynb
+clean-nb a.ipynb
 ```
 
 ```sh
-clean_nb a.ipynb b.ipynb
+clean-nb a.ipynb b.ipynb
 ```
 
 ```sh
-clean_nb *.ipynb
+clean-nb *.ipynb
 ```
 
 ```sh
-find . -name "*.ipynb" -exec clean_nb {} \;
+find . -name "*.ipynb" -exec clean-nb {} \;
 ```
 
 ## Test
@@ -35,7 +35,7 @@ find . -name "*.ipynb" -exec clean_nb {} \;
 Let's clean them:
 
 ```sh
-clean_nb --new nb/dirty_py.ipynb nb/dirty_jl.ipynb
+clean-nb --new nb/dirty_py.ipynb nb/dirty_jl.ipynb
 ```
 
 And look at the results: [dirty_py.clean.ipynb](nb/dirty_py.clean.ipynb) and [dirty_jl.clean.ipynb](nb/dirty_jl.clean.ipynb).
