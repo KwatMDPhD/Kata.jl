@@ -9,5 +9,7 @@ setup(
     python_requires=">=3.6.0",
     install_requires=["black", "click", "isort"],
     packages=find_packages(),
-    entry_points={"console_scripts": ["{0}={1}.{2}:{2}".format(na.replace("_", "-"), na, "cli")]},
+    entry_points={
+        "console_scripts": ["{0}={1}.{2}:{2}".format(na.replace("_", "-"), na, "cli")]
+    },
 )
