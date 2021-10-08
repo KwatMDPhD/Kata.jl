@@ -10,7 +10,7 @@ JL = join(dirname(__file__), "execution_file.jl")
 
 try:
 
-    print("Trying julia")
+    log("Trying julia", ty="whisper")
 
     run(
         'julia --eval "using PackageCompiler; using JuliaFormatter"',
@@ -20,7 +20,7 @@ try:
 
     if not isfile(SO):
 
-        print("Precompiling {}".format(SO))
+        log("Precompiling {}".format(SO), ty="whisper")
 
         run(
             [
@@ -41,8 +41,8 @@ except:
 
     CAN_JL = False
 
-print("Can{}clean julia code.".format([" not ", " "][CAN_JL]))
+log("Can{}clean julia code.".format([" not ", " "][CAN_JL]), ty="whisper")
 
 CAN_PY = True
 
-print("Can clean python code.")
+log("Can clean python code.", ty="whisper")
