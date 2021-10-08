@@ -10,6 +10,22 @@ Official janitor of Google Colab.
 python -m pip install git+https://github.com/KwatME/clean_nb
 ```
 
+Cleaning python code comes out of the box.
+For cleaning julia code, install the following:
+
+```julia
+using Pkg: add, build
+
+for na in (
+    "JuliaFormatter",
+    "PackageCompiler",
+)
+
+    add(na)
+
+end
+```
+
 ## Use
 
 ```sh
@@ -27,15 +43,3 @@ clean-nb *.ipynb
 ```sh
 find . -name "*.ipynb" -exec clean-nb {} \;
 ```
-
-## Test
-
-[nb](nb) has dirty notebooks: [dirty_py.ipynb](nb/dirty_py.ipynb) and [dirty_jl.ipynb](nb/dirty_jl.ipynb).
-
-Let's clean them:
-
-```sh
-clean-nb --new nb/dirty_py.ipynb nb/dirty_jl.ipynb
-```
-
-And look at the results: [dirty_py.clean.ipynb](nb/dirty_py.clean.ipynb) and [dirty_jl.clean.ipynb](nb/dirty_jl.clean.ipynb).

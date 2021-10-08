@@ -1,9 +1,9 @@
 from json import dump, load
 from shutil import copyfile
 
+from . import CAN_JL, CAN_PY
 from .clean_jl import clean_jl
 from .clean_py import clean_py
-from .has_julia_and_juliaformatter import has_julia_and_juliaformatter
 
 
 def clean_nb(pa, ne):
@@ -28,11 +28,11 @@ def clean_nb(pa, ne):
 
         la = ""
 
-    if la == "julia" and has_julia_and_juliaformatter():
+    if la == "julia" and CAN_JL:
 
         fu = clean_jl
 
-    elif la == "python":
+    elif la == "python" and CAN_PY:
 
         fu = clean_py
 
@@ -64,13 +64,13 @@ def clean_nb(pa, ne):
 
                 continue
 
-            ce["source"] = fu(co).splitlines(True)
+            ce["source"] = fu(co).splitlines(keepends=True)
 
         ce_.append(ce)
 
     nb["cells"] = ce_
 
-    with open(pa, "w") as io:
+    with open(pa, mode="w") as io:
 
         dump(nb, io, indent=1)
 
