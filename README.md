@@ -1,30 +1,10 @@
-`clean-nb` is a command line program for cleaning jupyter notebook.
+# clean_nb
+
+`clean-nb` is a command line program for cleaning jupyter notebook (`.ipynb`).
 
 It removes empty cells, clears output, and formats code written in [python](https://www.python.org) (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and [julia](https://julialang.org) (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
 
-Official janitor of Google Colab.
-
-## Install
-
-```sh
-python -m pip install git+https://github.com/KwatME/clean_nb
-```
-
-Cleaning python code comes out of the box.
-For cleaning julia code, install the following:
-
-```julia
-using Pkg: add, build
-
-for na in (
-    "JuliaFormatter",
-    "PackageCompiler",
-)
-
-    add(na)
-
-end
-```
+Official janitor of [Google Colab](https://colab.research.google.com)
 
 ## Use
 
@@ -43,3 +23,31 @@ clean-nb *.ipynb
 ```sh
 find . -name "*.ipynb" -exec clean-nb {} \;
 ```
+
+## Install
+
+```sh
+python -m pip install git+https://github.com/KwatMDPhD/clean_nb
+```
+
+Cleaning python code comes out of the box.
+For cleaning julia code, install the following:
+
+```julia
+using Pkg
+
+for na in [
+    "JuliaFormatter",
+    "PackageCompiler",
+]
+
+    Pkg.add(na)
+
+end
+```
+
+:tada:
+
+## Howdy :wave: :cowboy_hat_face:
+
+To report a bug, request a feature, or leave a comment (about anything related to this project), just [submit an issue](https://github.com/KwatMDPhD/clean_nb/issues/new/choose).

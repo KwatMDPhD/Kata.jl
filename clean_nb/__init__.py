@@ -3,7 +3,7 @@ from subprocess import CalledProcessError, run
 
 from .log import log
 
-SO = join(expanduser("~"), ".juliaformatter.sysimage.so")
+SO = join(expanduser("~"), ".clean-jl.sysimage.so")
 
 
 JL = join(dirname(__file__), "execution_file.jl")
@@ -46,3 +46,5 @@ log("Can{}clean julia code.".format([" not ", " "][CAN_JL]), ty="whisper")
 CAN_PY = True
 
 log("Can clean python code.", ty="whisper")
+
+log("Let's go!", ty="whisper")

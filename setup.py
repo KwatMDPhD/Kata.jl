@@ -4,8 +4,8 @@ na = "clean_nb"
 
 setup(
     name=na,
-    version="4.3.0",
-    url="https://github.com/KwatME/clean_nb",
+    version="4.3.1",
+    url="https://github.com/KwatMDPhD/clean_nb",
     python_requires=">=3.6.0",
     install_requires=["black", "click", "isort"],
     packages=find_packages(),
