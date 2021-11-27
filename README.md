@@ -1,6 +1,6 @@
 # clean_nb
 
-Command-line program for cleaning `Jupyter notebook` (`.ipynb`) written in `Python` or `Julia` :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
+Command-line program for cleaning `Jupyter notebook` (`.ipynb`) written in `Python` and `Julia` :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
 
 `clean-nb` removes empty cells, clears output, and formats code written in `Python` (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and `Julia` (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
 
