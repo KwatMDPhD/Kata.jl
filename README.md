@@ -1,17 +1,17 @@
 # clean_nb
 
-Command line program for cleaning jupyter notebook (`.ipynb`) written in python or julia :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
+Command-line program for cleaning `Jupyter notebook` (`.ipynb`) written in `Python` or `Julia` :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
 
-`clean-nb` removes empty cells, clears output, and formats code written in python (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and julia (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
+`clean-nb` removes empty cells, clears output, and formats code written in `Python` (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and `Julia` (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
 
 ## Use
 
 ```sh
-clean-nb a.ipynb
+clean-nb luffy.ipynb
 ```
 
 ```sh
-clean-nb a.ipynb b.ipynb
+clean-nb zoro.ipynb nami.ipynb usopp.ipynb
 ```
 
 ```sh
@@ -28,8 +28,8 @@ clean-nb **/*.ipynb
 python -m pip install git+https://github.com/KwatMDPhD/clean_nb
 ```
 
-Cleaning python code comes out of the box.
-For cleaning julia code, install the following:
+Cleaning `Python` code comes out of the box.
+For cleaning `Julia` code, install the following:
 
 ```julia
 using Pkg
@@ -46,6 +46,8 @@ end
 
 :tada:
 
+---
+
 ## Howdy :wave: :cowboy_hat_face:
 
-To report a bug, request a feature, or leave a comment (about anything related to this project), just [submit an issue](https://github.com/KwatMDPhD/clean_nb/issues/new/choose).
+To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/KwatMDPhD/clean_nb/issues/new/choose).
