@@ -1,47 +1,53 @@
-# clean_nb
+# Clean.jl
 
-Command-line program for cleaning `Jupyter notebook` (`.ipynb`) written in `Python` and `Julia` :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
+Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s (`.ipynb`) :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
 
-`clean-nb` removes empty cells, clears output, and formats code written in `Python` (using [isort](https://github.com/timothycrosley/isort) and [black](https://github.com/ambv/black)) and `Julia` (using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)).
+When cleaning `.ipynb`, `clean-jl` removes empty cells, clears outputs, and formats code using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl).
 
 ## Use
 
 ```sh
-clean-nb luffy.ipynb
+clean-jl luffy.jl
 ```
 
 ```sh
-clean-nb zoro.ipynb nami.ipynb usopp.ipynb
+clean-jl zoro.ipynb
 ```
 
 ```sh
-clean-nb *.ipynb
+clean-jl nami.jl usopp.ipynb
 ```
 
 ```sh
-clean-nb **/*.ipynb
+find -E . -regex ".*/*\.(jl|ipynb)" -type f -print0 | xargs -0 clean-jl
 ```
 
 ## Install
 
 ```sh
-python -m pip install git+https://github.com/KwatMDPhD/clean_nb
+git clone https://github.com/KwatMDPhD/Clean.jl &&
+
+cd Clean.jl &&
+
+julia --project --eval "using Pkg; Pkg.instantiate()" &&
+
+julia --project deps/build.jl
 ```
 
-Cleaning `Python` code comes out of the box.
-For cleaning `Julia` code, install the following:
+:point_up: commands install `pkgr` into `~/.julia/bin`.
 
-```julia
-using Pkg
+If not already, add the `bin` to the path by adding :point_down: to the profile (`~/.zshrc`, `~/.bashrc`, ...)
 
-for na in [
-    "JuliaFormatter",
-    "PackageCompiler",
-]
+```sh
+PATH=~/.julia/bin:$PATH
+```
 
-    Pkg.add(na)
+Start a new shell to load the updated profile.
 
-end
+Test installation
+
+```sh
+clean-jl -h
 ```
 
 :tada:
@@ -50,4 +56,8 @@ end
 
 ## Howdy :wave: :cowboy_hat_face:
 
-To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/KwatMDPhD/clean_nb/issues/new/choose).
+To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/KwatMDPhD/Clean.jl/issues/new/choose).
+
+---
+
+_Powered by https://github.com/KwatMDPhD/PkgRepository.jl_
