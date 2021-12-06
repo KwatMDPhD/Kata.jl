@@ -79,7 +79,7 @@ uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
 [[deps.DictExtension]]
 deps = ["BenchmarkTools", "JSON", "OrderedCollections", "Revise"]
-git-tree-sha1 = "19de0d1be0bb99338b921240a51e9b26d4c4e1a1"
+git-tree-sha1 = "313aecedfad8edb18ec6447e2d53211a38492209"
 repo-rev = "main"
 repo-url = "https://github.com/KwatMDPhD/DictExtension.jl"
 uuid = "0f7716a5-5f77-4abc-9223-ccb88496a673"
