@@ -6,21 +6,31 @@ function clean_nb(pa::String)
 
     la = nb["metadata"]["language_info"]
 
-    if la["name"] == "julia"
+    ju = la["name"] == "julia"
+
+    if ju
 
         la["version"] = string(VERSION)
 
-        for ce in nb["cells"]
+    else
 
-            if ce["cell_type"] == "code"
+        println("Language is not Julia.")
+
+    end
+
+    for ce in nb["cells"]
+
+        if ce["cell_type"] == "code"
+
+            ce["execution_count"] = nothing
+
+            ce["outputs"] = []
+
+            if ju
 
                 li_ = split(format_text(join(ce["source"])), '\n')
 
                 ce["source"] = [string.(li_[1:end-1], "\n"); li_[end]]
-
-                ce["execution_count"] = nothing
-
-                ce["outputs"] = []
 
             end
 
