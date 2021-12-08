@@ -18,9 +18,19 @@ function clean_nb(pa::String)
 
     end
 
+    ce_ = Vector{Dict}()
+
     for ce in nb["cells"]
 
         if ce["cell_type"] == "code"
+
+            co = join(ce["source"])
+
+            if strip(co) == ""
+
+                continue
+
+            end
 
             ce["execution_count"] = nothing
 
@@ -28,7 +38,7 @@ function clean_nb(pa::String)
 
             if ju
 
-                li_ = split(format_text(join(ce["source"])), '\n')
+                li_ = split(format_text(co), '\n')
 
                 ce["source"] = [string.(li_[1:end-1], "\n"); li_[end]]
 
@@ -36,7 +46,11 @@ function clean_nb(pa::String)
 
         end
 
+        push!(ce_, ce)
+
     end
+
+    nb["cells"] = ce_
 
     nb = DictExtension.sort_recursively!(nb)
 

@@ -19,11 +19,15 @@ jl = joinpath(@__DIR__, "runtests.jl")
 
 nb = joinpath(@__DIR__, "runtests.ipynb")
 
-Clean.clean(jl)
-
-Clean.clean(jl, nb)
+Clean.clean_jl(jl)
 
 Clean.clean_nb(nb)
+
+Clean.clean(jl)
+
+Clean.clean(nb)
+
+Clean.clean(jl, nb)
 
 rm(TE; recursive = true)
 
