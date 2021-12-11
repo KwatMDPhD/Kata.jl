@@ -4,17 +4,19 @@ function clean_nb(pa::String)
 
     nb = DictExtension.read(pa)
 
-    la = nb["metadata"]["language_info"]
+    me = nb["metadata"]
 
-    ju = la["name"] == "julia"
+    ju = me["language_info"]["name"] == "julia"
 
     if ju
 
-        la["version"] = string(VERSION)
+        me["language_info"]["version"] = string(VERSION)
+
+        me["kernelspec"]["name"] = string("julia-", VERSION.major, ".", VERSION.minor)
 
     else
 
-        println("Language is not Julia.")
+        println("Language is not julia.")
 
     end
 
