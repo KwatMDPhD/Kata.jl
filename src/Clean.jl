@@ -14,7 +14,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
 # Arguments
 
-  - `pa_`: .jl or .ipynb paths
+  - `pa_`: `.jl` or `.ipynb` paths
 """
 @main function clean(pa_...)
 
