@@ -1,7 +1,5 @@
-function clean_jl(pa::String)::Nothing
+function clean_jl(pa)
 
     format_file(pa; verbose = true)
-
-    return nothing
 
 end

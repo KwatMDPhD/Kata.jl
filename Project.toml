@@ -6,6 +6,6 @@ version = "0.1.0"
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
-DictExtension = "0f7716a5-5f77-4abc-9223-ccb88496a673"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+OnePiece = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"

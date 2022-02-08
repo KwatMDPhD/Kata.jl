@@ -1,8 +1,8 @@
-function clean_nb(pa::String)
+function clean_nb(pa)
 
     println("Formatting ", pa)
 
-    nb = DictExtension.read(pa)
+    nb = read(pa)
 
     me = nb["metadata"]
 
@@ -20,7 +20,7 @@ function clean_nb(pa::String)
 
     end
 
-    ce_ = Vector{Dict}()
+    ce_ = []
 
     for ce in nb["cells"]
 
@@ -54,14 +54,12 @@ function clean_nb(pa::String)
 
     nb["cells"] = ce_
 
-    nb = DictExtension.sort_recursively!(nb)
+    nb = sort_recursively!(nb)
 
     js = string(pa, ".json")
 
-    DictExtension.write(js, nb; id = 1)
+    write(js, nb; id = 1)
 
     mv(js, pa; force = true)
-
-    return nb
 
 end

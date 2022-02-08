@@ -1,8 +1,8 @@
 module Clean
 
-using Comonicon
-using DictExtension
-using JuliaFormatter
+using Comonicon: @main
+using JuliaFormatter: format_file, format_text
+using OnePiece.extension.dict: read, sort_recursively!, write
 
 include("clean_jl.jl")
 
@@ -15,7 +15,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
   - `pa_`: `.jl` or `.ipynb` paths
 """
-@main function clean(pa_::String...)::Nothing
+@main function clean(pa_...)
 
     for pa in pa_
 
@@ -32,8 +32,6 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
         end
 
     end
-
-    return nothing
 
 end
 
