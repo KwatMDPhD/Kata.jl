@@ -1,4 +1,4 @@
-function clean_nb(pa)
+function clean_nb(pa; ke_ar...)
 
     println("Formatting ", pa)
 
@@ -40,9 +40,9 @@ function clean_nb(pa)
 
             if ju
 
-                li_ = split(format_text(co), '\n')
+                li_ = split(format_text(co; ke_ar...), "\n")
 
-                ce["source"] = [string.(li_[1:end-1], "\n"); li_[end]]
+                ce["source"] = [string.(li_[1:(end - 1)], "\n"); li_[end]]
 
             end
 
