@@ -1,7 +1,7 @@
 name = "Clean"
 uuid = "97d5dc1c-c3ff-49b4-afa4-40dd4561e8e1"
 authors = ["KwatMDPhD <kwat.me@icloud.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
@@ -9,4 +9,3 @@ Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 OnePiece = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
-TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"

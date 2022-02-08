@@ -2,7 +2,6 @@ module Clean
 
 using Comonicon: @main
 using JuliaFormatter: format_file, format_text
-using TOML: parsefile
 
 using OnePiece.extension.dict: read, sort_recursively!, symbolize_key, write
 
@@ -21,7 +20,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
     to = joinpath(homedir(), ".JuliaFormatter.toml")
 
-    ke_ar = symbolize_key(parsefile(to))
+    ke_ar = symbolize_key(read(to))
 
     for pa in pa_
 
