@@ -1,15 +1,6 @@
 TE = joinpath(tempdir(), "Clean.test")
 
-if isdir(TE)
-
-    rm(TE; recursive = true)
-
-end
-
-mkdir(TE)
-
-#using Revise
-using BenchmarkTools
+mkpath(TE)
 
 using Clean
 
