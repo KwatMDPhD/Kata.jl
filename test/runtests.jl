@@ -1,6 +1,16 @@
 TE = joinpath(tempdir(), "Clean.test")
 
-mkpath(TE)
+if isdir(TE)
+
+    rm(TE; recursive = true)
+
+    println("Removed ", TE, ".")
+
+end
+
+mkdir(TE)
+
+println("Made ", TE, ".")
 
 using Clean
 
@@ -18,4 +28,10 @@ Clean.clean(nb)
 
 Clean.clean(jl, nb)
 
-rm(TE; recursive = true)
+if isdir(TE)
+
+    rm(TE; recursive = true)
+
+    println("Removed ", TE, ".")
+
+end
