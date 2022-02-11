@@ -30,12 +30,6 @@ version = "1.0.1"
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
-[[deps.BenchmarkTools]]
-deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
-git-tree-sha1 = "be0cff14ad0059c1da5a017d66f763e6a637de6a"
-uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-version = "1.3.0"
-
 [[deps.CSTParser]]
 deps = ["Tokenize"]
 git-tree-sha1 = "6cc1759204bed5a4e2a5c2f00901fd5d90bc7a62"
@@ -390,8 +384,8 @@ uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.10.8"
 
 [[deps.OnePiece]]
-deps = ["BenchmarkTools", "CSV", "Cobweb", "CodecZlib", "DataFrames", "Distributions", "IJulia", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "PlotlyLight", "Printf", "Random", "Statistics", "StatsBase", "TOML", "UUIDs", "XLSX"]
-git-tree-sha1 = "af555e7ff2a36ba69a389b9a0d877f1ca73719d4"
+deps = ["CSV", "Cobweb", "CodecZlib", "DataFrames", "Distributions", "IJulia", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "PlotlyLight", "Printf", "Random", "Statistics", "StatsBase", "TOML", "UUIDs", "XLSX"]
+git-tree-sha1 = "26102e6d6b83847fca9b39a726480e5f7736e90f"
 repo-rev = "main"
 repo-url = "https://github.com/KwatMDPhD/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
@@ -465,10 +459,6 @@ version = "1.3.1"
 [[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
-
-[[deps.Profile]]
-deps = ["Printf"]
-uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
