@@ -2,7 +2,7 @@ TE = joinpath(tempdir(), "Clean.test")
 
 if isdir(TE)
 
-    rm(TE; recursive = true)
+    rm(TE, recursive = true)
 
     println("Removed ", TE, ".")
 
@@ -30,7 +30,7 @@ Clean.clean(jl, nb)
 
 if isdir(TE)
 
-    rm(TE; recursive = true)
+    rm(TE, recursive = true)
 
     println("Removed ", TE, ".")
 
