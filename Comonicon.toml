@@ -1,5 +1,8 @@
 name = "clean-jl"
 
+[command]
+width=269
+
 [sysimg]
 filter_stdlibs=false
 incremental=false
