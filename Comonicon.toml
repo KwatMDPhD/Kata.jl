@@ -1,7 +1,10 @@
 name = "clean-jl"
 
+[install]
+completion=true
+
 [command]
-width=269
+width=99
 
 [sysimg]
 filter_stdlibs=false
