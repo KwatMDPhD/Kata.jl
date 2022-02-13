@@ -290,9 +290,9 @@ version = "1.9.2"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Pkg", "Tokenize"]
-git-tree-sha1 = "0d1eb5e5a6b8b9d324a9abfa5ee092156e59a6da"
+git-tree-sha1 = "4266d6c9ff36bfd95c9f401e1f0094dc86aca810"
 uuid = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-version = "0.22.2"
+version = "0.22.3"
 
 [[deps.KernelDensity]]
 deps = ["Distributions", "DocStringExtensions", "FFTW", "Interpolations", "StatsBase"]
