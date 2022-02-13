@@ -90,9 +90,9 @@ uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 
 [[deps.Conda]]
 deps = ["Downloads", "JSON", "VersionParsing"]
-git-tree-sha1 = "6cdc8832ba11c7695f494c9d9a1c31e90959ce0f"
+git-tree-sha1 = "6e47d11ea2776bc5627421d59cdcc1296c058071"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.6.0"
+version = "1.7.0"
 
 [[deps.Configurations]]
 deps = ["ExproniconLite", "OrderedCollections", "TOML"]
@@ -290,9 +290,9 @@ version = "1.9.2"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Pkg", "Tokenize"]
-git-tree-sha1 = "4266d6c9ff36bfd95c9f401e1f0094dc86aca810"
+git-tree-sha1 = "fcfaddc61f766211b2c835d3eceaf999b6ea9555"
 uuid = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-version = "0.22.3"
+version = "0.22.4"
 
 [[deps.KernelDensity]]
 deps = ["Distributions", "DocStringExtensions", "FFTW", "Interpolations", "StatsBase"]
@@ -385,7 +385,7 @@ version = "1.10.8"
 
 [[deps.OnePiece]]
 deps = ["CSV", "Cobweb", "CodecZlib", "DataFrames", "Distributions", "IJulia", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "PlotlyLight", "Printf", "Random", "Statistics", "StatsBase", "TOML", "UUIDs", "XLSX"]
-git-tree-sha1 = "d9e933d58d2d4350e43559dc69fb4ad137df2a18"
+git-tree-sha1 = "9c42a3b56da545ea1d2359bcb13ff8f7a67d8d23"
 repo-rev = "main"
 repo-url = "https://github.com/KwatMDPhD/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
