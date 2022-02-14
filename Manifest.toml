@@ -385,7 +385,7 @@ version = "1.10.8"
 
 [[deps.OnePiece]]
 deps = ["CSV", "Cobweb", "CodecZlib", "DataFrames", "Distributions", "IJulia", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "PlotlyLight", "Printf", "Random", "Statistics", "StatsBase", "TOML", "UUIDs", "XLSX"]
-git-tree-sha1 = "85bad311055121734a2761206182418b7664ef58"
+git-tree-sha1 = "375482e4319c2fdd77e3352f9b911a0608c3ec91"
 repo-rev = "main"
 repo-url = "https://github.com/KwatMDPhD/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
@@ -558,9 +558,9 @@ version = "2.1.2"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "a635a9333989a094bddc9f940c04c549cd66afcf"
+git-tree-sha1 = "95c6a5d0e8c69555842fc4a927fc485040ccc31c"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.3.4"
+version = "1.3.5"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
