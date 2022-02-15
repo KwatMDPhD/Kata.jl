@@ -6,25 +6,25 @@ When cleaning `.ipynb`, `clean-jl` removes empty cells, clears outputs, and form
 
 ## Use
 
-```sh
+```bash
 clean-jl luffy.jl
 ```
 
-```sh
+```bash
 clean-jl zoro.ipynb
 ```
 
-```sh
+```bash
 clean-jl nami.jl usopp.ipynb
 ```
 
-```sh
+```bash
 find -E . -regex ".*/*\.(jl|ipynb)" -type f -print0 | xargs -0 clean-jl
 ```
 
 ## Install
 
-```sh
+```bash
 git clone https://github.com/KwatMDPhD/Clean.jl &&
 
 cd Clean.jl &&
@@ -36,9 +36,9 @@ julia --project deps/build.jl
 
 :point_up: commands install `clean-jl` into `~/.julia/bin`.
 
-If not already, add the `bin` to the path by adding :point_down: to the profile (`~/.zshrc`, `~/.bashrc`, ...)
+If not already, add the `bin` to the path by adding :point_down: to the profile (`~/.zshrc`, `~/.rc`, ...)
 
-```sh
+```bash
 PATH=~/.julia/bin:$PATH
 ```
 
@@ -46,7 +46,7 @@ Start a new shell to load the updated profile.
 
 Test installation
 
-```sh
+```bash
 clean-jl -h
 ```
 
