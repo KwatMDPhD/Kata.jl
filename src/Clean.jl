@@ -1,11 +1,8 @@
 module Clean
 
-using Comonicon: @main
-using JuliaFormatter: format_file, format_text
-
-using OnePiece.extension.dict: read, sort_recursively!, symbolize_key, write
-
-include("clean_jl.jl")
+using Comonicon
+using JuliaFormatter
+using OnePiece
 
 include("clean_nb.jl")
 
@@ -20,7 +17,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
     to = joinpath(homedir(), ".JuliaFormatter.toml")
 
-    ke_ar = symbolize_key(read(to))
+    ke_ar = OnePiece.dict.symbolize(OnePiece.dict.read(to))
 
     for pa in pa_
 
@@ -28,11 +25,15 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
         if ex == ".jl"
 
-            clean_jl(pa; ke_ar...)
+            JuliaFormatter.format_file(pa; verbose = true, ke_ar...)
 
         elseif ex == ".ipynb"
 
             clean_nb(pa; ke_ar...)
+
+        else
+
+            error()
 
         end
 

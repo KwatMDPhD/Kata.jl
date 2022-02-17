@@ -2,7 +2,7 @@ function clean_nb(pa; ke_ar...)
 
     println("Formatting ", pa)
 
-    nb = read(pa)
+    nb = OnePiece.dict.read(pa)
 
     me = nb["metadata"]
 
@@ -12,7 +12,7 @@ function clean_nb(pa; ke_ar...)
 
         me["language_info"]["version"] = string(VERSION)
 
-        me["kernelspec"]["name"] = string("julia-", VERSION.major, ".", VERSION.minor)
+        me["kernelspec"]["name"] = "julia-$(VERSION.major).$(VERSION.minor)"
 
     else
 
@@ -28,7 +28,7 @@ function clean_nb(pa; ke_ar...)
 
             co = join(ce["source"])
 
-            if strip(co) == ""
+            if isempty(strip(co))
 
                 continue
 
@@ -40,7 +40,7 @@ function clean_nb(pa; ke_ar...)
 
             if ju
 
-                li_ = split(format_text(co; ke_ar...), "\n")
+                li_ = split(JuliaFormatter.format_text(co; ke_ar...), "\n")
 
                 ce["source"] = [string.(li_[1:(end - 1)], "\n"); li_[end]]
 
@@ -54,12 +54,8 @@ function clean_nb(pa; ke_ar...)
 
     nb["cells"] = ce_
 
-    nb = sort_recursively!(nb)
+    nb = OnePiece.dict.sort_recursively!(nb)
 
-    js = string(pa, ".json")
-
-    write(js, nb; id = 1)
-
-    mv(js, pa; force = true)
+    OnePiece.dict.write(pa, nb, id = 1)
 
 end
