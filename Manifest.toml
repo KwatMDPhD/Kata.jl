@@ -60,12 +60,6 @@ git-tree-sha1 = "bf98fa45a0a4cee295de98d4c1462be26345b9a1"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
 version = "0.1.2"
 
-[[deps.Cobweb]]
-deps = ["DefaultApplication", "Markdown", "Scratch"]
-git-tree-sha1 = "02690a956a19e94c40feacbf368a5adcce5625fd"
-uuid = "ec354790-cf28-43e8-bb59-b484409b7bad"
-version = "0.1.1"
-
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
 git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
@@ -131,12 +125,6 @@ version = "1.0.0"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
-[[deps.DefaultApplication]]
-deps = ["InteractiveUtils"]
-git-tree-sha1 = "fc2b7122761b22c87fec8bf2ea4dc4563d9f8c24"
-uuid = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
-version = "1.0.0"
-
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
@@ -166,12 +154,6 @@ version = "0.8.6"
 [[deps.Downloads]]
 deps = ["ArgTools", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
-
-[[deps.EasyConfig]]
-deps = ["JSON3", "OrderedCollections", "StructTypes"]
-git-tree-sha1 = "c070b3c48a8ba3c6e6507997f0a7f5ebf85c3600"
-uuid = "acab07b0-f158-46d4-8913-50acef6d41fe"
-version = "0.1.10"
 
 [[deps.ExproniconLite]]
 git-tree-sha1 = "8b08cc88844e4d01db5a2405a08e9178e19e479e"
@@ -369,8 +351,8 @@ uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.10.8"
 
 [[deps.OnePiece]]
-deps = ["BenchmarkTools", "CSV", "Cobweb", "CodecZlib", "DataFrames", "Distributions", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "PlotlyLight", "Printf", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
-git-tree-sha1 = "15b07d9ec9dfd21d426d90c642c7e00f111d640a"
+deps = ["BenchmarkTools", "CSV", "CodecZlib", "DataFrames", "Distributions", "JSON", "JSON3", "KernelDensity", "Mmap", "OrderedCollections", "Printf", "Random", "Scratch", "Statistics", "StatsBase", "TOML", "XLSX"]
+git-tree-sha1 = "aa32e138eb7f7221a968e011086b85737e0563f6"
 repo-rev = "main"
 repo-url = "https://github.com/KwatMDPhD/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
@@ -416,12 +398,6 @@ version = "2.2.2"
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-
-[[deps.PlotlyLight]]
-deps = ["Artifacts", "Cobweb", "DefaultApplication", "Downloads", "EasyConfig", "JSON3", "Random"]
-git-tree-sha1 = "9ea43624437e21fd24ac9565aa3d6386711b354b"
-uuid = "ca7969ec-10b3-423e-8d99-40f33abb42bf"
-version = "0.4.4"
 
 [[deps.PooledArrays]]
 deps = ["DataAPI", "Future"]
