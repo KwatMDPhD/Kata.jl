@@ -21,7 +21,7 @@ jl = joinpath(@__DIR__, "runtests.jl")
 
 Clean.clean(jl)
 
-nb = joinpath(@__DIR__, "runtests.ipynb")
+nb = joinpath(@__DIR__, "test.ipynb")
 
 Clean.clean(nb)
 
