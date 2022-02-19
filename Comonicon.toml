@@ -7,14 +7,14 @@ completion=true
 width=99
 
 [sysimg]
-filter_stdlibs=true
+filter_stdlibs=false
 incremental=false
 
 [sysimg.precompile]
 execution_file = ["test/runtests.jl"]
 
 [application]
-filter_stdlibs=true
+filter_stdlibs=false
 incremental=false
 
 [application.precompile]
