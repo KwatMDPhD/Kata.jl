@@ -80,9 +80,9 @@ version = "0.8.6"
 
 [[deps.Comonicon]]
 deps = ["Configurations", "ExproniconLite", "Libdl", "Logging", "Markdown", "PackageCompiler", "Pkg", "Scratch", "TOML", "UUIDs"]
-git-tree-sha1 = "0ce89ea9380a613a8b21680dae54bf604d6362af"
+git-tree-sha1 = "28896c89ac3e24d1840e1e5a525bc4bb2cd3bbe8"
 uuid = "863f3e99-da2a-4334-8734-de3dacbe5542"
-version = "0.12.8"
+version = "0.12.9"
 
 [[deps.Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
