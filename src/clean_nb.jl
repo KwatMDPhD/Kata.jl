@@ -46,6 +46,8 @@ function clean_nb(pa; ke_ar...)
 
             end
 
+            ce["metadata"] = Dict()
+
         end
 
         push!(ce_, ce)
