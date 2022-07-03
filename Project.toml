@@ -1,7 +1,7 @@
 name = "Clean"
 uuid = "97d5dc1c-c3ff-49b4-afa4-40dd4561e8e1"
 authors = ["KwatMDPhD <kwat.me@icloud.com>"]
-version = "0.4.1"
+version = "0.4.2"
 
 [deps]
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
