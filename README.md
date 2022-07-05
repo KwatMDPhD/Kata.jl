@@ -58,6 +58,4 @@ clean-jl --version
 
 To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/KwatMDPhD/Clean.jl/issues/new/choose).
 
----
-
-_Powered by https://github.com/KwatMDPhD/PkgRepository.jl_
+_Powered by https://github.com/KwatMDPhD/Kata.jl_
