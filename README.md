@@ -1,6 +1,6 @@
 # Clean.jl
 
-Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s (`.ipynb`) :broom: Official janitor of [Google Colab](https://colab.research.google.com) :construction_worker:
+Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s (`.ipynb`) :broom:
 
 When cleaning `.ipynb`, `clean-jl` removes empty cells, clears outputs, and formats code using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl).
 
@@ -58,4 +58,4 @@ clean-jl --version
 
 To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/KwatMDPhD/Clean.jl/issues/new/choose).
 
-_Powered by https://github.com/KwatMDPhD/Kata.jl_
+Powered by https://github.com/KwatMDPhD/Kata.jl_
