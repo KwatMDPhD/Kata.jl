@@ -1,5 +1,7 @@
 module Clean
 
+# ----------------------------------------------------------------------------------------------- #
+
 using Comonicon
 using JuliaFormatter
 using OnePiece
@@ -40,5 +42,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
     end
 
 end
+
+# ----------------------------------------------------------------------------------------------- #
 
 end
