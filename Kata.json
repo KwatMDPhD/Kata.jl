@@ -1,0 +1,4 @@
+{
+  "update": "julia --project --eval \"using Pkg; Pkg.instantiate(); Pkg.update()\"",
+  "run": "jupyter-nbconvert --log-level 40 --to script test/runtests.ipynb && julia --project --eval \"using Pkg; Pkg.test()\""
+}

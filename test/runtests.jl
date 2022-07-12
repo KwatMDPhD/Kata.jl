@@ -11,4 +11,4 @@ nb = joinpath(@__DIR__, "dirty.ipynb")
 
 Clean.clean(nb)
 
-Clean.clean(jl, nb, joinpath(dirname(@__DIR__), "src", "Clean.jl"))
+Clean.clean(jl, nb)

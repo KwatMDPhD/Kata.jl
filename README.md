@@ -1,6 +1,6 @@
 # Clean.jl
 
-Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s (`.ipynb`) :broom:
+Command-line program for cleaning `julia` files (`.jl`) and `jupyter notebook`s (`.ipynb`) :broom:
 
 When cleaning `.ipynb`, `clean-jl` removes empty cells, clears outputs, and formats code using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl).
 
