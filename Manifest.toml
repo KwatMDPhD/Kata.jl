@@ -433,9 +433,10 @@ uuid = "6ef6ca0d-6ad7-5ff6-b225-e928bfa0a386"
 version = "0.5.3"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "737a5957f387b17e74d4ad2f440eb330b39a62c5"
+deps = ["OpenLibm_jll"]
+git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "1.0.0"
+version = "1.0.1"
 
 [[deps.NetworkLayout]]
 deps = ["GeometryBasics", "LinearAlgebra", "Random", "Requires", "SparseArrays"]
@@ -459,10 +460,10 @@ uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.12.7"
 
 [[deps.OnePiece]]
-deps = ["BenchmarkTools", "CSV", "CodecZlib", "DataFrames", "Dates", "DefaultApplication", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Printf", "Random", "Scratch", "Statistics", "StatsBase", "TOML", "XLSX"]
+deps = ["BenchmarkTools", "CSV", "CodecZlib", "DataFrames", "Dates", "DefaultApplication", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
 path = "/Users/kwat/craft/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
-version = "0.10.1"
+version = "0.11.0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
