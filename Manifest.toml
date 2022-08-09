@@ -359,9 +359,9 @@ version = "1.9.5"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Pkg", "Tokenize"]
-git-tree-sha1 = "6c0fd08be0dc54f11c224374ad6da743ce6a8ca0"
+git-tree-sha1 = "bc360182bf55b82cf15efb1cbc1b3607d05e1648"
 uuid = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-version = "1.0.8"
+version = "1.0.9"
 
 [[deps.KernelDensity]]
 deps = ["Distributions", "DocStringExtensions", "FFTW", "Interpolations", "StatsBase"]
@@ -515,9 +515,9 @@ version = "0.11.16"
 
 [[deps.PackageCompiler]]
 deps = ["Artifacts", "LazyArtifacts", "Libdl", "Pkg", "Printf", "RelocatableFolders", "TOML", "UUIDs"]
-git-tree-sha1 = "52ab501c2201e140954924365ef06a36ba1d97ed"
+git-tree-sha1 = "33203fb6c2e18c01ce1e7dfc64ee19a9387a1621"
 uuid = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
-version = "2.0.7"
+version = "2.0.8"
 
 [[deps.Parsers]]
 deps = ["Dates"]
