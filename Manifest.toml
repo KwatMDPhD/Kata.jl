@@ -489,7 +489,7 @@ uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.12.7"
 
 [[deps.OnePiece]]
-deps = ["CSV", "CodecZlib", "ColorSchemes", "DataFrames", "Dates", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
+deps = ["CSV", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
 path = "/Users/kwat/craft/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 version = "0.12.2"
