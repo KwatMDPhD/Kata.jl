@@ -177,9 +177,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Distributions]]
 deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
-git-tree-sha1 = "aafa0665e3db0d3d0890cdc8191ea03dc279b042"
+git-tree-sha1 = "6180800cebb409d7eeef8b2a9a562107b9705be5"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.25.66"
+version = "0.25.67"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -489,7 +489,7 @@ uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.12.7"
 
 [[deps.OnePiece]]
-deps = ["CSV", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
+deps = ["CSV", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distributions", "Graphs", "IJulia", "JSON", "JSON3", "KernelDensity", "LinearAlgebra", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
 path = "/Users/kwat/craft/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 version = "0.12.2"
