@@ -1,13 +1,12 @@
 using Clean
+
 using OnePiece
 
-TE = OnePiece.path.make_temporary("Clean.test")
-
-jl = joinpath(@__DIR__, "runtests.jl")
+jl = "dirty.jl"
 
 Clean.clean(jl)
 
-nb = joinpath(@__DIR__, "dirty.ipynb")
+nb = "dirty.ipynb"
 
 Clean.clean(nb)
 
