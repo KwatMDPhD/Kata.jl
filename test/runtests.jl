@@ -2,11 +2,11 @@ using Clean
 
 using OnePiece
 
-jl = "dirty.jl"
+jl = joinpath(@__DIR__, "dirty.jl")
 
 Clean.clean(jl)
 
-nb = "dirty.ipynb"
+nb = joinpath(@__DIR__, "dirty.ipynb")
 
 Clean.clean(nb)
 
