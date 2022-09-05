@@ -258,9 +258,9 @@ uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
 [[deps.FillArrays]]
 deps = ["LinearAlgebra", "Random", "SparseArrays", "Statistics"]
-git-tree-sha1 = "3399bbad4c9e9a2fd372a54d7b67b3c7121b6402"
+git-tree-sha1 = "87519eb762f85534445f5cda35be12e32759ee14"
 uuid = "1a297f60-69ca-5386-bcde-b61e274b549b"
-version = "0.13.3"
+version = "0.13.4"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -744,9 +744,9 @@ version = "0.6.12"
 
 [[deps.StructTypes]]
 deps = ["Dates", "UUIDs"]
-git-tree-sha1 = "82d3ea0d0211c13b1da2e05a41f39bfc54062890"
+git-tree-sha1 = "ca4bccb03acf9faaf4137a9abc1881ed1841aa70"
 uuid = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
-version = "1.9.1"
+version = "1.10.0"
 
 [[deps.SuiteSparse]]
 deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
