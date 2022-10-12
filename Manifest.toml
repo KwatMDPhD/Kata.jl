@@ -514,15 +514,15 @@ version = "0.4.0"
 
 [[deps.OffsetArrays]]
 deps = ["Adapt"]
-git-tree-sha1 = "1ea784113a6aa054c5ebd95945fa5e52c2f378e7"
+git-tree-sha1 = "f71d8950b724e9ff6110fc948dff5a329f901d64"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.12.7"
+version = "1.12.8"
 
 [[deps.OnePiece]]
 deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GZip", "Graphs", "IJulia", "InteractiveUtils", "JSON", "JSON3", "KernelDensity", "LinearAlgebra", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "XLSX"]
 path = "/Users/kwat/craft/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
-version = "0.25.2"
+version = "0.25.3"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
