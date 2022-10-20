@@ -849,9 +849,9 @@ version = "2.9.14+0"
 
 [[deps.ZMQ]]
 deps = ["FileWatching", "Sockets", "ZeroMQ_jll"]
-git-tree-sha1 = "fc68e8a3719166950a0f3e390a14c7302c48f8de"
+git-tree-sha1 = "356d2bdcc0bce90aabee1d1c0f6d6f301eda8f77"
 uuid = "c2297ded-f4af-51ae-bb23-16f91089e4e1"
-version = "1.2.1"
+version = "1.2.2"
 
 [[deps.ZeroMQ_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "libsodium_jll"]
