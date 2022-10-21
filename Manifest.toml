@@ -46,9 +46,9 @@ version = "3.3.6"
 
 [[deps.CSV]]
 deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "SentinelArrays", "SnoopPrecompile", "Tables", "Unicode", "WeakRefStrings"]
-git-tree-sha1 = "d1b3d33f3d15e382cf92bff7cf4b2814330392a0"
+git-tree-sha1 = "76c8d77a76c564bbc39ae351c075ef3cafceef83"
 uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-version = "0.10.5"
+version = "0.10.6"
 
 [[deps.Calculus]]
 deps = ["LinearAlgebra"]
