@@ -1,0 +1,80 @@
+{
+ "cells": [
+  {
+   "cell_type": "raw",
+   "id": "13717c35-501d-4a84-a061-d713487a8d80",
+   "metadata": {},
+   "source": [
+    "\n",
+    " \"a\"\n",
+    "\n",
+    " (1,)\n",
+    "\n",
+    " 1 + 1\n",
+    "\n",
+    "[[1], 2]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5c2a5c86-171d-4fa6-b11c-ec27a5613a13",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "\"a\"\n",
+    "\n",
+    "(1,)\n",
+    "\n",
+    "1 + 1\n",
+    "\n",
+    "[[1], 2]\n",
+    ""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0e9dfe80-d506-4533-b99f-4ddb13d2206e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "\n",
+    "\"a\"\n",
+    "\n",
+    "(1,)\n",
+    "\n",
+    "1 + 1\n",
+    "\n",
+    "[[1], 2]\n",
+    "\n",
+    ""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6f8781ed-3bb2-4419-8189-728867f991b7",
+   "metadata": {},
+   "source": [
+    "## Markdown"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Julia 1.8.2",
+   "language": "julia",
+   "name": "julia-1.8"
+  },
+  "language_info": {
+   "file_extension": ".jl",
+   "mimetype": "application/julia",
+   "name": "julia",
+   "version": "1.8.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

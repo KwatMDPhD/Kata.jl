@@ -1,75 +1,71 @@
 module Clean
 
-using Comonicon
-using JuliaFormatter
+using Comonicon: @main
+
+using JuliaFormatter: format_file, format_text
+
 using OnePiece
 
-function _clean_nb(pa; ke_ar...)
+function _clean_nb(nb; ke_ar...)
 
-    println("Formatting ", pa)
+    println("🧹 $nb")
 
-    nb = OnePiece.dict.read(pa)
+    ke_va = OnePiece.Dict.read(nb)
 
-    me = nb["metadata"]
+    kem_vam = ke_va["metadata"]
 
-    ju = me["language_info"]["name"] == "julia"
+    ju = kem_vam["language_info"]["name"] == "julia"
 
     if ju
 
-        me["language_info"]["version"] = string(VERSION)
+        kem_vam["language_info"]["version"] = string(VERSION)
 
-        me["kernelspec"]["name"] = "julia-$(VERSION.major).$(VERSION.minor)"
-
-    else
-
-        println("Language is not julia.")
+        kem_vam["kernelspec"]["name"] = "julia-$(VERSION.major).$(VERSION.minor)"
 
     end
 
-    ce_ = []
+    kec_vac_ = []
 
-    for ce in nb["cells"]
+    for kec_vac in ke_va["cells"]
 
-        if ce["cell_type"] == "code"
+        if kec_vac["cell_type"] == "code"
 
-            co = join(ce["source"])
+            so = string(strip(join(kec_vac["source"])))
 
-            if isempty(strip(co))
+            if isempty(so)
 
                 continue
 
             end
 
-            ce["execution_count"] = nothing
+            kec_vac["execution_count"] = nothing
 
-            ce["outputs"] = []
+            kec_vac["outputs"] = []
 
             if ju
 
-                li_ = split(JuliaFormatter.format_text(co; ke_ar...), "\n")
+                li_ = split(format_text(so; ke_ar...), "\n")
 
-                ce["source"] = [string.(li_[1:(end - 1)], "\n"); li_[end]]
+                kec_vac["source"] = vcat(["$li\n" for li in li_[1:(end - 1)]], li_[end])
 
             end
 
-            ce["metadata"] = Dict()
+            kec_vac["metadata"] = Dict()
 
         end
 
-        push!(ce_, ce)
+        push!(kec_vac_, kec_vac)
 
     end
 
-    nb["cells"] = ce_
+    ke_va["cells"] = kec_vac_
 
-    nb = OnePiece.dict.sort_recursively!(nb)
-
-    OnePiece.dict.write(pa, nb, id = 1)
+    OnePiece.Dict.write(nb, ke_va, 1)
 
 end
 
 """
-Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s (`.ipynb`)
+Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`) 🧹
 
 # Arguments
 
@@ -77,9 +73,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 """
 @main function clean(pa_...)
 
-    to = joinpath(homedir(), ".JuliaFormatter.toml")
-
-    ke_ar = OnePiece.dict.symbolize(OnePiece.dict.read(to))
+    ke_ar = OnePiece.Dict.symbolize(OnePiece.Dict.read(joinpath(@__DIR__, "JuliaFormatter.toml")))
 
     for pa in pa_
 
@@ -87,7 +81,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter notebook`s 
 
         if ex == ".jl"
 
-            JuliaFormatter.format_file(pa; verbose = true, ke_ar...)
+            format_file(pa; verbose = true, ke_ar...)
 
         elseif ex == ".ipynb"
 
