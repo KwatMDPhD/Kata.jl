@@ -69,13 +69,13 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s 
 
 # Arguments
 
-  - `pa_`: `.jl` or `.ipynb` paths
+  - `paths`: `.jl` or `.ipynb` paths
 """
-@main function clean(pa_...)
+@main function clean(paths...)
 
     ke_ar = OnePiece.Dict.symbolize(OnePiece.Dict.read(joinpath(@__DIR__, "JuliaFormatter.toml")))
 
-    for pa in pa_
+    for pa in paths
 
         ex = splitext(pa)[2]
 
