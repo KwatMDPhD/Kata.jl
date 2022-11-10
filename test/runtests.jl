@@ -1,19 +1,31 @@
 using Clean
 
-function copy_for_clean(na)
+function copy_for_cleaning(fi)
 
-    di = joinpath(@__DIR__, na)
+    di = joinpath(@__DIR__, "dirty.jl_")
 
-    cp(di, replace(di, "dirty" => "clean")[1:(end - 1)], force = true)
+    di, cp(di, di[1:(end - 1)], force = true)
 
 end
 
-jl = copy_for_clean("dirty.jl_")
+jl = copy_for_cleaning("dirty.jl_")[2]
 
 Clean.clean(jl)
 
-nb = copy_for_clean("dirty.ipynb_")
+nb = copy_for_cleaning("dirty.ipynb_")[2]
 
 Clean.clean(nb)
 
 Clean.clean(jl, nb)
+
+di, nb = copy_for_cleaning("Untitled.jl_")
+
+Clean.clean(nb)
+
+try
+
+    run(`diff $di $nb`)
+
+catch
+
+end
