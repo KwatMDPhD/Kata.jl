@@ -30,9 +30,9 @@ julia --project --eval "using Pkg; Pkg.instantiate()" &&
 julia --project deps/build.jl
 ```
 
-:point_up: commands install `clean-jl` into `~/.julia/bin`.
+☝️ commands install `clean-jl` into `~/.julia/bin`.
 
-If not already, add the `bin` to the path by adding :point_down: to the profile (`~/.zshrc`, `~/.rc`, ...)
+If not already, add the `bin` to the path by adding 👇 to the profile (`~/.zshrc`, `~/.rc`, ...)
 
 ```bash
 PATH=~/.julia/bin:$PATH
@@ -46,7 +46,7 @@ Test installation
 clean-jl --version
 ```
 
-:tada:
+🎉
 
 ---
 
