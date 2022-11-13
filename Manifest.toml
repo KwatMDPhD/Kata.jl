@@ -151,9 +151,9 @@ version = "1.13.0"
 
 [[deps.DataFrames]]
 deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Random", "Reexport", "SnoopPrecompile", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
-git-tree-sha1 = "5b93f1b47eec9b7194814e40542752418546679f"
+git-tree-sha1 = "0f44494fe4271cc966ac4fea524111bef63ba86c"
 uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.4.2"
+version = "1.4.3"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -382,9 +382,9 @@ version = "0.21.3"
 
 [[deps.JSON3]]
 deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
-git-tree-sha1 = "65edf3850efb9cb4ca3b0bf488e29c6c38a23d2d"
+git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-version = "1.11.1"
+version = "1.12.0"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Glob", "Pkg", "Tokenize"]
@@ -532,7 +532,7 @@ version = "1.12.8"
 deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GZip", "Graphs", "IJulia", "InteractiveUtils", "JSON", "JSON3", "KernelDensity", "LinearAlgebra", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Printf", "Random", "StatsBase", "TOML", "XLSX"]
 path = "/Users/kwat/craft/OnePiece.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
-version = "2022.11.9"
+version = "2022.11.13"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
