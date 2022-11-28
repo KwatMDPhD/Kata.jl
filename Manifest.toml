@@ -87,10 +87,10 @@ uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
 version = "0.7.0"
 
 [[deps.ColorSchemes]]
-deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
-git-tree-sha1 = "1fd869cc3875b57347f7027521f561cf46d1fcd8"
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random", "SnoopPrecompile"]
+git-tree-sha1 = "aa3edc8f8dea6cbfa176ee12f7c2fc82f0608ed3"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.19.0"
+version = "3.20.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
