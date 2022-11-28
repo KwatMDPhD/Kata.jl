@@ -40,9 +40,7 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.BioinformaticsCore]]
 deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "DefaultApplication", "Distances", "Distributions", "GZip", "Graphs", "IJulia", "InteractiveUtils", "JSON", "JSON3", "KernelDensity", "LinearAlgebra", "Mmap", "NMF", "NetworkLayout", "OrderedCollections", "Printf", "Random", "StatsBase", "TOML", "XLSX"]
-git-tree-sha1 = "d33395e29f8863c2d8ec534848229f9462965891"
-repo-rev = "main"
-repo-url = "../../BioinformaticsCore.jl"
+path = "/Users/kwat/craft/BioinformaticsCore.jl"
 uuid = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 version = "0.11.22"
 
