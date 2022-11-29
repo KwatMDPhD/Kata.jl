@@ -4,13 +4,13 @@ using Comonicon: @main
 
 using JuliaFormatter: format_file, format_text
 
-using BioinformaticsCore
+using BioLab
 
 function _clean_nb(nb; ke_ar...)
 
     println("🧹 $nb")
 
-    ke_va = BioinformaticsCore.Dict.read(nb)
+    ke_va = BioLab.Dict.read(nb)
 
     kem_vam = ke_va["metadata"]
 
@@ -60,7 +60,7 @@ function _clean_nb(nb; ke_ar...)
 
     ke_va["cells"] = kec_vac_
 
-    BioinformaticsCore.Dict.write(nb, ke_va, 1)
+    BioLab.Dict.write(nb, ke_va, 1)
 
 end
 
@@ -73,9 +73,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s 
 """
 @main function clean(paths...)
 
-    ke_ar = BioinformaticsCore.Dict.symbolize(
-        BioinformaticsCore.Dict.read(joinpath(@__DIR__, "JuliaFormatter.toml")),
-    )
+    ke_ar = BioLab.Dict.symbolize(BioLab.Dict.read(joinpath(@__DIR__, "JuliaFormatter.toml")))
 
     for pa in paths
 

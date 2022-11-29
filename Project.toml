@@ -4,6 +4,6 @@ authors = ["KwatMDPhD <kwat.me@icloud.com>"]
 version = "0.11.22"
 
 [deps]
-BioinformaticsCore = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
+BioLab = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
