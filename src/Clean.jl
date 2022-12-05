@@ -8,8 +8,6 @@ using BioLab
 
 function _clean_nb(nb; ke_ar...)
 
-    println("🧹 $nb")
-
     ke_va = BioLab.Dict.read(nb)
 
     kem_vam = ke_va["metadata"]
@@ -77,11 +75,13 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s 
 
     for pa in paths
 
+        println("🧹 $pa")
+
         ex = splitext(pa)[2]
 
         if ex == ".jl"
 
-            format_file(pa; verbose = true, ke_ar...)
+            format_file(pa; ke_ar...)
 
         elseif ex == ".ipynb"
 

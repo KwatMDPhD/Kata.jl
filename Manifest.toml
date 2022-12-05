@@ -117,10 +117,10 @@ uuid = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
 version = "0.8.7"
 
 [[deps.Comonicon]]
-deps = ["Configurations", "ExproniconLite", "Libdl", "Logging", "Markdown", "PackageCompiler", "Pkg", "Scratch", "TOML", "UUIDs"]
-git-tree-sha1 = "a414f42985134c5e9d59e1c4a63d7b16cd05fd15"
+deps = ["Configurations", "ExproniconLite", "Libdl", "Logging", "Markdown", "OrderedCollections", "PackageCompiler", "Pkg", "Scratch", "TOML", "UUIDs"]
+git-tree-sha1 = "d3377c174807b24003bf1192deae9cba85ca6c12"
 uuid = "863f3e99-da2a-4334-8734-de3dacbe5542"
-version = "1.0.0"
+version = "1.0.1"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
@@ -228,9 +228,9 @@ uuid = "5ae413db-bbd1-5e63-b57d-d24a61df00f5"
 version = "2.2.4+0"
 
 [[deps.ExproniconLite]]
-git-tree-sha1 = "2321c9c5a07c2658484dacf8e68e3cd8e2470d5d"
+git-tree-sha1 = "95fbda3293151902082868fcd6c75d888614ee1c"
 uuid = "55351af7-c7e9-48d6-89ff-24e801d99491"
-version = "0.7.6"
+version = "0.7.7"
 
 [[deps.Extents]]
 git-tree-sha1 = "5e1e4c53fa39afe63a7d356e30452249365fba99"
