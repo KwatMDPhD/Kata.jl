@@ -2,15 +2,15 @@ using BioLab
 
 using Clean
 
-function copy_for_cleaning(fi)
+function copy_for_cleaning(di)
 
-    di = joinpath(@__DIR__, fi)
+    di = joinpath(@__DIR__, di)
 
-    di, cp(di, di[1:(end - 1)]; force = true)
+    return di, cp(di, di[1:(end - 1)]; force = true)
 
 end
 
-function _diff(di, fi)
+function diff(di, fi)
 
     try
 
@@ -20,32 +20,20 @@ function _diff(di, fi)
 
     end
 
+    return nothing
+
 end
 
-BioLab.String.print_header()
+for di in ("dirty.jl_", "dirty.ipynb_", "Untitled.ipynb_")
 
-di, jl = copy_for_cleaning("dirty.jl_")
+    BioLab.String.print_header(di)
 
-Clean.clean(jl)
+    di, co = copy_for_cleaning(di)
 
-_diff(di, jl)
+    Clean.clean(co)
 
-BioLab.String.print_header()
+    # @code_warntype Clean.clean(co)
 
-di, nb = copy_for_cleaning("dirty.ipynb_")
+    diff(di, co)
 
-Clean.clean(nb)
-
-_diff(di, nb)
-
-BioLab.String.print_header()
-
-Clean.clean(jl, nb)
-
-BioLab.String.print_header()
-
-di, nb = copy_for_cleaning("Untitled.ipynb_")
-
-Clean.clean(nb)
-
-_diff(di, nb)
+end
