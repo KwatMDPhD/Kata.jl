@@ -60,6 +60,8 @@ function _clean_nb(nb; ke_ar...)
 
     BioLab.Dict.write(nb, ke_va; id = 1)
 
+    return nothing
+
 end
 
 """
@@ -94,6 +96,8 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s 
         end
 
     end
+
+    return nothing
 
 end
 
