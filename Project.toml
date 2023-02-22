@@ -1,7 +1,7 @@
 name = "Clean"
 uuid = "97d5dc1c-c3ff-49b4-afa4-40dd4561e8e1"
 authors = ["KwatMDPhD <kwat.me@icloud.com>"]
-version = "0.12.0"
+version = "0.13.0-rc"
 
 [deps]
 BioLab = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
