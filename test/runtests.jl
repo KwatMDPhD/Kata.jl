@@ -26,7 +26,7 @@ end
 
 for di in ("dirty.jl_", "dirty.ipynb_", "Untitled.ipynb_")
 
-    BioLab.String.print_header(di)
+    BioLab.print_header(di)
 
     di, co = copy_for_cleaning(di)
 
