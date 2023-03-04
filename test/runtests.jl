@@ -4,6 +4,8 @@ using BioLab
 
 using Clean
 
+# ----------------------------------------------------------------------------------------------- #
+
 function copy_for_cleaning(di)
 
     di = joinpath(@__DIR__, di)
@@ -11,6 +13,8 @@ function copy_for_cleaning(di)
     return di, cp(di, di[1:(end - 1)]; force = true)
 
 end
+
+# ----------------------------------------------------------------------------------------------- #
 
 function diff(di, fi)
 
@@ -25,6 +29,8 @@ function diff(di, fi)
     return nothing
 
 end
+
+# ----------------------------------------------------------------------------------------------- #
 
 for di in ("dirty.jl_", "dirty.ipynb_", "Untitled.ipynb_")
 
