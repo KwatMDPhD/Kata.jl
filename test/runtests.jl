@@ -6,21 +6,21 @@ using Clean
 
 # ----------------------------------------------------------------------------------------------- #
 
-function copy_for_cleaning(di)
+function copy_for_cleaning(na)
 
-    di = joinpath(@__DIR__, di)
+    pa = joinpath(@__DIR__, na)
 
-    return di, cp(di, di[1:(end - 1)]; force = true)
+    return pa, cp(pa, pa[1:(end - 1)]; force = true)
 
 end
 
 # ----------------------------------------------------------------------------------------------- #
 
-function diff(di, fi)
+function diff(pa1, pa2)
 
     try
 
-        run(`diff $di $fi`)
+        run(`diff $pa1 $pa2`)
 
     catch
 
@@ -32,11 +32,11 @@ end
 
 # ----------------------------------------------------------------------------------------------- #
 
-for di in ("dirty.jl_", "dirty.ipynb_", "Untitled.ipynb_")
+for na in ("dirty.jl_", "dirty.ipynb_", "Untitled.ipynb_")
 
-    BioLab.print_header(di)
+    BioLab.print_header(na)
 
-    di, co = copy_for_cleaning(di)
+    di, co = copy_for_cleaning(na)
 
     Clean.clean(co)
 
