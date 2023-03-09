@@ -65,7 +65,7 @@ function _clean_nb(nb; ke_ar...)
 end
 
 """
-Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`) 🧹
+🧼 Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`).
 
 # Arguments
 
@@ -77,7 +77,7 @@ Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s 
 
     for pa in paths
 
-        println("🧹 $pa")
+        println("🧼 $pa")
 
         ex = splitext(pa)[2]
 

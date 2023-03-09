@@ -1,4 +1,4 @@
-Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`) 🧹
+🧼 Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`).
 
 ## Use
 
