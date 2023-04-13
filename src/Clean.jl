@@ -66,6 +66,7 @@ end
 
 """
 🧼 Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`).
+📍 Learn more at https://github.com/KwatMDPhD/Clean.jl.
 
 # Arguments
 
