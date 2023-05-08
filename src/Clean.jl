@@ -65,8 +65,7 @@ function _clean_nb(nb; ke_ar...)
 end
 
 """
-🧼 Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`).
-📍 Learn more at https://github.com/KwatMDPhD/Clean.jl.
+🧼 Command-line program for cleaning `Julia` files (`.jl`) and `Jupyter Notebook`s (`.ipynb`). 📍 Learn more at https://github.com/KwatMDPhD/Clean.jl.
 
 # Arguments
 
