@@ -4,4 +4,5 @@ authors = ["KwatMDPhD <kwat.me@icloud.com>"]
 version = "0.1.0"
 
 [deps]
+BioLab = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
