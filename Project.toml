@@ -1,10 +1,7 @@
-name = "Clean"
-uuid = "97d5dc1c-c3ff-49b4-afa4-40dd4561e8e1"
+name = "ToDo"
+uuid = "d0c6242d-1983-4f64-b39a-8391b5335ece"
 authors = ["KwatMDPhD <kwat.me@icloud.com>"]
-version = "0.14.1"
+version = "0.1.0"
 
 [deps]
-BioLab = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
-Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
-JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
