@@ -1,8 +1,16 @@
-name = "ToDo"
-uuid = "d0c6242d-1983-4f64-b39a-8391b5335ece"
-authors = ["KwatMDPhD <kwat.me@icloud.com>"]
+name = "Clean"
+uuid = "670fe179-e228-4258-8c7a-0312120d877b"
+authors = ["KwatMDPhD <kwat.me.com>"]
 version = "0.1.0"
 
 [deps]
-BioLab = "1fe83854-81c0-42f7-afc9-71ba9af673ca"
+
+[compat]
+julia = "1.9"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "Test"]
