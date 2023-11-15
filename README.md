@@ -1,4 +1,4 @@
-Command-line program for cleaning 🍱
+Command-line program for cleaning 🛀
 
 ---
 
