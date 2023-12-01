@@ -1,14 +1,11 @@
 name = "Clean"
 uuid = "670fe179-e228-4258-8c7a-0312120d877b"
 authors = ["KwatMDPhD <kwat.me.com>"]
-version = "0.1.6"
+version = "0.1.7"
+
+[deps]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Test = "1"
 julia = "1.9"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
