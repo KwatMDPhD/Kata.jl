@@ -1,12 +1,13 @@
 name = "Clean"
-uuid = "670fe179-e228-4258-8c7a-0312120d877b"
+uuid = "57f2114b-51e0-4722-aa43-4efc6f825c97"
 authors = ["KwatMDPhD"]
-version = "0.1.0"
+version = "1.0.0-DEV"
 
 [deps]
 
 [extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Aqua", "Test"]

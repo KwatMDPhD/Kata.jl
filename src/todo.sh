@@ -103,3 +103,25 @@ function rename-with-date() {
 	fi
 
 }
+
+function clean-name() {
+
+	rename --sanitize --lower-case --expr "s/-/_/g" --force $1
+
+}
+
+function recursively-chmod() {
+
+    ig="-not -path \"*/.git/*\" -not -path \"*/node_modules/*\" -not -path \"*/.svelte-kit/*\""
+
+    find . -type f $(echo $ig) -print0 | xargs -0 chmod 644 &&
+
+	find . -type d $(echo $ig) -print0 | xargs -0 chmod 755
+
+}
+
+function recursively-sed() {
+
+	rg --no-ignore --files-with-matches $1 | xargs sed -i "" "s/$1/$2/g"
+
+}

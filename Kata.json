@@ -1,8 +1,0 @@
-{
-  "download": {},
-  "call": {
-    "update": "julia --project --eval 'using Pkg; Pkg.update()'",
-    "check": "julia --project --eval 'using Aqua: test_all, test_ambiguities; using Clean; test_all(Clean; ambiguities = false, deps_compat = false); test_ambiguities(Clean)'",
-    "run": "julia --project --eval 'using Pkg; Pkg.test()'"
-  }
-}
