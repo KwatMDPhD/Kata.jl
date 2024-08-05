@@ -250,7 +250,7 @@ Reset a package based on the template.
 end
 
 """
-Command-line program for organizing.
+Command-line program for organizing file systems 🗄️
 """
 @main
 

@@ -1,5 +1,7 @@
 Command-line program for organizing file systems 🗄️
 
+![Help](media/help.png)
+
 ## Install
 
 #### 1. Download
