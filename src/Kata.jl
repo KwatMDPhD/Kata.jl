@@ -10,13 +10,13 @@ const _TE = pkgdir(Kata, "NAME.jl")
 
 function _strip(st)
 
-    return Base.replace(st, r" +" => ' ')
+    Base.replace(st, r" +" => ' ')
 
 end
 
 function _title(st)
 
-    return _strip(Base.replace(
+    _strip(Base.replace(
         join(if isuppercase(c1)
             c1
         else
@@ -61,7 +61,37 @@ end
 
 function _lower(st)
 
-    return _strip(lowercase(Base.replace(st, r"[^._0-9A-Za-z]" => '_')))
+    _strip(lowercase(Base.replace(st, r"[^._0-9A-Za-z]" => '_')))
+
+end
+
+function _is_skip(pa)
+
+    any(sk -> occursin(sk, pa), (".git", ".key"))
+
+end
+
+function _move(ro, n1, n2, li)
+
+    @info "$n1 --> $n2."
+
+    if li
+
+        p1 = joinpath(ro, n1)
+
+        p2 = joinpath(ro, n2)
+
+        mv(if lowercase(n1) == lowercase(n2)
+
+            mv(p1, "$(p2)_")
+
+        else
+
+            p1
+
+        end, p2)
+
+    end
 
 end
 
@@ -92,11 +122,9 @@ Style file and directory names.
 
     end
 
-    sk_ = ".git", ".key"
-
     for (ro, di_, fi_) in walkdir(pwd())
 
-        if any(sk -> occursin(sk, ro), sk_)
+        if _is_skip(ro)
 
             continue
 
@@ -122,23 +150,42 @@ Style file and directory names.
 
             if fi != f2
 
-                @info "$fi --> $f2."
+                _move(ro, fi, f2, live)
 
-                if live
+            end
 
-                    pa = joinpath(ro, fi)
+        end
 
-                    p2 = joinpath(ro, f2)
+    end
 
-                    mv(if lowercase(fi) == lowercase(f2)
+end
 
-                        mv(pa, "$(p2)_")
+"""
+Date file names with a prefix.
 
-                    else
+# Flags
 
-                        pa
+  - `--live`:
+"""
+@cast function date(; live::Bool = false)
 
-                    end, p2)
+    for (ro, di_, fi_) in walkdir(pwd())
+
+        if _is_skip(ro)
+
+            continue
+
+        end
+
+        for fi in fi_
+
+            if !contains(fi, r"\d{4} \d{2} \d{2}( |\.)")
+
+                f2 = Base.replace(fi, r"\.(?=\d)" => ' ')
+
+                if fi != f2
+
+                    _move(ro, fi, f2, live)
 
                 end
 
@@ -162,8 +209,6 @@ Rename file and directory names.
 
     run(pipeline(`find . -print0`, `xargs -0 rename --subst-all $before $after`))
 
-    return nothing
-
 end
 
 """
@@ -181,8 +226,6 @@ Replace file contents.
         `xargs sed -i "" "s/$before/$after/g"`,
     ))
 
-    return nothing
-
 end
 
 """
@@ -195,8 +238,6 @@ Format .(json|yaml|md|html|css|scss|js|jsx|ts|tsx).
         `xargs -0 prettier --write`,
     ))
 
-    return nothing
-
 end
 
 """
@@ -206,13 +247,11 @@ Format .jl.
 
     format(".")
 
-    return nothing
-
 end
 
 function _plan_replacement(na)
 
-    return "NAME" => na[1:(end - 3)],
+    "NAME" => na[1:(end - 3)],
     "e8386f20-3e60-497e-8358-52c6451f91c7" => string(uuid4()),
     "AUTHOR" => readchomp(`git config user.name`)
 
@@ -241,7 +280,7 @@ Make a new package from the template.
 
     end
 
-    return cd(wo)
+    cd(wo)
 
 end
 
@@ -304,9 +343,9 @@ Reset a package based on the template.
 
         if r1_ != r2_
 
-            @info "Transplanting $p2"
-
             write(p2, join(r1_, de))
+
+            @info "Transplanted $p2."
 
         end
 
@@ -315,7 +354,7 @@ Reset a package based on the template.
 end
 
 """
-Command-line program for organizing file systems 🗄️
+Command-line program for organizing the file system 🗄️✨
 """
 @main
 
