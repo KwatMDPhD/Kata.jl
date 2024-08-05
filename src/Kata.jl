@@ -53,7 +53,7 @@ Style file and directory names.
 
             end
 
-            f2 = "$pr$ex"
+            f2 = "$(fu(pr))$ex"
 
             if fi != f2
 
