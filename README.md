@@ -1,4 +1,4 @@
-Command-line program for organizing file systems 🗄️
+Command-line program for organizing file systems 🗄️✨
 
 ![Help](media/help.png)
 
