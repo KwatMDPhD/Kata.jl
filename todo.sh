@@ -1,7 +1,5 @@
 function date() {
 
-	bal=$(echo $ba | awk '{print tolower($0)}')
-
 	if [[ $bal =~ \\.(jpeg|jpg)$ ]]
 
 	then

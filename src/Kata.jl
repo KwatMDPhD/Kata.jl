@@ -191,6 +191,18 @@ Date file names with a prefix.
 
             end
 
+            ex = splitext(fi)
+
+            if ex == ".jpg"
+
+            elseif ex == ".heic"
+
+            elseif ex == ".mov"
+
+            elseif ex == ".mp4"
+
+            end
+
         end
 
     end
