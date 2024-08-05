@@ -8,61 +8,60 @@ using UUIDs: uuid4
 
 const _TE = pkgdir(Kata, "NAME.jl")
 
+function _strip(st)
+
+    return Base.replace(st, r" +" => ' ')
+
+end
+
 function _title(st)
 
-    ti = ""
+    return _strip(Base.replace(
+        join(if isuppercase(c1)
+            c1
+        else
+            c2
+        end for (c1, c2) in zip(st, titlecase(Base.replace(st, '_' => ' ')))),
+        r"'m"i => "'m",
+        r"'re"i => "'re",
+        r"'s"i => "'s",
+        r"'ve"i => "'ve",
+        r"'d"i => "'d",
+        r"1st"i => "1st",
+        r"2nd"i => "2nd",
+        r"3rd"i => "3rd",
+        r"(?<=\d)th"i => "th",
+        r" a "i => " a ",
+        r" an "i => " an ",
+        r" the "i => " the ",
+        r" and "i => " and ",
+        r" but "i => " but ",
+        r" or "i => " or ",
+        r" nor "i => " nor ",
+        r" at "i => " at ",
+        r" by "i => " by ",
+        r" for "i => " for ",
+        r" from "i => " from ",
+        r" in "i => " in ",
+        r" into "i => " into ",
+        r" of "i => " of ",
+        r" off "i => " off ",
+        r" on "i => " on ",
+        r" onto "i => " onto ",
+        r" out "i => " out ",
+        r" over "i => " over ",
+        r" to "i => " to ",
+        r" up "i => " up ",
+        r" with "i => " with ",
+        r" as "i => " as ",
+        r" vs "i => " vs ",
+    ))
 
-    st = strip(st)
+end
 
-    for (id, ch) in enumerate(titlecase(Base.replace(st, '_' => ' ')))
+function _lower(st)
 
-        if isuppercase(st[id])
-
-            ch = uppercase(ch)
-
-        end
-
-        ti *= ch
-
-    end
-
-    for lo in (
-        "'m ",
-        "'re ",
-        "'s ",
-        "'ve ",
-        "'d ",
-        " a ",
-        " st ",
-        " the ",
-        " and ",
-        " but ",
-        " or ",
-        " nor ",
-        " at ",
-        " by ",
-        " for ",
-        " from ",
-        " in ",
-        " into ",
-        " of ",
-        " off ",
-        " on ",
-        " onto ",
-        " out ",
-        " over ",
-        " to ",
-        " up ",
-        " with ",
-        " as ",
-        " vs ",
-    )
-
-        ti = Base.replace(ti, titlecase(lo) => lo)
-
-    end
-
-    return ti
+    return _strip(lowercase(Base.replace(st, r"[^._0-9A-Za-z]" => '_')))
 
 end
 
@@ -85,7 +84,7 @@ Style file and directory names.
 
     elseif how == "code"
 
-        pr -> lowercase(Base.replace(pr, r"[^._0-9A-Za-z]" => '_'))
+        _lower
 
     else
 
@@ -119,7 +118,7 @@ Style file and directory names.
 
             end
 
-            f2 = "$(Base.replace(fu(pr), r" +" => ' '))$ex"
+            f2 = "$(fu(pr))$ex"
 
             if fi != f2
 
