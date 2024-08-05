@@ -195,11 +195,21 @@ Date file names with a prefix.
 
             if ex == ".jpg"
 
+                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
+
             elseif ex == ".heic"
+
+                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
 
             elseif ex == ".mov"
 
+                #`exiftool -CreationDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
+
             elseif ex == ".mp4"
+
+                #`exiftool -CreationDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
+
+                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
 
             end
 
