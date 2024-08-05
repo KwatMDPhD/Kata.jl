@@ -35,7 +35,15 @@ Style file and directory names.
 
     end
 
+    sk_ = ".git", ".key"
+
     for (ro, di_, fi_) in walkdir(pwd())
+
+        if any(sk -> occursin(sk, ro), sk_)
+
+            continue
+
+        end
 
         for fi in fi_
 
@@ -53,7 +61,7 @@ Style file and directory names.
 
             end
 
-            f2 = "$(fu(pr))$ex"
+            f2 = "$(Base.replace(fu(pr), r" +" => ' '))$ex"
 
             if fi != f2
 
