@@ -8,6 +8,64 @@ using UUIDs: uuid4
 
 const _TE = pkgdir(Kata, "NAME.jl")
 
+function _title(st)
+
+    ti = ""
+
+    st = strip(st)
+
+    for (id, ch) in enumerate(titlecase(Base.replace(st, '_' => ' ')))
+
+        if isuppercase(st[id])
+
+            ch = uppercase(ch)
+
+        end
+
+        ti *= ch
+
+    end
+
+    for lo in (
+        "'m ",
+        "'re ",
+        "'s ",
+        "'ve ",
+        "'d ",
+        " a ",
+        " st ",
+        " the ",
+        " and ",
+        " but ",
+        " or ",
+        " nor ",
+        " at ",
+        " by ",
+        " for ",
+        " from ",
+        " in ",
+        " into ",
+        " of ",
+        " off ",
+        " on ",
+        " onto ",
+        " out ",
+        " over ",
+        " to ",
+        " up ",
+        " with ",
+        " as ",
+        " vs ",
+    )
+
+        ti = Base.replace(ti, titlecase(lo) => lo)
+
+    end
+
+    return ti
+
+end
+
 """
 Style file and directory names.
 
@@ -23,7 +81,7 @@ Style file and directory names.
 
     fu = if how == "human"
 
-        pr -> titlecase(Base.replace(pr, '_' => ' '))
+        _title
 
     elseif how == "code"
 
