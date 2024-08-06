@@ -6,68 +6,9 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
+using LeMoString
+
 const _TE = pkgdir(Kata, "NAME.jl")
-
-function _strip(st)
-
-    Base.replace(st, r" +" => ' ')
-
-end
-
-function _title(st)
-
-    _strip(join(if isuppercase(c1)
-        c1
-    else
-        c2
-    end for (c1, c2) in zip(
-        st,
-        Base.replace(
-            titlecase(st),
-            '_' => ' ',
-            r"'m"i => "'m",
-            r"'re"i => "'re",
-            r"'s"i => "'s",
-            r"'ve"i => "'ve",
-            r"'d"i => "'d",
-            r"1st"i => "1st",
-            r"2nd"i => "2nd",
-            r"3rd"i => "3rd",
-            r"(?<=\d)th"i => "th",
-            r"(?<= )a(?= )"i => "a",
-            r"(?<= )an(?= )"i => "an",
-            r"(?<= )the(?= )"i => "the",
-            r"(?<= )and(?= )"i => "and",
-            r"(?<= )but(?= )"i => "but",
-            r"(?<= )or(?= )"i => "or",
-            r"(?<= )nor(?= )"i => "nor",
-            r"(?<= )at(?= )"i => "at",
-            r"(?<= )by(?= )"i => "by",
-            r"(?<= )for(?= )"i => "for",
-            r"(?<= )from(?= )"i => "from",
-            r"(?<= )in(?= )"i => "in",
-            r"(?<= )into(?= )"i => "into",
-            r"(?<= )of(?= )"i => "of",
-            r"(?<= )off(?= )"i => "off",
-            r"(?<= )on(?= )"i => "on",
-            r"(?<= )onto(?= )"i => "onto",
-            r"(?<= )out(?= )"i => "out",
-            r"(?<= )over(?= )"i => "over",
-            r"(?<= )to(?= )"i => "to",
-            r"(?<= )up(?= )"i => "up",
-            r"(?<= )with(?= )"i => "with",
-            r"(?<= )as(?= )"i => "as",
-            r"(?<= )vs(?= )"i => "vs",
-        ),
-    )))
-
-end
-
-function _lower(st)
-
-    _strip(lowercase(Base.replace(st, r"[^._0-9A-Za-z]" => '_')))
-
-end
 
 function _is_skip(pa)
 
@@ -79,13 +20,13 @@ function _move(ro, n1, n2, li)
 
     ba = basename(ro)
 
-    p1 = joinpath(ro, n1)
-
-    p2 = joinpath(ro, n2)
-
     @info "$n1 --> $n2."
 
     if li
+
+        p1 = joinpath(ro, n1)
+
+        p2 = joinpath(ro, n2)
 
         mv(if lowercase(n1) == lowercase(n2)
 
@@ -116,11 +57,11 @@ Style file and directory names.
 
     fu = if how == "human"
 
-        _title
+        LeMoString.title
 
     elseif how == "code"
 
-        _lower
+        LeMoString.lower
 
     else
 
@@ -185,37 +126,41 @@ Date file names with a prefix.
 
         for fi in fi_
 
-            if !contains(fi, r"\d{4} \d{2} \d{2}( |\.)")
+            pr, ex = splitext(fi)
 
-                f2 = Base.replace(fi, r"\.(?=\d)" => ' ')
+            if ex == ".jpg" || ex == ".heic" || ex == ".mov" || ex == ".mp4"
 
-                if fi != f2
+                for ar in ("-CreationDate", "-CreateDate")
 
-                    _move(ro, fi, f2, live)
+                    ei = chomp(read(`exiftool $ar $(joinpath(ro, fi))`, String))
+
+                    if !isempty(ei)
+
+                        da = Base.replace(
+                            split(split(ei, ": "; limit = 2)[2], '-'; limit = 2)[1],
+                            ':' => ' ',
+                        )
+
+                        if all(
+                            ch -> (isnumeric(ch) || ch == ' ' || ch == '_' || ch == '-'),
+                            pr,
+                        )
+
+                            f2 = "$da$ex"
+
+                            if fi != f2
+
+                                _move(ro, fi, f2, live)
+
+                            end
+
+                        end
+
+                        break
+
+                    end
 
                 end
-
-            end
-
-            ex = splitext(fi)
-
-            if ex == ".jpg"
-
-                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
-
-            elseif ex == ".heic"
-
-                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
-
-            elseif ex == ".mov"
-
-                #`exiftool -CreationDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
-
-            elseif ex == ".mp4"
-
-                #`exiftool -CreationDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
-
-                #`exiftool -CreateDate $1 | awk '/ Date/{print $4"_"$5}' | sed "s/:/./g"`
 
             end
 

@@ -1,11 +1,12 @@
 name = "Kata"
 uuid = "f31b65f3-1827-4085-acd2-3666a98a32d9"
 authors = ["KwatMDPhD"]
-version = "0.4.1"
+version = "0.4.2"
 
 [deps]
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+LeMoString = "2cac7ef4-7cbf-4cf8-826b-1ca409d5b139"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [extras]
