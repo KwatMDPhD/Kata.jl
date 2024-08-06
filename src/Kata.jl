@@ -16,46 +16,50 @@ end
 
 function _title(st)
 
-    _strip(Base.replace(
-        join(if isuppercase(c1)
-            c1
-        else
-            c2
-        end for (c1, c2) in zip(st, titlecase(Base.replace(st, '_' => ' ')))),
-        r"'m"i => "'m",
-        r"'re"i => "'re",
-        r"'s"i => "'s",
-        r"'ve"i => "'ve",
-        r"'d"i => "'d",
-        r"1st"i => "1st",
-        r"2nd"i => "2nd",
-        r"3rd"i => "3rd",
-        r"(?<=\d)th"i => "th",
-        r" a "i => " a ",
-        r" an "i => " an ",
-        r" the "i => " the ",
-        r" and "i => " and ",
-        r" but "i => " but ",
-        r" or "i => " or ",
-        r" nor "i => " nor ",
-        r" at "i => " at ",
-        r" by "i => " by ",
-        r" for "i => " for ",
-        r" from "i => " from ",
-        r" in "i => " in ",
-        r" into "i => " into ",
-        r" of "i => " of ",
-        r" off "i => " off ",
-        r" on "i => " on ",
-        r" onto "i => " onto ",
-        r" out "i => " out ",
-        r" over "i => " over ",
-        r" to "i => " to ",
-        r" up "i => " up ",
-        r" with "i => " with ",
-        r" as "i => " as ",
-        r" vs "i => " vs ",
-    ))
+    _strip(join(if isuppercase(c1)
+        c1
+    else
+        c2
+    end for (c1, c2) in zip(
+        st,
+        Base.replace(
+            titlecase(st),
+            '_' => ' ',
+            r"'m"i => "'m",
+            r"'re"i => "'re",
+            r"'s"i => "'s",
+            r"'ve"i => "'ve",
+            r"'d"i => "'d",
+            r"1st"i => "1st",
+            r"2nd"i => "2nd",
+            r"3rd"i => "3rd",
+            r"(?<=\d)th"i => "th",
+            r"(?<= )a(?= )"i => "a",
+            r"(?<= )an(?= )"i => "an",
+            r"(?<= )the(?= )"i => "the",
+            r"(?<= )and(?= )"i => "and",
+            r"(?<= )but(?= )"i => "but",
+            r"(?<= )or(?= )"i => "or",
+            r"(?<= )nor(?= )"i => "nor",
+            r"(?<= )at(?= )"i => "at",
+            r"(?<= )by(?= )"i => "by",
+            r"(?<= )for(?= )"i => "for",
+            r"(?<= )from(?= )"i => "from",
+            r"(?<= )in(?= )"i => "in",
+            r"(?<= )into(?= )"i => "into",
+            r"(?<= )of(?= )"i => "of",
+            r"(?<= )off(?= )"i => "off",
+            r"(?<= )on(?= )"i => "on",
+            r"(?<= )onto(?= )"i => "onto",
+            r"(?<= )out(?= )"i => "out",
+            r"(?<= )over(?= )"i => "over",
+            r"(?<= )to(?= )"i => "to",
+            r"(?<= )up(?= )"i => "up",
+            r"(?<= )with(?= )"i => "with",
+            r"(?<= )as(?= )"i => "as",
+            r"(?<= )vs(?= )"i => "vs",
+        ),
+    )))
 
 end
 
@@ -67,19 +71,21 @@ end
 
 function _is_skip(pa)
 
-    any(sk -> occursin(sk, pa), (".git", ".key"))
+    any(sk -> occursin(sk, pa), (".git", ".key", ".numbers"))
 
 end
 
 function _move(ro, n1, n2, li)
 
+    ba = basename(ro)
+
+    p1 = joinpath(ro, n1)
+
+    p2 = joinpath(ro, n2)
+
     @info "$n1 --> $n2."
 
     if li
-
-        p1 = joinpath(ro, n1)
-
-        p2 = joinpath(ro, n2)
 
         mv(if lowercase(n1) == lowercase(n2)
 
