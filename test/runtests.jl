@@ -66,9 +66,9 @@ cd(NA)
 
 # ---- #
 
-for pa in ("README.md", ".gitignore", joinpath("test", "runtests.jl"))
+for re in ("README.md", ".gitignore", joinpath("test", "runtests.jl"))
 
-    #run(`vi $(joinpath(pwd(), pa))`)
+    run(`vi $(joinpath(pwd(), re))`)
 
 end
 

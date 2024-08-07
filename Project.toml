@@ -1,7 +1,7 @@
 name = "Kata"
 uuid = "f31b65f3-1827-4085-acd2-3666a98a32d9"
 authors = ["KwatMDPhD"]
-version = "0.4.2"
+version = "0.4.3"
 
 [deps]
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"

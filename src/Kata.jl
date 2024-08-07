@@ -6,7 +6,7 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-using LeMoString
+using LeMoString: lower, title
 
 const _TE = pkgdir(Kata, "NAME.jl")
 
@@ -20,7 +20,7 @@ function _move(ro, n1, n2, li)
 
     ba = basename(ro)
 
-    @info "$n1 --> $n2."
+    @info "$n1 ➡️  $n2."
 
     if li
 
@@ -57,11 +57,11 @@ Style file and directory names.
 
     fu = if how == "human"
 
-        LeMoString.title
+        title
 
     elseif how == "code"
 
-        LeMoString.lower
+        lower
 
     else
 
@@ -107,6 +107,12 @@ Style file and directory names.
 
 end
 
+function _get_exiftool(fi, ar)
+
+    chomp(read(`exiftool $ar $fi`, String))
+
+end
+
 """
 Date file names with a prefix.
 
@@ -130,33 +136,24 @@ Date file names with a prefix.
 
             if ex == ".jpg" || ex == ".heic" || ex == ".mov" || ex == ".mp4"
 
-                for ar in ("-CreationDate", "-CreateDate")
+                pa = joinpath(ro, fi)
 
-                    ei = chomp(read(`exiftool $ar $(joinpath(ro, fi))`, String))
+                da_ = Tuple(split(da, ": "; limit = 2)[2] for da in (
+                    _get_exiftool(pa, "-CreateDate"),
+                    _get_exiftool(pa, "-CreationDate"),
+                ) if !isempty(da))
 
-                    if !isempty(ei)
+                if isempty(da_)
 
-                        da = Base.replace(
-                            split(split(ei, ": "; limit = 2)[2], '-'; limit = 2)[1],
-                            ':' => ' ',
-                        )
+                    @info "❌ $pa."
 
-                        if all(
-                            ch -> (isnumeric(ch) || ch == ' ' || ch == '_' || ch == '-'),
-                            pr,
-                        )
+                else
 
-                            f2 = "$da$ex"
+                    da = Base.replace(split(minimum(da_), '-'; limit = 2)[1], ':' => ' ')
 
-                            if fi != f2
+                    if pr != da
 
-                                _move(ro, fi, f2, live)
-
-                            end
-
-                        end
-
-                        break
+                        _move(ro, fi, "$da$ex", live)
 
                     end
 
