@@ -68,7 +68,7 @@ function _move(ro, n1, n2, li)
 end
 
 """
-Automatically name file and directories.
+Automatically name files and directories.
 
 # Arguments
 
@@ -117,7 +117,7 @@ function _get_exiftool(ar, fi)
 end
 
 """
-Date prefix file names.
+Prefix media-file names with their creation date.
 
 # Flags
 
