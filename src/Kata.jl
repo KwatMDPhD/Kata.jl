@@ -10,15 +10,48 @@ using LeMoString: lower, title
 
 const _TE = pkgdir(Kata, "NAME.jl")
 
-function _is_skip(pa)
+"""
+Remove bad files.
+"""
+@cast function remove()
 
-    any(sk -> occursin(sk, pa), (".git", ".key", ".numbers"))
+    run(`find -E . -iregex ".*ds[ _]store" -delete`)
+
+end
+
+"""
+Rename file and directories.
+
+# Arguments
+
+  - `before`:
+  - `after`:
+"""
+@cast function rename(before, after)
+
+    run(pipeline(`find . -print0`, `xargs -0 rename --subst-all $before $after`))
+
+end
+
+macro _check_skip(pa)
+
+    es = esc(pa)
+
+    quote
+
+        if any(sk -> occursin(sk, $es), (".git", ".key", ".numbers"))
+
+            @info "👋 Skipping $($es)"
+
+            continue
+
+        end
+
+    end
 
 end
 
 function _move(ro, n1, n2, li)
-
-    ba = basename(ro)
 
     @info "$n1 ➡️  $n2."
 
@@ -28,54 +61,30 @@ function _move(ro, n1, n2, li)
 
         p2 = joinpath(ro, n2)
 
-        mv(if lowercase(n1) == lowercase(n2)
-
-            mv(p1, "$(p2)_")
-
-        else
-
-            p1
-
-        end, p2)
+        mv(lowercase(n1) == lowercase(n2) ? mv(p1, "$(p2)_") : p1, p2)
 
     end
 
 end
 
 """
-Style file and directory names.
+Automatically name file and directories.
 
 # Arguments
 
-  - `how`: "human" | "code".
+  - `style`: "human" | "code".
 
 # Flags
 
   - `--live`:
 """
-@cast function style(how; live::Bool = false)
+@cast function autoname(style; live::Bool = false)
 
-    fu = if how == "human"
-
-        title
-
-    elseif how == "code"
-
-        lower
-
-    else
-
-        error("`how` is not \"human\" | \"code\".")
-
-    end
+    fu = style == "human" ? title : lower
 
     for (ro, di_, fi_) in walkdir(pwd())
 
-        if _is_skip(ro)
-
-            continue
-
-        end
+        @_check_skip ro
 
         for fi in fi_
 
@@ -83,13 +92,7 @@ Style file and directory names.
 
             if !isempty(ex)
 
-                ex = lowercase(ex)
-
-                if ex == ".jpeg"
-
-                    ex = ".jpg"
-
-                end
+                ex = Base.replace(ex, r"jpeg"i => "jpg")
 
             end
 
@@ -107,14 +110,14 @@ Style file and directory names.
 
 end
 
-function _get_exiftool(fi, ar)
+function _get_exiftool(ar, fi)
 
     chomp(read(`exiftool $ar $fi`, String))
 
 end
 
 """
-Date file names with a prefix.
+Date prefix file names.
 
 # Flags
 
@@ -124,11 +127,7 @@ Date file names with a prefix.
 
     for (ro, di_, fi_) in walkdir(pwd())
 
-        if _is_skip(ro)
-
-            continue
-
-        end
+        @_check_skip ro
 
         for fi in fi_
 
@@ -138,10 +137,12 @@ Date file names with a prefix.
 
                 pa = joinpath(ro, fi)
 
-                da_ = Tuple(split(da, ": "; limit = 2)[2] for da in (
-                    _get_exiftool(pa, "-CreateDate"),
-                    _get_exiftool(pa, "-CreationDate"),
-                ) if !isempty(da))
+                da_ = Tuple(
+                    split(da, ": "; limit = 2)[2] for da in (
+                        _get_exiftool("-CreateDate", pa),
+                        _get_exiftool("-CreationDate", pa),
+                    ) if !isempty(da)
+                )
 
                 if isempty(da_)
 
@@ -168,20 +169,6 @@ Date file names with a prefix.
 end
 
 """
-Rename file and directory names.
-
-# Arguments
-
-  - `before`:
-  - `after`:
-"""
-@cast function rename(before, after)
-
-    run(pipeline(`find . -print0`, `xargs -0 rename --subst-all $before $after`))
-
-end
-
-"""
 Replace file contents.
 
 # Arguments
@@ -191,22 +178,26 @@ Replace file contents.
 """
 @cast function replace(before, after)
 
-    run(pipeline(
-        `rg --no-ignore --files-with-matches $before`,
-        `xargs sed -i "" "s/$before/$after/g"`,
-    ))
+    run(
+        pipeline(
+            `rg --no-ignore --files-with-matches $before`,
+            `xargs sed -i "" "s/$before/$after/g"`,
+        ),
+    )
 
 end
 
 """
-Format .(json|yaml|md|html|css|scss|js|jsx|ts|tsx).
+Format web files.
 """
 @cast function format_web()
 
-    run(pipeline(
-        `find -E . -type f -size -1M -regex ".*\.(json|yaml|md|html|css|scss|js|jsx|ts|tsx)" -print0`,
-        `xargs -0 prettier --write`,
-    ))
+    run(
+        pipeline(
+            `find -E . -type f -size -1M -regex ".*\.(json|yaml|md|html|css|scss|js|jsx|ts|tsx)" -print0`,
+            `xargs -0 prettier --write`,
+        ),
+    )
 
 end
 
@@ -216,6 +207,70 @@ Format .jl.
 @cast function format_jl()
 
     format(".")
+
+end
+
+"""
+`git` `fetch`, `status`, and `diff`.
+"""
+@cast function git_diff()
+
+    wo = pwd()
+
+    for (ro, di_, fi_) in walkdir(pwd())
+
+        if ".git" in di_
+
+            cd(ro)
+
+            @info "📍 $ro"
+
+            run(`git fetch`)
+
+            run(`git status`)
+
+            run(`git diff`)
+
+            cd(wo)
+
+        end
+
+    end
+
+end
+
+"""
+`git` `add`, `commit`, `pull`, and `push`.
+
+# Arguments
+
+  - `message`:
+"""
+@cast function git_push(message)
+
+    wo = pwd()
+
+    for (ro, di_, fi_) in walkdir(pwd())
+
+        if ".git" in di_
+
+            cd(ro)
+
+            @info "📍 $ro"
+
+            run(`git add -A`)
+
+            run(`git commit -m $message`)
+
+            run(`git pull`)
+
+            run(`git push`)
+
+            cd(wo)
+
+        end
+
+    end
 
 end
 
@@ -255,7 +310,7 @@ Make a new package from the template.
 end
 
 """
-Reset a package based on the template.
+Reset a package based on its template.
 """
 @cast function reset()
 
@@ -275,7 +330,7 @@ Reset a package based on the template.
 
             if !ispath(mp)
 
-                error("$mp is missing.")
+                error()
 
             end
 
@@ -305,7 +360,7 @@ Reset a package based on the template.
 
         if lastindex(r1_) != lastindex(r2_)
 
-            error("split lengths differ.")
+            error()
 
         end
 
@@ -315,7 +370,7 @@ Reset a package based on the template.
 
             write(p2, join(r1_, de))
 
-            @info "Transplanted $p2."
+            @info "🍡 Transplanted $p2."
 
         end
 

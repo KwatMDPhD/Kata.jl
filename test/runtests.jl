@@ -16,17 +16,7 @@ using Pkg: activate, test
 
 cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
 
-# ---- #
-
 run(`open .`)
-
-# ---- #
-
-Kata.style("code"; live = true)
-
-# ---- #
-
-Kata.style("human"; live = true)
 
 # ---- #
 
@@ -38,7 +28,15 @@ Kata.rename('a', 'z')
 
 # ---- #
 
-Kata.rename("Zz", "Yy")
+Kata.autoname("code"; live = true)
+
+# ---- #
+
+Kata.autoname("human"; live = true)
+
+# ---- #
+
+Kata.date(; live = true)
 
 # ---- #
 
@@ -50,27 +48,13 @@ Kata.replace('a', 'z')
 
 # ---- #
 
-Kata.replace("Zz", "Yy")
-
-# ---- #
-
 const NA = "TitleCase.jl"
 
 # ---- #
 
 Kata.make(NA)
 
-# ---- #
-
 cd(NA)
-
-# ---- #
-
-for re in ("README.md", ".gitignore", joinpath("test", "runtests.jl"))
-
-    run(`vi $(joinpath(pwd(), re))`)
-
-end
 
 # ---- #
 
@@ -80,14 +64,4 @@ Kata.reset()
 
 activate(".")
 
-# ---- #
-
 test()
-
-# ---- #
-
-Kata.format_web()
-
-# ---- #
-
-Kata.format_jl()
