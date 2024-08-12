@@ -126,10 +126,8 @@ Date media-file names with their creation date.
 
                 pr, ex = splitext(fi)
 
-                if !startswith(pr, r"\d{4} \d{2}") && ex == ".jpg" ||
-                   ex == ".heic" ||
-                   ex == ".mov" ||
-                   ex == ".mp4"
+                if !startswith(pr, r"\d{4} \d{2}") &&
+                   (ex == ".jpg" || ex == ".heic" || ex == ".mov" || ex == ".mp4")
 
                     pa = joinpath(ro, fi)
 
