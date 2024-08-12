@@ -20,7 +20,7 @@ Remove bad files.
 end
 
 """
-Rename file and directories.
+Rename files and directories.
 
 # Arguments
 
@@ -33,35 +33,19 @@ Rename file and directories.
 
 end
 
-macro _check_skip(pa)
+function _is_skip(pa)
 
-    es = esc(pa)
-
-    quote
-
-        if any(sk -> occursin(sk, $es), (".git", ".key", ".numbers"))
-
-            @info "👋 Skipping $($es)"
-
-            continue
-
-        end
-
-    end
+    any(sk -> occursin(sk, pa), (".git", ".key", ".numbers", ".pages"))
 
 end
 
-function _move(ro, n1, n2, li)
+function _move(p1, p2, li)
 
-    @info "$n1 ➡️  $n2."
+    @info "$p1 ➡️  $p2."
 
     if li
 
-        p1 = joinpath(ro, n1)
-
-        p2 = joinpath(ro, n2)
-
-        mv(lowercase(n1) == lowercase(n2) ? mv(p1, "$(p2)_") : p1, p2)
+        mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
 
     end
 
@@ -84,23 +68,31 @@ Automatically name files and directories.
 
     for (ro, di_, fi_) in walkdir(pwd())
 
-        @_check_skip ro
+        if !_is_skip(ro)
 
-        for fi in fi_
+            for fi in fi_
 
-            pr, ex = splitext(fi)
+                pr, ex = splitext(fi)
 
-            if !isempty(ex)
+                if !isempty(ex)
 
-                ex = Base.replace(ex, r"jpeg"i => "jpg")
+                    ex = lowercase(ex)
 
-            end
+                    if ex == ".jpeg"
 
-            f2 = "$(fu(pr))$ex"
+                        ex = ".jpg"
 
-            if fi != f2
+                    end
 
-                _move(ro, fi, f2, live)
+                end
+
+                f2 = "$(fu(pr))$ex"
+
+                if fi != f2
+
+                    _move(joinpath(ro, fi), joinpath(ro, f2), live)
+
+                end
 
             end
 
@@ -117,44 +109,50 @@ function _get_exiftool(ar, fi)
 end
 
 """
-Prefix media-file names with their creation date.
+Date media-file names with their creation date.
 
 # Flags
 
+  - `--only`:
   - `--live`:
 """
-@cast function date(; live::Bool = false)
+@cast function date(; only::Bool = false, live::Bool = false)
 
     for (ro, di_, fi_) in walkdir(pwd())
 
-        @_check_skip ro
+        if !_is_skip(ro)
 
-        for fi in fi_
+            for fi in fi_
 
-            pr, ex = splitext(fi)
+                pr, ex = splitext(fi)
 
-            if ex == ".jpg" || ex == ".heic" || ex == ".mov" || ex == ".mp4"
+                if !startswith(pr, r"\d{4} \d{2}") && ex == ".jpg" ||
+                   ex == ".heic" ||
+                   ex == ".mov" ||
+                   ex == ".mp4"
 
-                pa = joinpath(ro, fi)
+                    pa = joinpath(ro, fi)
 
-                da_ = Tuple(
-                    split(da, ": "; limit = 2)[2] for da in (
-                        _get_exiftool("-CreateDate", pa),
-                        _get_exiftool("-CreationDate", pa),
-                    ) if !isempty(da)
-                )
+                    da_ = Tuple(
+                        split(da, ": "; limit = 2)[2] for da in (
+                            _get_exiftool("-CreateDate", pa),
+                            _get_exiftool("-CreationDate", pa),
+                        ) if !isempty(da)
+                    )
 
-                if isempty(da_)
+                    if !isempty(da_)
 
-                    @info "❌ $pa."
+                        da = Base.replace(minimum(da_)[1:19], ':' => ' ')
 
-                else
+                        if only
 
-                    da = Base.replace(split(minimum(da_), '-'; limit = 2)[1], ':' => ' ')
+                            _move(joinpath(ro, fi), joinpath(ro, "$da$ex"), live)
 
-                    if pr != da
+                        else
 
-                        _move(ro, fi, "$da$ex", live)
+                            _move(joinpath(ro, fi), joinpath(ro, "$da $fi"), live)
+
+                        end
 
                     end
 

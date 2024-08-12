@@ -40,6 +40,10 @@ Kata.date(; live = true)
 
 # ---- #
 
+Kata.date(; only = true, live = true)
+
+# ---- #
+
 Kata.replace('A', 'Z')
 
 # ---- #
