@@ -10,6 +10,28 @@ using LeMoString: lower, title
 
 const _TE = pkgdir(Kata, "NAME.jl")
 
+function _shorten(pa, wo = pwd())
+
+    pa[(lastindex(wo) + 2):end]
+
+end
+
+function _move(p1, p2, li)
+
+    if p1 != p2
+
+        @info "$(_shorten(p1)) ➡️  $(_shorten(p2))."
+
+        if li
+
+            mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
+
+        end
+
+    end
+
+end
+
 """
 Remove bad files.
 """
@@ -36,28 +58,6 @@ end
 function _is_skip(pa)
 
     any(sk -> occursin(sk, pa), (".git", ".key", ".numbers", ".pages"))
-
-end
-
-function _shorten(pa, wo = pwd())
-
-    pa[(lastindex(wo) + 2):end]
-
-end
-
-function _move(p1, p2, li)
-
-    if p1 != p2
-
-        @info "$(_shorten(p1)) ➡️  $(_shorten(p2))."
-
-        if li
-
-            mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
-
-        end
-
-    end
 
 end
 
@@ -111,11 +111,11 @@ Date media-file names with their creation date.
 
 # Flags
 
-  - `--re`:
-  - `--only`:
+  - `--all`: Do not skip already dated files.
+  - `--only`: Name a file with its date only.
   - `--live`:
 """
-@cast function date(; re::Bool = false, only::Bool = false, live::Bool = false)
+@cast function date(; all::Bool = false, only::Bool = false, live::Bool = false)
 
     for (ro, di_, fi_) in walkdir(pwd())
 
@@ -125,7 +125,7 @@ Date media-file names with their creation date.
 
                 pr, ex = splitext(fi)
 
-                if (re || !startswith(pr, r"\d{4} ")) && (
+                if (all || !startswith(pr, r"\d{4} ")) && (
                     ex == ".png" ||
                     ex == ".jpg" ||
                     ex == ".heic" ||
