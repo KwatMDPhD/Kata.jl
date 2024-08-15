@@ -39,13 +39,23 @@ function _is_skip(pa)
 
 end
 
+function _shorten(pa, wo = pwd())
+
+    pa[(lastindex(wo) + 2):end]
+
+end
+
 function _move(p1, p2, li)
 
-    @info "$p1 ➡️  $p2."
+    if p1 != p2
 
-    if li
+        @info "$(_shorten(p1)) ➡️  $(_shorten(p2))."
 
-        mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
+        if li
+
+            mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
+
+        end
 
     end
 
@@ -86,13 +96,7 @@ Automatically name files and directories.
 
                 end
 
-                f2 = "$(fu(pr))$ex"
-
-                if fi != f2
-
-                    _move(joinpath(ro, fi), joinpath(ro, f2), live)
-
-                end
+                _move(joinpath(ro, fi), joinpath(ro, "$(fu(pr))$ex"), live)
 
             end
 
@@ -102,21 +106,16 @@ Automatically name files and directories.
 
 end
 
-function _get_exiftool(ar, fi)
-
-    chomp(read(`exiftool $ar $fi`, String))
-
-end
-
 """
 Date media-file names with their creation date.
 
 # Flags
 
+  - `--re`:
   - `--only`:
   - `--live`:
 """
-@cast function date(; only::Bool = false, live::Bool = false)
+@cast function date(; re::Bool = false, only::Bool = false, live::Bool = false)
 
     for (ro, di_, fi_) in walkdir(pwd())
 
@@ -126,21 +125,31 @@ Date media-file names with their creation date.
 
                 pr, ex = splitext(fi)
 
-                if !startswith(pr, r"\d{4} \d{2}") &&
-                   (ex == ".jpg" || ex == ".heic" || ex == ".mov" || ex == ".mp4")
+                if (re || !startswith(pr, r"\d{4} ")) && (
+                    ex == ".png" ||
+                    ex == ".jpg" ||
+                    ex == ".heic" ||
+                    ex == ".mov" ||
+                    ex == ".mp4"
+                )
 
-                    pa = joinpath(ro, fi)
-
-                    da_ = Tuple(
-                        split(da, ": "; limit = 2)[2] for da in (
-                            _get_exiftool("-CreateDate", pa),
-                            _get_exiftool("-CreationDate", pa),
-                        ) if !isempty(da)
+                    da_ = eachsplit(
+                        readchomp(
+                            `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -DateTimeOriginal -CreateDate -CreationDate $(joinpath(ro, fi))`,
+                        ),
+                        '\n';
+                        keepempty = false,
                     )
 
                     if !isempty(da_)
 
-                        da = Base.replace(minimum(da_)[1:19], ':' => ' ')
+                        da = minimum(
+                            li -> Base.replace(
+                                split(li, '\t'; limit = 2)[2],
+                                "00 00 00" => "__ __ __",
+                            ),
+                            da_,
+                        )
 
                         if only
 
@@ -213,13 +222,13 @@ end
 
     wo = pwd()
 
-    for (ro, di_, fi_) in walkdir(pwd())
+    for (ro, di_, fi_) in walkdir(wo)
 
         if ".git" in di_
 
             cd(ro)
 
-            @info "📍 $ro"
+            @info "📍 $(_shorten(ro, wo))"
 
             run(`git fetch`)
 
@@ -246,13 +255,13 @@ end
 
     wo = pwd()
 
-    for (ro, di_, fi_) in walkdir(pwd())
+    for (ro, di_, fi_) in walkdir(wo)
 
         if ".git" in di_
 
             cd(ro)
 
-            @info "📍 $ro"
+            @info "📍 $(_shorten(ro, wo))"
 
             run(`git add -A`)
 
@@ -366,7 +375,7 @@ Reset a package based on its template.
 
             write(p2, join(r1_, de))
 
-            @info "🍡 Transplanted $p2."
+            @info "🍡 Transplanted $(_shorten(p2, ma))."
 
         end
 
