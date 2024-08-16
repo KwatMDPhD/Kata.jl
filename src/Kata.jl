@@ -107,15 +107,13 @@ Automatically name files and directories.
 end
 
 """
-Date media-file names with their creation date.
+Prefix file names with creation dates.
 
 # Flags
 
-  - `--all`: Do not skip already dated files.
-  - `--only`: Name a file with its date only.
   - `--live`:
 """
-@cast function date(; all::Bool = false, only::Bool = false, live::Bool = false)
+@cast function date(; live::Bool = false)
 
     for (ro, di_, fi_) in walkdir(pwd())
 
@@ -125,41 +123,30 @@ Date media-file names with their creation date.
 
                 pr, ex = splitext(fi)
 
-                if (all || !startswith(pr, r"\d{4} ")) && (
-                    ex == ".png" ||
-                    ex == ".jpg" ||
-                    ex == ".heic" ||
-                    ex == ".mov" ||
-                    ex == ".mp4"
-                )
+                if ex == ".png" ||
+                   ex == ".heic" ||
+                   ex == ".jpg" ||
+                   ex == ".mov" ||
+                   ex == ".mp4"
 
-                    da_ = eachsplit(
-                        readchomp(
-                            `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -DateTimeOriginal -CreateDate -CreationDate $(joinpath(ro, fi))`,
+                    pa = joinpath(ro, fi)
+
+                    da = minimum(
+                        li -> Base.replace(
+                            split(li, '\t'; limit = 2)[2],
+                            "00 00 00" => "__ __ __",
                         ),
-                        '\n';
-                        keepempty = false,
+                        eachsplit(
+                            readchomp(
+                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -DateTimeOriginal -FileModifyDate -CreateDate -CreationDate $pa`,
+                            ),
+                            '\n',
+                        ),
                     )
 
-                    if !isempty(da_)
+                    if !startswith(pr, da) && da < pr
 
-                        da = minimum(
-                            li -> Base.replace(
-                                split(li, '\t'; limit = 2)[2],
-                                "00 00 00" => "__ __ __",
-                            ),
-                            da_,
-                        )
-
-                        if only
-
-                            _move(joinpath(ro, fi), joinpath(ro, "$da$ex"), live)
-
-                        else
-
-                            _move(joinpath(ro, fi), joinpath(ro, "$da $fi"), live)
-
-                        end
+                        _move(pa, joinpath(ro, "$da $fi"), live)
 
                     end
 
@@ -199,7 +186,7 @@ Format web files.
 
     run(
         pipeline(
-            `find -E . -type f -size -1M -regex ".*\.(json|yaml|md|html|css|scss|js|jsx|ts|tsx)" -print0`,
+            `find -E . -type f -size -1M -iregex ".*\.(json|yaml|md|html|css|scss|js|jsx|ts|tsx)" -print0`,
             `xargs -0 prettier --write`,
         ),
     )

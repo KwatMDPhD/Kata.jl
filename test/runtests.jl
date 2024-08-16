@@ -20,11 +20,7 @@ run(`open .`)
 
 # ---- #
 
-Kata.rename('A', 'Z')
-
-# ---- #
-
-Kata.rename('a', 'z')
+Kata.rename("Aa", "Zz")
 
 # ---- #
 
@@ -37,10 +33,6 @@ Kata.autoname("human"; live = true)
 # ---- #
 
 Kata.date(; live = true)
-
-# ---- #
-
-Kata.date(; only = true, live = true)
 
 # ---- #
 
