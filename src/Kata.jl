@@ -111,9 +111,10 @@ Prefix file names with creation dates.
 
 # Flags
 
+  - `--only`:
   - `--live`:
 """
-@cast function date(; live::Bool = false)
+@cast function date(; only::Bool = false, live::Bool = false)
 
     for (ro, di_, fi_) in walkdir(pwd())
 
@@ -144,9 +145,9 @@ Prefix file names with creation dates.
                         ),
                     )
 
-                    if !startswith(pr, da) && da < pr
+                    if da < pr
 
-                        _move(pa, joinpath(ro, "$da $fi"), live)
+                        _move(pa, joinpath(ro, only ? "$da$ex" : "$da $fi"), live)
 
                     end
 
