@@ -139,7 +139,7 @@ Prefix file names with creation dates.
                         ),
                         eachsplit(
                             readchomp(
-                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -DateTimeOriginal -FileModifyDate -CreateDate -CreationDate $pa`,
+                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $pa`,
                             ),
                             '\n',
                         ),
