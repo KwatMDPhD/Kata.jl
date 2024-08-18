@@ -145,7 +145,7 @@ Prefix file names with creation dates.
                         ),
                     )
 
-                    if da < pr
+                    if da < pr[1:min(lastindex(pr), 19)]
 
                         _move(pa, joinpath(ro, only ? "$da$ex" : "$da $fi"), live)
 
