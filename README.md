@@ -4,8 +4,6 @@ Command-line program for organizing the file system 🗄️✨
 
 ## Install
 
-Install `git` and `julia`.
-
 #### 1. Download
 
 ```bash
