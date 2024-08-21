@@ -74,7 +74,19 @@ Automatically name files and directories.
 """
 @cast function autoname(style; live::Bool = false)
 
-    fu = style == "human" ? title : lower
+    fu = if style == "human"
+
+        title
+
+    elseif style == "code"
+
+        lower
+
+    else
+
+        error()
+
+    end
 
     for (ro, di_, fi_) in walkdir(pwd())
 
