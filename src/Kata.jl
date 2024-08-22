@@ -52,100 +52,102 @@ Automatically name files.
 
     for (ro, di_, fi_) in walkdir(pwd())
 
-        if !(
-            contains(ro, ".git") ||
-            contains(ro, ".key") ||
-            contains(ro, ".numbers") ||
-            contains(ro, ".pages")
-        )
+        if contains(ro, ".git") ||
+           contains(ro, ".key") ||
+           contains(ro, ".numbers") ||
+           contains(ro, ".pages")
 
-            for fi in fi_
+            continue
 
-                pa = joinpath(ro, fi)
+        end
 
-                pr, ex = splitext(fi)
+        for fi in fi_
 
-                ex = lowercase(ex)
+            pa = joinpath(ro, fi)
 
-                if ex == ".jpeg"
+            pr, ex = splitext(fi)
 
-                    ex = ".jpg"
+            ex = lowercase(ex)
 
-                end
+            if ex == ".jpeg"
 
-                p2 = joinpath(
-                    ro,
-                    if style == "code"
+                ex = ".jpg"
 
-                        "$(lower(pr))$ex"
+            end
 
-                    elseif style == "human"
+            p2 = joinpath(
+                ro,
+                if style == "code"
 
-                        "$(title(pr))$ex"
+                    "$(lower(pr))$ex"
 
-                    elseif style == "date" || style == "datehuman"
+                elseif style == "human"
 
-                        da = ""
+                    "$(title(pr))$ex"
 
-                        if ex == ".png" ||
-                           ex == ".heic" ||
-                           ex == ".jpg" ||
-                           ex == ".mov" ||
-                           ex == ".mp4"
+                elseif style == "date" || style == "datehuman"
 
-                            mi = minimum(
-                                li -> replace(
-                                    split(li, '\t'; limit = 2)[2],
-                                    "00 00 00" => "__ __ __",
+                    da = ""
+
+                    if ex == ".png" ||
+                       ex == ".heic" ||
+                       ex == ".jpg" ||
+                       ex == ".mov" ||
+                       ex == ".mp4"
+
+                        mi = minimum(
+                            li -> replace(
+                                split(li, '\t'; limit = 2)[2],
+                                "00 00 00" => "__ __ __",
+                            ),
+                            eachsplit(
+                                readchomp(
+                                    `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $pa`,
                                 ),
-                                eachsplit(
-                                    readchomp(
-                                        `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $pa`,
-                                    ),
-                                    '\n',
-                                ),
-                            )
+                                '\n',
+                            ),
+                        )
 
-                            if mi < pr[1:min(lastindex(pr), 19)]
+                        if mi < pr[1:min(lastindex(pr), 19)]
 
-                                da = mi
-
-                            end
+                            da = mi
 
                         end
-
-                        if isempty(da)
-
-                            continue
-
-                        elseif style == "date"
-
-                            "$da$ex"
-
-                        else
-
-                            "$da $(title(pr))$ex"
-
-                        end
-
-                    else
-
-                        error()
-
-                    end,
-                )
-
-                if pa != p2
-
-                    @info "$(_shorten(pa)) ➡️  $(_shorten(p2))."
-
-                    if live
-
-                        mv(lowercase(pa) == lowercase(p2) ? mv(pa, "$(p2)_") : pa, p2)
 
                     end
 
-                end
+                    if isempty(da)
+
+                        "$(title(pr))$ex"
+
+                    elseif style == "date"
+
+                        "$da$ex"
+
+                    else
+
+                        "$da $(title(pr))$ex"
+
+                    end
+
+                else
+
+                    error()
+
+                end,
+            )
+
+            if pa == p2
+
+                continue
+
+            end
+
+            @info "$(_shorten(pa)) ➡️  $(_shorten(p2))."
+
+            if live
+
+                mv(lowercase(pa) == lowercase(p2) ? mv(pa, "$(p2)_") : pa, p2)
 
             end
 
@@ -206,28 +208,30 @@ end
 
     for (ro, di_, fi_) in walkdir(wo)
 
-        if ".git" in di_
+        if !(".git" in di_)
 
-            cd(ro)
-
-            @info "📍 $(_shorten(ro, wo))"
-
-            run(`git fetch`)
-
-            run(`git status`)
-
-            run(`git diff`)
-
-            cd(wo)
+            continue
 
         end
+
+        cd(ro)
+
+        @info "📍 $(_shorten(ro, wo))"
+
+        run(`git fetch`)
+
+        run(`git status`)
+
+        run(`git diff`)
+
+        cd(wo)
 
     end
 
 end
 
 """
-`git` `add`, `commit`, `pull`, and `push`.
+`git` `add`, `commit`, and `push`.
 
 # Arguments
 
@@ -239,23 +243,23 @@ end
 
     for (ro, di_, fi_) in walkdir(wo)
 
-        if ".git" in di_
+        if !(".git" in di_)
 
-            cd(ro)
-
-            @info "📍 $(_shorten(ro, wo))"
-
-            run(`git add -A`)
-
-            run(`git commit -m $message`)
-
-            run(`git pull`)
-
-            run(`git push`)
-
-            cd(wo)
+            continue
 
         end
+
+        cd(ro)
+
+        @info "📍 $(_shorten(ro, wo))"
+
+        run(`git add -A`)
+
+        run(`git commit -m $message`)
+
+        run(`git push`)
+
+        cd(wo)
 
     end
 
@@ -307,21 +311,13 @@ Reset a package based on its template.
 
     re_ = _plan_replacement(basename(ma))
 
-    nc = lastindex(_TE) + 2
+    uc = lastindex(_TE) + 2
 
-    for (ro, di_, fi_) in walkdir(_TE)
+    for (ro, di_, fi_) in walkdir(_TE), na_ in (fi_, di_), na in na_
 
-        mr = joinpath(ma, ro[nc:end])
+        if !ispath(joinpath(ma, ro[uc:end], replace(na, re_...)))
 
-        for na_ in (fi_, di_), na in na_
-
-            mp = joinpath(mr, replace(na, re_...))
-
-            if !ispath(mp)
-
-                error()
-
-            end
+            error()
 
         end
 
@@ -355,13 +351,15 @@ Reset a package based on its template.
 
         map!(ifelse, r1_, rs_, r1_, r2_)
 
-        if r1_ != r2_
+        if r1_ == r2_
 
-            write(p2, join(r1_, de))
-
-            @info "🍡 Transplanted $(_shorten(p2, ma))."
+            continue
 
         end
+
+        write(p2, join(r1_, de))
+
+        @info "🍡 Transplanted $(_shorten(p2, ma))."
 
     end
 
