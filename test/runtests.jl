@@ -20,11 +20,21 @@ run(`open .`)
 
 # ---- #
 
-Kata.rename('A', 'Z')
+for fi in (".DS_Store", ".ds_store", ".DS Store")
+
+    touch(fi)
+
+    @info readdir()
+
+    Kata.remove()
+
+    @info readdir()
+
+end
 
 # ---- #
 
-Kata.rename('a', 'z')
+Kata.rename("Aa", "Zz")
 
 # ---- #
 
@@ -36,11 +46,35 @@ Kata.autoname("human"; live = true)
 
 # ---- #
 
-Kata.replace('A', 'Z')
+Kata.autoname("date"; live = true)
 
 # ---- #
 
-Kata.replace('a', 'z')
+Kata.autoname("datehuman"; live = true)
+
+# ---- #
+
+Kata.rewrite('A', 'Z')
+
+# ---- #
+
+Kata.rewrite('a', 'z')
+
+# ---- #
+
+Kata.format_web()
+
+# ---- #
+
+Kata.format_jl()
+
+# ---- #
+
+Kata.git_diff
+
+# ---- #
+
+Kata.git_push
 
 # ---- #
 
