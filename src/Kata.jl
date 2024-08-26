@@ -2,7 +2,7 @@ module Kata
 
 using Comonicon: @cast, @main
 
-using JuliaFormatter: format
+using JuliaFormatter: format as fo
 
 using UUIDs: uuid4
 
@@ -177,9 +177,9 @@ Rewrite files.
 end
 
 """
-Format web files.
+Format web and .jl files.
 """
-@cast function format_web()
+@cast function format()
 
     run(
         pipeline(
@@ -188,21 +188,14 @@ Format web files.
         ),
     )
 
-end
-
-"""
-Format .jl.
-"""
-@cast function format_jl()
-
-    format(".")
+    fo(".")
 
 end
 
 """
 `git` `fetch`, `status`, and `diff`.
 """
-@cast function git_diff()
+@cast function diff()
 
     wo = pwd()
 
@@ -237,7 +230,7 @@ end
 
   - `message`:
 """
-@cast function git_push(message)
+@cast function push(message)
 
     wo = pwd()
 

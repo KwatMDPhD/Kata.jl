@@ -62,19 +62,15 @@ Kata.rewrite('a', 'z')
 
 # ---- #
 
-Kata.format_web()
+Kata.format()
 
 # ---- #
 
-Kata.format_jl()
+Kata.diff
 
 # ---- #
 
-Kata.git_diff
-
-# ---- #
-
-Kata.git_push
+Kata.push
 
 # ---- #
 
