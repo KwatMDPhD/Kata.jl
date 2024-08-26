@@ -132,7 +132,7 @@ Automatically name files.
 
                 else
 
-                    error()
+                    error("$style is neither code, human, date, nor datehuman.")
 
                 end,
             )
@@ -310,9 +310,11 @@ Reset a package based on its template.
 
     for (ro, di_, fi_) in walkdir(_TE), na_ in (fi_, di_), na in na_
 
-        if !ispath(joinpath(ma, ro[uc:end], replace(na, re_...)))
+        nr = replace(na, re_...)
 
-            error()
+        if !ispath(joinpath(ma, ro[uc:end], nr))
+
+            error("$nr is missing.")
 
         end
 
@@ -340,7 +342,7 @@ Reset a package based on its template.
 
         if lastindex(r1_) != lastindex(r2_)
 
-            error()
+            error("$pa splits unequally.")
 
         end
 
