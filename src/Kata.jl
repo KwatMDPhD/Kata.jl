@@ -255,9 +255,11 @@ end
 
         run(`git add -A`)
 
-        run(`git commit -m $message`)
+        if success(run(`git commit -m $message`; wait = false))
 
-        run(`git push`)
+            run(`git push`)
+
+        end
 
         cd(wo)
 
