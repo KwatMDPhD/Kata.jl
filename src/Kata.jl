@@ -2,7 +2,7 @@ module Kata
 
 using Comonicon: @cast, @main
 
-using JuliaFormatter: format as fo
+using JuliaFormatter: format as juformat
 
 using UUIDs: uuid4
 
@@ -188,7 +188,7 @@ Format web and .jl files.
         ),
     )
 
-    fo(".")
+    juformat(".")
 
 end
 
