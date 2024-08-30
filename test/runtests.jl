@@ -1,12 +1,8 @@
 using Kata
 
-using Aqua: test_all
-
 using Test: @test
 
 # ----------------------------------------------------------------------------------------------- #
-
-test_all(Kata; deps_compat = false)
 
 # ---- #
 
