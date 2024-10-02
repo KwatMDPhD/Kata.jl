@@ -6,7 +6,7 @@ using JuliaFormatter: format as juformat
 
 using UUIDs: uuid4
 
-using LeMoString: lower, title
+using KwString: lower, title
 
 """
 Remove bad files.
