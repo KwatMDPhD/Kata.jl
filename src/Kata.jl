@@ -6,7 +6,7 @@ using JuliaFormatter: format as juformat
 
 using UUIDs: uuid4
 
-using KwString: lower, title
+using Omics
 
 """
 Remove bad files.
@@ -79,11 +79,11 @@ Automatically name files.
                 ro,
                 if style == "code"
 
-                    "$(lower(pr))$ex"
+                    "$(Omics.Strin.lower(pr))$ex"
 
                 elseif style == "human"
 
-                    "$(title(pr))$ex"
+                    "$(Omics.Strin.title(pr))$ex"
 
                 elseif style == "date" || style == "datehuman"
 
@@ -118,7 +118,7 @@ Automatically name files.
 
                     if isempty(da)
 
-                        "$(title(pr))$ex"
+                        "$(Omics.Strin.title(pr))$ex"
 
                     elseif style == "date"
 
@@ -126,7 +126,7 @@ Automatically name files.
 
                     else
 
-                        "$da $(title(pr))$ex"
+                        "$da $(Omics.Strin.title(pr))$ex"
 
                     end
 
