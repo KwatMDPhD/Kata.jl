@@ -2,4 +2,4 @@
 
 ---
 
-Made by https://github.com/KwatMDPhD/Kata.jl 🔴
+Made by [Kata](https://github.com/KwatMDPhD/Kata.jl) 🥋
