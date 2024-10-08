@@ -502,7 +502,7 @@ weakdeps = ["Adapt"]
     OffsetArraysAdaptExt = "Adapt"
 
 [[deps.Omics]]
-deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Distances", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "Random", "Statistics", "TOML", "Test", "XLSX"]
+deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Distances", "JSON", "KernelDensity", "Mmap", "OrderedCollections", "Printf", "Random", "Statistics", "TOML", "Test", "XLSX"]
 path = "../Omics.jl"
 uuid = "55404059-57b2-473d-9cce-582834f19b54"
 version = "0.1.0"
