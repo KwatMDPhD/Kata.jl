@@ -1,4 +1,4 @@
-# Command-line program for organizing the file system 🗄️✨
+# Command-line program for the file system 🗄️✨
 
 ![Help](media/help.png)
 
@@ -36,7 +36,7 @@ PATH=~/.julia/bin:$PATH
 kata --help
 ```
 
-## Useful
+## (Useful commands)
 
 ```bash
 kata delete && kata format && for jl in *jl; do echo $jl; cd $jl; kata match; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata festdi; kata adcopu ""
