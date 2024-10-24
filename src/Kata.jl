@@ -2,9 +2,10 @@ module Kata
 
 using Comonicon: @main
 
-function _shorten(pa, wo = pwd())
+# TODO: Move to Omics.Path
+function shorten(pa, ro = pwd())
 
-    pa[(lastindex(wo) + 2):end]
+    pa[(lastindex(ro) + 2):end]
 
 end
 
