@@ -15,7 +15,7 @@ include("git.jl")
 include("template.jl")
 
 """
-Command-line program for organizing the file system 🗄️✨
+Command-line program for the file system 🗄️✨
 """
 @main
 
