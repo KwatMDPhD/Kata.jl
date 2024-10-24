@@ -39,7 +39,7 @@ kata --help
 ## (Useful commands)
 
 ```bash
-kata delete && kata format && for jl in *jl; do echo $jl; cd $jl; kata match; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata festdi; kata adcopu ""
+kata delete && kata beautify && for jl in *jl; do echo $jl; cd $jl; kata match; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata festdi; kata adcopu ""
 ```
 
 ---

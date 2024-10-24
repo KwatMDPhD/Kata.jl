@@ -1,6 +1,6 @@
 using Comonicon: @cast
 
-using JuliaFormatter: format as forma
+using JuliaFormatter: format
 
 using Omics
 
@@ -169,9 +169,9 @@ Rewrite files.
 end
 
 """
-Format web and .jl files.
+Beautify web and .jl files.
 """
-@cast function format()
+@cast function beautify()
 
     run(
         pipeline(
@@ -180,6 +180,6 @@ Format web and .jl files.
         ),
     )
 
-    forma(".")
+    format(".")
 
 end

@@ -56,7 +56,7 @@ Kata.rewrite('a', 'z')
 
 # ---- #
 
-Kata.format()
+Kata.beautify()
 
 # ---- #
 
