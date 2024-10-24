@@ -10,8 +10,6 @@ using Pkg: activate, test
 
 cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
 
-# ---- #
-
 run(`open .`)
 
 # ---- #
@@ -22,7 +20,7 @@ for fi in (".DS_Store", ".ds_store", ".DS Store")
 
     @info readdir()
 
-    Kata.remove()
+    Kata.delete()
 
     @info readdir()
 
@@ -34,19 +32,19 @@ Kata.rename("Aa", "Zz")
 
 # ---- #
 
-Kata.autoname("code"; live = true)
+Kata.name("code"; live = true)
 
 # ---- #
 
-Kata.autoname("human"; live = true)
+Kata.name("human"; live = true)
 
 # ---- #
 
-Kata.autoname("date"; live = true)
+Kata.name("date"; live = true)
 
 # ---- #
 
-Kata.autoname("datehuman"; live = true)
+Kata.name("datehuman"; live = true)
 
 # ---- #
 
@@ -62,11 +60,11 @@ Kata.format()
 
 # ---- #
 
-Kata.diff
+Kata.festdi
 
 # ---- #
 
-Kata.push
+Kata.adcopu
 
 # ---- #
 
@@ -82,7 +80,7 @@ cd(NA)
 
 # ---- #
 
-Kata.reset()
+Kata.match()
 
 # ---- #
 

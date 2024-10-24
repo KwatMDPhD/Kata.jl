@@ -1,16 +1,16 @@
-Command-line program for organizing the file system 🗄️✨
+# Command-line program for organizing the file system 🗄️✨
 
 ![Help](media/help.png)
 
 ## Install
 
-#### 1. Download
+#### Download
 
 ```bash
 git clone https://github.com/KwatMDPhD/Kata.jl
 ```
 
-#### 2. Instantiate
+#### Instantiate
 
 ```bash
 cd Kata.jl &&
@@ -18,19 +18,19 @@ cd Kata.jl &&
 julia --project --eval "using Pkg; Pkg.instantiate()"
 ```
 
-#### 3. Build
+#### Build
 
 ```bash
 julia --project deps/build.jl
 ```
 
-#### 4. Path
+#### Path
 
 ```bash
 PATH=~/.julia/bin:$PATH
 ```
 
-#### 5. Use
+#### Use
 
 ```bash
 kata --help
@@ -39,10 +39,8 @@ kata --help
 ## Useful
 
 ```bash
-kata remove && kata format && for jl in *jl; do echo $jl; cd $jl; kata reset; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata diff; kata push "Commit message."
+kata delete && kata format && for jl in *jl; do echo $jl; cd $jl; kata match; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata festdi; kata adcopu ""
 ```
-
-🎊
 
 ---
 
