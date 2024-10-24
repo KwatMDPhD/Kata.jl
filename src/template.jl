@@ -98,7 +98,7 @@ Match a package to the template.
 
         write(p2, join(r1_, de))
 
-        @info "🍡 Transplanted $(_shorten(p2))."
+        @info "🍡 Transplanted $(_shorten(p2, ma))."
 
     end
 

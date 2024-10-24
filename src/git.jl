@@ -17,7 +17,7 @@ using Comonicon: @cast
 
         cd(ro)
 
-        @info "📍 $(_shorten(ro))"
+        @info "📍 $(_shorten(ro, wo))"
 
         run(`git fetch`)
 
@@ -52,7 +52,7 @@ end
 
         cd(ro)
 
-        @info "📍 $(_shorten(ro))"
+        @info "📍 $(_shorten(ro, wo))"
 
         run(`git add -A`)
 

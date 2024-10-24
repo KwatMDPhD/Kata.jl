@@ -40,7 +40,9 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
-    for (ro, di_, fi_) in walkdir(pwd())
+    wo = pwd()
+
+    for (ro, di_, fi_) in walkdir(wo)
 
         if contains(ro, ".git") ||
            contains(ro, ".key") ||
@@ -133,7 +135,7 @@ Name files automatically.
 
             end
 
-            @info "$(_shorten(pa)) ➡️  $(_shorten(p2))."
+            @info "$(_shorten(pa, wo)) ➡️  $(_shorten(p2, wo))."
 
             if live
 
