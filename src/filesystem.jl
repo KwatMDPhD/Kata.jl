@@ -173,12 +173,12 @@ Beautify web and .jl files.
 """
 @cast function beautify()
 
-    ho = ENV["HOMEBREW_PREFIX"]
+    br = readchomp(`brew --prefix`)
 
     run(
         pipeline(
             `find -E . -type f -size -2M -iregex ".*\.(json|yaml|toml|html|md)" -print0`,
-            `xargs -0 prettier --write --plugin $ho/lib/node_modules/prettier-plugin-toml/lib/index.js --plugin $ho/lib/node_modules/prettier-plugin-tailwindcss/dist/index.mjs`,
+            `xargs -0 prettier --write --plugin $br/lib/node_modules/prettier-plugin-toml/lib/index.js --plugin $br/lib/node_modules/prettier-plugin-tailwindcss/dist/index.mjs`,
         ),
     )
 
