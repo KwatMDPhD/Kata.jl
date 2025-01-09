@@ -1,46 +1,28 @@
 # 💠
 
-![Help](media/help.png)
-
-## Install
-
-#### Download
+## Instruction
 
 ```bash
 git clone https://github.com/KwatMDPhD/Kata.jl
+
+cd Kata
+
+julia --project
 ```
 
-#### Instantiate
-
-```bash
-cd Kata.jl &&
-
-julia --project --eval "using Pkg; Pkg.instantiate()"
+```julia
+]instantiate
 ```
-
-#### Build
 
 ```bash
 julia --project deps/build.jl
-```
 
-#### Path
-
-```bash
 PATH=~/.julia/bin:$PATH
-```
 
-#### Use
-
-```bash
 kata --help
 ```
 
-## (Useful commands)
-
-```bash
-kata delete && kata beautify && for jl in *jl; do echo $jl; cd $jl; kata match; julia --project --eval "using Pkg; Pkg.update()"; cd ..; done && kata festdi; kata adcopu ""
-```
+![The screenshot of the help command](media/help.png)
 
 ---
 
