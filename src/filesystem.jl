@@ -9,17 +9,12 @@ Delete bad files.
 """
 @cast function delete()
 
-    run(`find -E . -iregex ".*DS[_ ]Store" -delete`)
+    run(`find -E . -iregex ".*\.ds[_ ]store" -delete`)
 
 end
 
 """
 Rename files and directories.
-
-# Arguments
-
-  - `before`:
-  - `after`:
 """
 @cast function rename(before, after)
 
@@ -30,32 +25,27 @@ end
 """
 Name files automatically.
 
-# Arguments
+# Args
 
   - `style`: "code" | "human" | "date" | "datehuman".
-
-# Flags
-
-  - `--live`:
 """
 @cast function name(style; live::Bool = false)
 
     wo = pwd()
 
+    rc = r"\.(git|key|numbers|pages)$"
+
+    re = r"\.(png|heic|jpg|mov|mp4)$"
+
     for (ro, di_, fi_) in walkdir(wo)
 
-        if contains(ro, ".git") ||
-           contains(ro, ".key") ||
-           contains(ro, ".numbers") ||
-           contains(ro, ".pages")
+        if contains(ro, rc)
 
             continue
 
         end
 
         for fi in fi_
-
-            pa = joinpath(ro, fi)
 
             pr, ex = splitext(fi)
 
@@ -67,7 +57,9 @@ Name files automatically.
 
             end
 
-            p2 = joinpath(
+            pa = joinpath(ro, fi)
+
+            pt = joinpath(
                 ro,
                 if style == "code"
 
@@ -81,11 +73,7 @@ Name files automatically.
 
                     da = ""
 
-                    if ex == ".png" ||
-                       ex == ".heic" ||
-                       ex == ".jpg" ||
-                       ex == ".mov" ||
-                       ex == ".mp4"
+                    if contains(ex, re)
 
                         mi = minimum(
                             li -> replace(
@@ -108,9 +96,11 @@ Name files automatically.
 
                     end
 
+                    ti = Omics.Strin.title(pr)
+
                     if isempty(da)
 
-                        "$(Omics.Strin.title(pr))$ex"
+                        "$ti$ex"
 
                     elseif style == "date"
 
@@ -118,28 +108,24 @@ Name files automatically.
 
                     else
 
-                        "$da $(Omics.Strin.title(pr))$ex"
+                        "$da $ti$ex"
 
                     end
-
-                else
-
-                    error("$style is neither code, human, date, nor datehuman.")
 
                 end,
             )
 
-            if pa == p2
+            if pa == pt
 
                 continue
 
             end
 
-            @info "$(_shorten(pa, wo)) ➡️  $(_shorten(p2, wo))."
+            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))."
 
             if live
 
-                mv(lowercase(pa) == lowercase(p2) ? mv(pa, "$(p2)_") : pa, p2)
+                mv(lowercase(pa) == lowercase(pt) ? mv(pa, "$(pt)_") : pa, pt)
 
             end
 
@@ -151,11 +137,6 @@ end
 
 """
 Rewrite files.
-
-# Arguments
-
-  - `before`:
-  - `after`:
 """
 @cast function rewrite(before, after)
 
@@ -173,12 +154,12 @@ Beautify web and .jl files.
 """
 @cast function beautify()
 
-    br = readchomp(`brew --prefix`)
+    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
 
     run(
         pipeline(
-            `find -E . -type f -size -2M -iregex ".*\.(json|yaml|toml|html|md)" -print0`,
-            `xargs -0 prettier --plugin $br/lib/node_modules/prettier-plugin-toml/lib/index.js --plugin $br/lib/node_modules/prettier-plugin-tailwindcss/dist/index.mjs --write`,
+            `find -E . -type f -iregex ".*\.(json|yaml|toml|html|md)" -print0`,
+            `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
 

@@ -14,18 +14,12 @@ end
 
 """
 Make a new package from the template.
-
-# Arguments
-
-  - `name`: TitleCase.jl.
 """
 @cast function make(name)
 
     wo = pwd()
 
-    ma = cp(_TE, joinpath(wo, name))
-
-    cd(ma)
+    cd(cp(_TE, joinpath(wo, name)))
 
     for (be, af) in _plan_replacement(name)
 
@@ -44,25 +38,25 @@ Match a package to the template.
 """
 @cast function match()
 
-    ma = pwd()
+    wo = pwd()
 
-    re_ = _plan_replacement(basename(ma))
+    re_ = _plan_replacement(basename(wo))
 
     uc = lastindex(_TE) + 2
 
     for (ro, di_, fi_) in walkdir(_TE), na_ in (fi_, di_), na in na_
 
-        nr = replace(na, re_...)
+        nm = replace(na, re_...)
 
-        if !ispath(joinpath(ma, ro[uc:end], nr))
+        if !ispath(joinpath(wo, ro[uc:end], nm))
 
-            error("$nr is missing.")
+            error("$nm is missing.")
 
         end
 
     end
 
-    for (pa, de, rs_) in (
+    for (rl, de, te_) in (
         ("README.md", "---", [false, true]),
         (
             ".gitignore",
@@ -76,29 +70,29 @@ Match a package to the template.
         ),
     )
 
-        r1_ = split(replace(read(joinpath(_TE, pa), String), re_...), de)
+        tm_ = split(replace(read(joinpath(_TE, rl), String), re_...), de)
 
-        p2 = joinpath(ma, pa)
+        pa = joinpath(wo, rl)
 
-        r2_ = split(read(p2, String), de)
+        ac_ = split(read(pa, String), de)
 
-        if lastindex(r1_) != lastindex(r2_)
+        if lastindex(tm_) != lastindex(ac_)
 
-            error("$pa splits unequally.")
+            error()
 
         end
 
-        map!(ifelse, r1_, rs_, r1_, r2_)
+        map!(ifelse, tm_, te_, tm_, ac_)
 
-        if r1_ == r2_
+        if tm_ == ac_
 
             continue
 
         end
 
-        write(p2, join(r1_, de))
+        write(pa, join(tm_, de))
 
-        @info "🍡 Transplanted $(_shorten(p2, ma))."
+        @info "🍡 Transplanted $(Omics.Path.shorten(pa, wo))."
 
     end
 

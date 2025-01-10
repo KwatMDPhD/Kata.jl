@@ -1,9 +1,6 @@
 using Comonicon: @cast
 
-"""
-`git` `fetch`, `status`, and `diff`.
-"""
-@cast function festdi()
+function _git(ex)
 
     wo = pwd()
 
@@ -17,13 +14,9 @@ using Comonicon: @cast
 
         cd(ro)
 
-        @info "📍 $(_shorten(ro, wo))"
+        @info "📍 $(Omics.Path.shorten(ro, wo))"
 
-        run(`git fetch`)
-
-        run(`git status`)
-
-        run(`git diff`)
+        eval(ex)
 
         cd(wo)
 
@@ -32,38 +25,39 @@ using Comonicon: @cast
 end
 
 """
+`git` `fetch`, `status`, and `diff`.
+"""
+@cast function festdi()
+
+    _git(quote
+
+        run(`git fetch`)
+
+        run(`git status`)
+
+        run(`git diff`)
+
+    end)
+
+end
+
+"""
 `git` `add`, `commit`, and `push`.
-
-# Arguments
-
-  - `message`:
 """
 @cast function adcopu(message)
 
-    wo = pwd()
-
-    for (ro, di_, fi_) in walkdir(wo)
-
-        if !(".git" in di_)
-
-            continue
-
-        end
-
-        cd(ro)
-
-        @info "📍 $(_shorten(ro, wo))"
+    _git(quote
 
         run(`git add -A`)
 
-        if success(run(`git commit -m $message`; wait = false))
+        me = $message
+
+        if success(run(`git commit -m $me`; wait = false))
 
             run(`git push`)
 
         end
 
-        cd(wo)
-
-    end
+    end)
 
 end
