@@ -112,6 +112,10 @@ Name files automatically.
 
                     end
 
+                else
+
+                    error("$style is not code, human, date, or datehuman.")
+
                 end,
             )
 

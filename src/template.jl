@@ -78,7 +78,7 @@ Match a package to the template.
 
         if lastindex(tm_) != lastindex(ac_)
 
-            error()
+            error("$rl splits unequally.")
 
         end
 
