@@ -1,13 +1,15 @@
 # 💠
 
+## Command Line Interface
+
 ![The screenshot of the help command](media/help.png)
+
+## Build
 
 ```bash
 julia --project deps/build.jl
 
 PATH=~/.julia/bin:$PATH
-
-kata --help
 ```
 
 ---
