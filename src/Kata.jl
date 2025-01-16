@@ -23,7 +23,6 @@ end
 Rename files and directories.
 
 # Arguments
-
   - `before`:
   - `after`:
 """
@@ -37,12 +36,10 @@ end
 Name files automatically.
 
 # Arguments
-
   - `style`: "code" | "human" | "date" | "datehuman".
 
-# Options
-
-  - `--skip-0`: = false.
+# Flags
+  - `--live`: = false.
 """
 @cast function name(style; live::Bool = false)
 
@@ -160,7 +157,6 @@ end
 Rewrite files.
 
 # Arguments
-
   - `before`:
   - `after`:
 """
@@ -240,7 +236,6 @@ end
 `git` `add`, `commit`, and `push`.
 
 # Arguments
-
   - `message`:
 """
 @cast function adcopu(message)
@@ -277,7 +272,6 @@ end
 Make a new package from the template.
 
 # Arguments
-
   - `name`:
 """
 @cast function make(name)
