@@ -21,6 +21,11 @@ end
 
 """
 Rename files and directories.
+
+# Arguments
+
+  - `before`:
+  - `after`:
 """
 @cast function rename(before, after)
 
@@ -31,9 +36,13 @@ end
 """
 Name files automatically.
 
-# Args
+# Arguments
 
   - `style`: "code" | "human" | "date" | "datehuman".
+
+# Options
+
+  - `--skip-0`: = false.
 """
 @cast function name(style; live::Bool = false)
 
@@ -149,6 +158,11 @@ end
 
 """
 Rewrite files.
+
+# Arguments
+
+  - `before`:
+  - `after`:
 """
 @cast function rewrite(before, after)
 
@@ -224,6 +238,10 @@ end
 
 """
 `git` `add`, `commit`, and `push`.
+
+# Arguments
+
+  - `message`:
 """
 @cast function adcopu(message)
 
@@ -257,6 +275,10 @@ end
 
 """
 Make a new package from the template.
+
+# Arguments
+
+  - `name`:
 """
 @cast function make(name)
 
