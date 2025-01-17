@@ -184,7 +184,7 @@ Beautify web and .jl files.
 
     run(
         pipeline(
-            `find -E . -type f -iregex ".*\.(json|yaml|toml|html|md)" -print0`,
+            `find -E . -type f -size -10M -iregex ".*\.(json|yaml|toml|html|md)" -print0`,
             `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
