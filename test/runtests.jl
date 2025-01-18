@@ -20,7 +20,7 @@ for fi in (".DS_Store", ".ds_store", ".DS Store")
 
     Kata.delete()
 
-    @test lastindex(readdir()) === 6
+    @test lastindex(readdir()) === 7
 
 end
 
@@ -70,24 +70,22 @@ Kata.adcopu
 
 # ---- #
 
-const NA = "TitleCase.jl"
+for na in ("Name.jl", "Name.pr")
+
+    Kata.make(na)
+
+    Kata.match()
+
+    activate(".")
+
+    test()
+
+    cd("..")
+
+end
 
 # ---- #
 
-Kata.make(NA)
-
-# ---- #
-
-cd(NA)
-
-# ---- #
+cd(pkgdir(Kata))
 
 Kata.match()
-
-# ---- #
-
-activate(".")
-
-# ---- #
-
-test()

@@ -1,5 +1,7 @@
 module Kata
 
+# ----------------------------------------------------------------------------------------------- #
+
 using Comonicon: @cast, @main
 
 using JuliaFormatter: format
@@ -127,10 +129,6 @@ Name files automatically.
 
                     end
 
-                else
-
-                    error("$style is not code, human, date, or datehuman.")
-
                 end,
             )
 
@@ -140,7 +138,7 @@ Name files automatically.
 
             end
 
-            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))."
+            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))"
 
             if live
 
@@ -180,6 +178,8 @@ Beautify web and .jl files.
 """
 @cast function beautify()
 
+    format(".")
+
     pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
 
     run(
@@ -188,8 +188,6 @@ Beautify web and .jl files.
             `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
-
-    format(".")
 
 end
 
@@ -263,11 +261,15 @@ end
 
 # ---- #
 
-const _TE = pkgdir(Kata, "NAME.jl")
+function _template(na)
+
+    pkgdir(Kata, "TEMPLATE.$(na[(end - 1):end])")
+
+end
 
 function _plan_replacement(na)
 
-    "NAME" => na[1:(end - 3)],
+    "TEMPLATE" => na[1:(end - 3)],
     "e8386f20-3e60-497e-8358-52c6451f91c7" => string(uuid4()),
     "AUTHOR" => readchomp(`git config user.name`)
 
@@ -278,13 +280,13 @@ Make a new package from the template.
 
 # Arguments
 
-  - `name`:
+  - `name`: .jl | .pr.
 """
 @cast function make(name)
 
     wo = pwd()
 
-    cd(cp(_TE, joinpath(wo, name)))
+    cd(cp(_template(name), joinpath(wo, name)))
 
     for (be, af) in _plan_replacement(name)
 
@@ -293,8 +295,6 @@ Make a new package from the template.
         rewrite(be, af)
 
     end
-
-    cd(wo)
 
 end
 
@@ -305,15 +305,17 @@ Match a package to the template.
 
     wo = pwd()
 
+    te = _template(wo)
+
     re_ = _plan_replacement(basename(wo))
 
-    uc = lastindex(_TE) + 2
+    be = lastindex(te) + 2
 
-    for (ro, di_, fi_) in walkdir(_TE), na_ in (fi_, di_), na in na_
+    for (ro, di_, fi_) in walkdir(te), na_ in (fi_, di_), na in na_
 
         nm = replace(na, re_...)
 
-        if !ispath(joinpath(wo, ro[uc:end], nm))
+        if !ispath(ro[be:end], nm)
 
             error("$nm is missing.")
 
@@ -321,29 +323,26 @@ Match a package to the template.
 
     end
 
-    for (rl, de, te_) in (
+    de = "# $('-'^95) #"
+
+    for (rl, dl, te_) in (
         ("README.md", "---", [false, true]),
-        (
-            ".gitignore",
-            "# ----------------------------------------------------------------------------------------------- #",
-            [true, false],
-        ),
-        (
-            joinpath("test", "runtests.jl"),
-            "# ----------------------------------------------------------------------------------------------- #",
-            [true, false],
-        ),
+        (".gitignore", de, [true, false]),
+        (joinpath("src", "TEMPLATE.jl"), de, [true, false]),
+        (joinpath("test", "runtests.jl"), de, [true, false]),
     )
 
-        tm_ = split(replace(read(joinpath(_TE, rl), String), re_...), de)
+        tm_ = split(replace(read(joinpath(te, rl), String), re_...), dl)
 
-        pa = joinpath(wo, rl)
+        rt = replace(rl, re_...)
 
-        ac_ = split(read(pa, String), de)
+        pa = joinpath(wo, rt)
+
+        ac_ = split(read(pa, String), dl)
 
         if lastindex(tm_) != lastindex(ac_)
 
-            error("$rl splits unequally.")
+            error("$rt splits unequally.")
 
         end
 
@@ -355,7 +354,7 @@ Match a package to the template.
 
         end
 
-        write(pa, join(tm_, de))
+        write(pa, join(tm_, dl))
 
         @info "🍡 Transplanted $(Omics.Path.shorten(pa, wo))."
 
