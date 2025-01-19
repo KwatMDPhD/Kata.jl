@@ -276,7 +276,7 @@ function _plan_replacement(na)
 end
 
 """
-Make a new package from the template.
+Make a new package (.jl) or project (.pr).
 
 # Arguments
 
