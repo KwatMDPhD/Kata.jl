@@ -174,7 +174,7 @@ Rewrite files.
 end
 
 """
-Beautify web and .jl files.
+Beautify .jl and web files.
 """
 @cast function beautify()
 
@@ -218,7 +218,7 @@ function _git(ex)
 end
 
 """
-`git` `fetch`, `status`, and `diff`.
+git fetch, status, and diff.
 """
 @cast function festdi()
 
@@ -235,7 +235,7 @@ end
 end
 
 """
-`git` `add`, `commit`, and `push`.
+git add, commit, and push.
 
 # Arguments
 
@@ -276,11 +276,11 @@ function _plan_replacement(na)
 end
 
 """
-Make a new package (.jl) or project (.pr).
+Make a package or project.
 
 # Arguments
 
-  - `name`: .jl | .pr.
+  - `name`: ".jl" | ".pr".
 """
 @cast function make(name)
 
@@ -299,7 +299,7 @@ Make a new package (.jl) or project (.pr).
 end
 
 """
-Match a package to the template.
+Match a package to its template.
 """
 @cast function match()
 
