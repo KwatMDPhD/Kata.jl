@@ -1,6 +1,6 @@
 .DS_Store
 
-output/
+output/*
 
 !output/.keep
 
