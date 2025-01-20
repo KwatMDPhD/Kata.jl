@@ -517,7 +517,7 @@ weakdeps = ["Adapt"]
 deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GLM", "JSON", "KernelDensity", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "Test", "XLSX"]
 path = "../Omics.jl"
 uuid = "55404059-57b2-473d-9cce-582834f19b54"
-version = "0.5.0"
+version = "0.6.0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]

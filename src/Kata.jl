@@ -10,8 +10,6 @@ using UUIDs: uuid4
 
 using Omics
 
-# ---- #
-
 """
 Delete bad files.
 """
@@ -152,8 +150,6 @@ Name files automatically.
 
 end
 
-# ---- #
-
 """
 Rewrite files.
 
@@ -190,8 +186,6 @@ Beautify .jl and web files.
     )
 
 end
-
-# ---- #
 
 function _git(ex)
 
@@ -258,8 +252,6 @@ git add, commit, and push.
     end)
 
 end
-
-# ---- #
 
 function _template(na)
 
@@ -361,8 +353,6 @@ Match a package to its template.
     end
 
 end
-
-# ---- #
 
 # TODO
 @main
