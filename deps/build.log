@@ -1,0 +1,10 @@
+  Activating project at `~/.julia/scratchspaces/8e59351d-29f6-4c3f-9afc-53528ae58453/env`
+   Resolving package versions...
+    Updating `~/.julia/scratchspaces/8e59351d-29f6-4c3f-9afc-53528ae58453/env/Project.toml`
+  [8e59351d] + Kata v0.1.0 `~/craft/to/Kata.jl`
+    Updating `~/.julia/scratchspaces/8e59351d-29f6-4c3f-9afc-53528ae58453/env/Manifest.toml`
+  [8e59351d] + Kata v0.1.0 `~/craft/to/Kata.jl`
+    Updating registry at `~/.julia/registries/General.toml`
+  No Changes to `~/.julia/scratchspaces/8e59351d-29f6-4c3f-9afc-53528ae58453/env/Project.toml`
+  No Changes to `~/.julia/scratchspaces/8e59351d-29f6-4c3f-9afc-53528ae58453/env/Manifest.toml`
+  Activating project at `~/craft/to/Kata.jl`
