@@ -297,6 +297,12 @@ git-tree-sha1 = "273bd1cd30768a2fddfa3fd63bbc746ed7249e5f"
 uuid = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
 version = "1.9.0"
 
+[[deps.GZip]]
+deps = ["Libdl", "Zlib_jll"]
+git-tree-sha1 = "0085ccd5ec327c077ec5b91a5f937b759810ba62"
+uuid = "92fee26a-97fe-5a0c-ad85-20a5f3185b63"
+version = "0.6.2"
+
 [[deps.Glob]]
 git-tree-sha1 = "97285bbd5230dd766e9ef6749b80fc617126d496"
 uuid = "c27321d9-0574-5035-807b-f59d2c89b15c"
@@ -514,7 +520,7 @@ weakdeps = ["Adapt"]
     OffsetArraysAdaptExt = "Adapt"
 
 [[deps.Omics]]
-deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GLM", "JSON", "KernelDensity", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "Test", "XLSX"]
+deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GLM", "GZip", "JSON", "KernelDensity", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "Test", "XLSX"]
 path = "../Omics.jl"
 uuid = "55404059-57b2-473d-9cce-582834f19b54"
 version = "0.1.0"
