@@ -1,10 +1,10 @@
 module TEMPLATE
 
-const DP = dirname(@__DIR__)
+const DR = dirname(@__DIR__)
 
-const DI = joinpath(DP, "input")
+const DI = joinpath(DR, "input")
 
-const DU = joinpath(DP, "output")
+const DU = joinpath(DR, "output")
 
 # ----------------------------------------------------------------------------------------------- #
 
