@@ -1,10 +1,10 @@
 module TEMPLATE
 
-const RO = dirname(@__DIR__)
+const DP = dirname(@__DIR__)
 
-const IP = joinpath(RO, "input")
+const DI = joinpath(DP, "input")
 
-const OU = joinpath(RO, "output")
+const DU = joinpath(DP, "output")
 
 # ----------------------------------------------------------------------------------------------- #
 
