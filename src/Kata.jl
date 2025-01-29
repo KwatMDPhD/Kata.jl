@@ -180,13 +180,11 @@ Beautify .jl and web files.
 
     run(
         pipeline(
-            `find -E . -type f -iregex ".*\.(json|yaml|toml|html|md)" -not -iregex ".*node_modules/.*" -not -iregex ".*output/.*" -print0`,
+            # TODO: Shorten.
+            `find -E . -type f -iregex ".*\.(json|yaml|toml|html|md)" -not -iregex ".*node_modules/.*" -not -iregex ".*Manifest.toml" -not -iregex ".*output/.*" -not -iregex ".*Medicine\.pr/.*" -print0`,
             `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
-
-
-
 
 end
 
