@@ -6,11 +6,13 @@ using Kata
 
 using Pkg: activate, test
 
+using Omics
+
 # ---- #
 
 cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
 
-run(`open --background .`)
+Omics.Path.ope(".")
 
 # ---- #
 
