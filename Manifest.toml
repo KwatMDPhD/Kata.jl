@@ -40,6 +40,18 @@ version = "2.4.0"
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 version = "1.1.2"
 
+[[deps.Arpack]]
+deps = ["Arpack_jll", "Libdl", "LinearAlgebra", "Logging"]
+git-tree-sha1 = "9b9b347613394885fd1c8c7729bfc60528faa436"
+uuid = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
+version = "0.5.4"
+
+[[deps.Arpack_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "OpenBLAS_jll", "Pkg"]
+git-tree-sha1 = "5ba6c757e8feccf03a1554dfaf3e26b3cfc7fd5e"
+uuid = "68821587-b530-5797-8361-c406ea357684"
+version = "3.5.1+1"
+
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 version = "1.11.0"
@@ -500,6 +512,18 @@ git-tree-sha1 = "1e98f8f732e7035c4333135b75605b74f3462b9b"
 uuid = "f8716d33-7c4a-5097-896f-ce0ecbd3ef6b"
 version = "0.6.0"
 
+[[deps.MultivariateStats]]
+deps = ["Arpack", "Distributions", "LinearAlgebra", "SparseArrays", "Statistics", "StatsAPI", "StatsBase"]
+git-tree-sha1 = "816620e3aac93e5b5359e4fdaf23ca4525b00ddf"
+uuid = "6f286f6a-111f-5878-ab1e-185364afe411"
+version = "0.10.3"
+
+[[deps.NMF]]
+deps = ["LinearAlgebra", "NonNegLeastSquares", "PrecompileTools", "Printf", "Random", "RandomizedLinAlg", "Statistics", "StatsBase"]
+git-tree-sha1 = "d098a41cbc60447b430c32e1ac271193652205ee"
+uuid = "6ef6ca0d-6ad7-5ff6-b225-e928bfa0a386"
+version = "1.0.3"
+
 [[deps.NearestNeighbors]]
 deps = ["Distances", "StaticArrays"]
 git-tree-sha1 = "8a3271d8309285f4db73b4f662b1b290c715e85e"
@@ -509,6 +533,12 @@ version = "0.4.21"
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
+
+[[deps.NonNegLeastSquares]]
+deps = ["LinearAlgebra", "SparseArrays"]
+git-tree-sha1 = "cdc11138e74a0dd0b82e7d64eb1350fdf049d3b1"
+uuid = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
+version = "0.4.1"
 
 [[deps.OffsetArrays]]
 git-tree-sha1 = "5e1897147d1ff8d98883cda2be2187dcf57d8f0c"
@@ -520,7 +550,7 @@ weakdeps = ["Adapt"]
     OffsetArraysAdaptExt = "Adapt"
 
 [[deps.Omics]]
-deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GLM", "GZip", "JSON", "KernelDensity", "LinearAlgebra", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "Test", "XLSX"]
+deps = ["CSV", "Clustering", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distances", "Distributions", "GLM", "GZip", "JSON", "KernelDensity", "LinearAlgebra", "Mmap", "MultipleTesting", "MultivariateStats", "NMF", "NonNegLeastSquares", "OrderedCollections", "Printf", "Random", "Statistics", "StatsBase", "TOML", "Test", "XLSX"]
 path = "../Omics.jl"
 uuid = "55404059-57b2-473d-9cce-582834f19b54"
 version = "0.1.0"
@@ -628,6 +658,12 @@ version = "1.11.0"
 deps = ["SHA"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 version = "1.11.0"
+
+[[deps.RandomizedLinAlg]]
+deps = ["LinearAlgebra", "Random", "Test"]
+git-tree-sha1 = "de93780c85c207586369522af7525aa3011b09c3"
+uuid = "0448d7d9-159c-5637-8537-fd72090fea46"
+version = "0.1.0"
 
 [[deps.Ratios]]
 deps = ["Requires"]
