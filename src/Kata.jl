@@ -78,11 +78,11 @@ Name files automatically.
                 ro,
                 if style == "code"
 
-                    "$(Omics.Strin.lower(pr))$ex"
+                    "$(Omics.Strin.stri(Omics.Strin.lower(pr)))$ex"
 
                 elseif style == "human"
 
-                    "$(Omics.Strin.title(pr))$ex"
+                    "$(Omics.Strin.stri(Omics.Strin.title(pr)))$ex"
 
                 elseif style == "date" || style == "datehuman"
 
