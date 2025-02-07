@@ -136,13 +136,13 @@ Name files automatically.
 
             end
 
-            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))"
-
             if live
 
                 mv(lowercase(pa) == lowercase(pt) ? mv(pa, "$(pt)_") : pa, pt)
 
             end
+
+            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))."
 
         end
 
@@ -202,7 +202,7 @@ function _git(ex)
 
         cd(ro)
 
-        @info "📍 $(Omics.Path.shorten(ro, wo))"
+        @info "📍 $(Omics.Path.shorten(ro, wo))."
 
         eval(ex)
 
