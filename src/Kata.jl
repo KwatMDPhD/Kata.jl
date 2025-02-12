@@ -189,11 +189,12 @@ Beautify .jl and web files.
         "Project\\.toml",
         "output/.*",
         "Medicine\\.pr/.*",
+        "gene_set/.*",
     )
 
         push!(no_, "-not")
 
-        push!(no_, "-iregex")
+        push!(no_, "-regex")
 
         push!(no_, ".*$re")
 
@@ -201,7 +202,7 @@ Beautify .jl and web files.
 
     run(
         pipeline(
-            `find -E . -type f -iregex ".*\.(json|yaml|toml|html|md)" $no_ -print0`,
+            `find -E . -type f -regex ".*\.(json|yaml|toml|html|md)" $no_ -print0`,
             `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
