@@ -6,13 +6,13 @@ using Kata
 
 using Pkg: activate, test
 
-using Omics
+using Nucleus
 
 # ---- #
 
 cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
 
-Omics.Path.ope(".")
+Nucleus.Path.rea(".")
 
 # ---- #
 
@@ -32,23 +32,23 @@ Kata.rename("Aa", "Zz")
 
 # ---- #
 
-const LI = true
+const live = true
 
 # ---- #
 
-Kata.name("code"; live = LI)
+Kata.name("code"; live)
 
 # ---- #
 
-Kata.name("human"; live = LI)
+Kata.name("human"; live)
 
 # ---- #
 
-Kata.name("date"; live = LI)
+Kata.name("date"; live)
 
 # ---- #
 
-Kata.name("datehuman"; live = LI)
+Kata.name("datehuman"; live)
 
 # ---- #
 

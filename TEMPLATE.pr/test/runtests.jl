@@ -1,14 +1,14 @@
 using TEMPLATE
 
-for na in readdir(@__DIR__)
+for ba in readdir(@__DIR__)
 
-    if isdir(na) || na == "runtests.jl"
+    if isdir(ba) || ba == "runtests.jl"
 
         continue
 
     end
 
-    jl = joinpath(@__DIR__, na)
+    jl = joinpath(@__DIR__, ba)
 
     @info "🎬 Running $jl"
 

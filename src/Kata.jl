@@ -8,7 +8,7 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-using Omics
+using Nucleus
 
 """
 Delete bad files.
@@ -46,21 +46,23 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
-    wo = pwd()
+    di = pwd()
 
-    rc = r"\.(git|key|numbers|pages)$"
+    r1 = r"\.(git|key|numbers|pages)$"
 
-    re = r"\.(png|heic|jpg|mov|mp4)$"
+    r2 = r"\.(png|heic|jpg|mov|mp4)$"
 
-    for (ro, di_, fi_) in walkdir(wo)
+    for (ro, _, fi_) in walkdir(di)
 
-        if contains(ro, rc)
+        if contains(ro, r1)
 
             continue
 
         end
 
         for fi in fi_
+
+            p1 = joinpath(ro, fi)
 
             pr, ex = splitext(fi)
 
@@ -72,32 +74,30 @@ Name files automatically.
 
             end
 
-            pa = joinpath(ro, fi)
-
-            pt = joinpath(
+            p2 = joinpath(
                 ro,
                 if style == "code"
 
-                    "$(Omics.Strin.stri(Omics.Strin.lower(pr)))$ex"
+                    "$(Nucleus.Tex.make_low(Nucleus.Tex.update_space(pr)))$ex"
 
                 elseif style == "human"
 
-                    "$(Omics.Strin.stri(Omics.Strin.title(pr)))$ex"
+                    "$(Nucleus.Tex.update_space(Nucleus.Tex.make_title(pr)))$ex"
 
                 elseif style == "date" || style == "datehuman"
 
                     da = ""
 
-                    if contains(ex, re)
+                    if contains(ex, r2)
 
                         mi = minimum(
                             li -> replace(
-                                split(li, '\t'; limit = 2)[2],
+                                Nucleus.Strin.get_end(li, '\t'),
                                 "00 00 00" => "__ __ __",
                             ),
                             eachsplit(
                                 readchomp(
-                                    `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $pa`,
+                                    `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $p1`,
                                 ),
                                 '\n',
                             ),
@@ -111,7 +111,7 @@ Name files automatically.
 
                     end
 
-                    ti = Omics.Strin.title(pr)
+                    ti = Nucleus.Tex.make_title(pr)
 
                     if isempty(da)
 
@@ -130,7 +130,7 @@ Name files automatically.
                 end,
             )
 
-            if pa == pt
+            if p1 == p2
 
                 continue
 
@@ -138,11 +138,11 @@ Name files automatically.
 
             if live
 
-                mv(lowercase(pa) == lowercase(pt) ? mv(pa, "$(pt)_") : pa, pt)
+                mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
 
             end
 
-            @info "$(Omics.Path.shorten(pa, wo)) 🛸 $(Omics.Path.shorten(pt, wo))."
+            @info "$(Nucleus.Path.text(p1, di)) 🛸 $(Nucleus.Path.text(p2, di))."
 
         end
 
@@ -178,9 +178,9 @@ Beautify .jl and web files.
 
     pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
 
-    no_ = String[]
+    ar_ = String[]
 
-    for re in (
+    for r2 in (
         "\\.git/.*",
         "package\\.json",
         "node_modules/.*",
@@ -192,17 +192,17 @@ Beautify .jl and web files.
         "gene_set/.*",
     )
 
-        push!(no_, "-not")
+        push!(ar_, "-not")
 
-        push!(no_, "-regex")
+        push!(ar_, "-regex")
 
-        push!(no_, ".*$re")
+        push!(ar_, ".*$r2")
 
     end
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|yaml|toml|html|md)" $no_ -print0`,
+            `find -E . -type f -regex ".*\.(json|yaml|toml|html|md)" $ar_ -print0`,
             `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
@@ -211,9 +211,9 @@ end
 
 function _git(ex)
 
-    wo = pwd()
+    di = pwd()
 
-    for (ro, di_, fi_) in walkdir(wo)
+    for (ro, di_, fi_) in walkdir(di)
 
         if !(".git" in di_)
 
@@ -223,11 +223,11 @@ function _git(ex)
 
         cd(ro)
 
-        @info "📍 $(Omics.Path.shorten(ro, wo))."
+        @info "📍 $(Nucleus.Path.text(ro, di))."
 
         eval(ex)
 
-        cd(wo)
+        cd(di)
 
     end
 
@@ -275,16 +275,16 @@ git add, commit, and push.
 
 end
 
-function _template(na)
+function _template(ba)
 
-    pkgdir(Kata, "TEMPLATE.$(na[(end - 1):end])")
+    pkgdir(Kata, "TEMPLATE.$(ba[(end - 1):end])")
 
 end
 
-function _plan_replacement(na)
+function _plan_replacement(ba)
 
-    "TEMPLATE" => na[1:(end - 3)],
-    "e8386f20-3e60-497e-8358-52c6451f91c7" => string(uuid4()),
+    "TEMPLATE" => ba[1:(end - 3)],
+    "26e7aedd-919a-4e26-a588-02a954578843" => string(uuid4()),
     "AUTHOR" => readchomp(`git config user.name`)
 
 end
@@ -298,9 +298,9 @@ Make a package or project.
 """
 @cast function make(name)
 
-    wo = pwd()
+    di = pwd()
 
-    cd(cp(_template(name), joinpath(wo, name)))
+    cd(cp(_template(name), joinpath(di, name)))
 
     for (be, af) in _plan_replacement(name)
 
@@ -317,60 +317,49 @@ Match a package to its template.
 """
 @cast function match()
 
-    wo = pwd()
+    d1 = pwd()
 
-    te = _template(wo)
+    d2 = _template(d1)
 
-    re_ = _plan_replacement(basename(wo))
+    re_ = _plan_replacement(basename(d1))
 
-    be = lastindex(te) + 2
+    id = lastindex(d2) + 2
 
-    for (ro, di_, fi_) in walkdir(te), na_ in (fi_, di_), na in na_
+    for (ro, di_, fi_) in walkdir(d2), ba_ in (fi_, di_), ba in ba_
 
-        nm = replace(na, re_...)
-
-        if !ispath(ro[be:end], nm)
-
-            error("$nm is missing.")
-
-        end
+        @assert ispath(joinpath(ro[id:end], replace(ba, re_...)))
 
     end
 
-    de = "# $('-'^95) #"
+    '-'^95
+    e1 = "# $('-'^95) #"
 
-    for (rl, dl, te_) in (
+    for (el, e2, bo_) in (
         ("README.md", "---", [false, true]),
-        (".gitignore", de, [true, false]),
-        (joinpath("src", "TEMPLATE.jl"), de, [true, false]),
-        (joinpath("test", "runtests.jl"), de, [true, false]),
+        (".gitignore", e1, [true, false]),
+        (joinpath("src", "TEMPLATE.jl"), e1, [true, false]),
+        (joinpath("test", "runtests.jl"), e1, [true, false]),
     )
 
-        tm_ = split(replace(read(joinpath(te, rl), String), re_...), dl)
+        p1 = joinpath(d1, replace(el, re_...))
 
-        rt = replace(rl, re_...)
+        s1_ = split(read(p1, String), e2)
 
-        pa = joinpath(wo, rt)
+        s2_ = split(replace(read(joinpath(d2, el), String), re_...), e2)
 
-        ac_ = split(read(pa, String), dl)
+        @assert lastindex(s1_) == lastindex(s2_)
 
-        if lastindex(tm_) != lastindex(ac_)
+        s3_ = map(ifelse, bo_, s2_, s1_)
 
-            error("$rt splits unequally.")
-
-        end
-
-        map!(ifelse, tm_, te_, tm_, ac_)
-
-        if tm_ == ac_
+        if s1_ == s3_
 
             continue
 
         end
 
-        write(pa, join(tm_, dl))
+        write(p1, join(s3_, e2))
 
-        @info "🍡 Transplanted $(Omics.Path.shorten(pa, wo))."
+        @info "🍡 Transplanted $(Nucleus.Path.text(p1, d1))."
 
     end
 
