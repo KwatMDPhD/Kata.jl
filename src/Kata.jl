@@ -46,25 +46,23 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
-    di = pwd()
+    d1 = pwd()
 
-    r1 = r"\.(git|key|numbers|pages)$"
+    re = r"\.(git|key|numbers|pages)$"
 
-    r2 = r"\.(png|heic|jpg|mov|mp4)$"
+    for (d2, _, ba_) in walkdir(d1)
 
-    for (ro, _, fi_) in walkdir(di)
-
-        if contains(ro, r1)
+        if contains(d2, re)
 
             continue
 
         end
 
-        for fi in fi_
+        for ba in ba_
 
-            p1 = joinpath(ro, fi)
+            f1 = joinpath(d2, ba)
 
-            pr, ex = splitext(fi)
+            p1, ex = splitext(ba)
 
             ex = lowercase(ex)
 
@@ -74,63 +72,66 @@ Name files automatically.
 
             end
 
-            p2 = joinpath(
-                ro,
-                if style == "code"
+            p2 = if style == "code"
 
-                    "$(Nucleus.Tex.make_low(Nucleus.Tex.update_space(pr)))$ex"
+                Nucleus.Tex.make_low(Nucleus.Tex.update_space(p1))
 
-                elseif style == "human"
+            elseif style == "human"
 
-                    "$(Nucleus.Tex.update_space(Nucleus.Tex.make_title(pr)))$ex"
+                Nucleus.Tex.update_space(Nucleus.Tex.make_title(p1))
 
-                elseif style == "date" || style == "datehuman"
+            elseif style == "date" || style == "datehuman"
 
-                    da = ""
+                da = ""
 
-                    if contains(ex, r2)
+                if ex == ".png" ||
+                   ex == ".heic" ||
+                   ex == ".jpg" ||
+                   ex == ".mov" ||
+                   ex == ".mp4"
 
-                        mi = minimum(
-                            li -> replace(
-                                Nucleus.Strin.get_end(li, '\t'),
-                                "00 00 00" => "__ __ __",
+                    mi = minimum(
+                        sp -> replace(
+                            Nucleus.Strin.get_end(sp, '\t'),
+                            "00 00 00" => "__ __ __",
+                        ),
+                        eachsplit(
+                            readchomp(
+                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $f1`,
                             ),
-                            eachsplit(
-                                readchomp(
-                                    `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $p1`,
-                                ),
-                                '\n',
-                            ),
-                        )
+                            '\n',
+                        ),
+                    )
 
-                        if mi < pr[1:min(lastindex(pr), 19)]
+                    if mi < p1[1:min(lastindex(p1), 19)]
 
-                            da = mi
-
-                        end
+                        da = mi
 
                     end
 
-                    te = Nucleus.Tex.make_title(pr)
+                end
 
-                    if isempty(da)
+                te = Nucleus.Tex.make_title(p1)
 
-                        "$te$ex"
+                if isempty(da)
 
-                    elseif style == "date"
+                    te
 
-                        "$da$ex"
+                elseif style == "date"
 
-                    else
+                    da
 
-                        "$da $te$ex"
+                else
 
-                    end
+                    "$da $te"
 
-                end,
-            )
+                end
 
-            if p1 == p2
+            end
+
+            f2 = joinpath(d2, "$p2$ex")
+
+            if f1 == f2
 
                 continue
 
@@ -138,11 +139,11 @@ Name files automatically.
 
             if live
 
-                mv(lowercase(p1) == lowercase(p2) ? mv(p1, "$(p2)_") : p1, p2)
+                mv(lowercase(f1) == lowercase(f2) ? mv(f1, "$(f2)_") : f1, f2)
 
             end
 
-            @info "$(Nucleus.Path.text(p1, di)) 🛸 $(Nucleus.Path.text(p2, di))."
+            @info "$(Nucleus.Path.text(f1, d1)) 🛸 $(Nucleus.Path.text(f2, d1))."
 
         end
 
@@ -178,13 +179,11 @@ Beautify .jl and web files.
 
     ar_ = String[]
 
-    for r2 in (
+    for re in (
         "\\.git/.*",
         "package\\.json",
         "node_modules/.*",
         "public/.*",
-        "Manifest\\.toml",
-        "Project\\.toml",
         "output/.*",
         "Medicine\\.pr/.*",
         "gene_set/.*",
@@ -194,7 +193,7 @@ Beautify .jl and web files.
 
         push!(ar_, "-regex")
 
-        push!(ar_, ".*$r2")
+        push!(ar_, ".*$re")
 
     end
 
@@ -202,32 +201,32 @@ Beautify .jl and web files.
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|yaml|toml|html|md)" $ar_ -print0`,
-            `xargs -0 prettier --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs --write`,
+            `find -E . -type f -regex ".*\.(json|html|md)" $ar_ -print0`,
+            `xargs -0 prettier --plugin $(pr)tailwindcss/dist/index.mjs --write`,
         ),
     )
 
 end
 
-function _git(ex)
+function update(ex)
 
-    di = pwd()
+    d1 = pwd()
 
-    for (ro, di_, _) in walkdir(di)
+    for (d2, ba_, _) in walkdir(d1)
 
-        if !(".git" in di_)
+        if !(".git" in ba_)
 
             continue
 
         end
 
-        cd(ro)
+        cd(d2)
 
-        @info "📍 $(Nucleus.Path.text(ro, di))."
+        @info "📍 $(Nucleus.Path.text(d2, d1))."
 
         eval(ex)
 
-        cd(di)
+        cd(d1)
 
     end
 
@@ -238,7 +237,7 @@ git fetch, status, and diff.
 """
 @cast function festdi()
 
-    _git(quote
+    update(quote
 
         run(`git fetch`)
 
@@ -259,13 +258,13 @@ git add, commit, and push.
 """
 @cast function adcopu(message)
 
-    _git(quote
+    update(quote
 
         run(`git add -A`)
 
         me = $message
 
-        if success(run(`git commit -m $me`; wait = false))
+        if success(run(`git commit --message $me`; wait = false))
 
             run(`git push`)
 
@@ -275,13 +274,13 @@ git add, commit, and push.
 
 end
 
-function _template(ba)
+function path(pa)
 
-    pkgdir(Kata, "TEMPLATE.$(ba[(end - 1):end])")
+    pkgdir(Kata, "TEMPLATE.$(pa[(end - 1):end])")
 
 end
 
-function _plan_replacement(ba)
+function make_pair(ba)
 
     "TEMPLATE" => ba[1:(end - 3)],
     "26e7aedd-919a-4e26-a588-02a954578843" => string(uuid4()),
@@ -300,9 +299,9 @@ Make a package or project.
 
     di = pwd()
 
-    cd(cp(_template(name), joinpath(di, name)))
+    cd(cp(path(name), joinpath(di, name)))
 
-    for (be, af) in _plan_replacement(name)
+    for (be, af) in make_pair(name)
 
         rename(be, af)
 
@@ -319,15 +318,15 @@ Match a package to its template.
 
     d1 = pwd()
 
-    d2 = _template(d1)
+    d2 = path(d1)
 
-    re_ = _plan_replacement(basename(d1))
+    re_ = make_pair(basename(d1))
 
     id = lastindex(d2) + 2
 
-    for (ro, di_, fi_) in walkdir(d2), ba_ in (di_, fi_), ba in ba_
+    for (d3, b1_, b2_) in walkdir(d2), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(ro[id:end], replace(ba, re_...)))
+        @assert ispath(joinpath(d3[id:end], replace(ba, re_...)))
 
     end
 
