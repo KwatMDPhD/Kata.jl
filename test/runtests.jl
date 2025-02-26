@@ -16,9 +16,9 @@ Nucleus.Path.rea(".")
 
 # ---- #
 
-for fi in (".DS_Store", ".ds_store", ".DS Store")
+for ba in (".DS_Store", ".ds_store", ".DS Store")
 
-    touch(fi)
+    touch(ba)
 
     Kata.delete()
 
@@ -44,11 +44,11 @@ Kata.name("human"; live)
 
 # ---- #
 
-Kata.name("date"; live)
+Kata.name("datehuman"; live)
 
 # ---- #
 
-Kata.name("datehuman"; live)
+Kata.name("date"; live)
 
 # ---- #
 
@@ -72,9 +72,9 @@ Kata.adcopu
 
 # ---- #
 
-for na in ("Name.jl", "Name.pr")
+for ba in ("Name.jl", "Name.pr")
 
-    Kata.make(na)
+    Kata.make(ba)
 
     Kata.match()
 

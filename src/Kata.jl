@@ -111,11 +111,11 @@ Name files automatically.
 
                     end
 
-                    ti = Nucleus.Tex.make_title(pr)
+                    te = Nucleus.Tex.make_title(pr)
 
                     if isempty(da)
 
-                        "$ti$ex"
+                        "$te$ex"
 
                     elseif style == "date"
 
@@ -123,7 +123,7 @@ Name files automatically.
 
                     else
 
-                        "$da $ti$ex"
+                        "$da $te$ex"
 
                     end
 
@@ -176,8 +176,6 @@ Beautify .jl and web files.
 
     format(".")
 
-    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
-
     ar_ = String[]
 
     for r2 in (
@@ -200,6 +198,8 @@ Beautify .jl and web files.
 
     end
 
+    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
+
     run(
         pipeline(
             `find -E . -type f -regex ".*\.(json|yaml|toml|html|md)" $ar_ -print0`,
@@ -213,7 +213,7 @@ function _git(ex)
 
     di = pwd()
 
-    for (ro, di_, fi_) in walkdir(di)
+    for (ro, di_, _) in walkdir(di)
 
         if !(".git" in di_)
 
@@ -325,27 +325,26 @@ Match a package to its template.
 
     id = lastindex(d2) + 2
 
-    for (ro, di_, fi_) in walkdir(d2), ba_ in (fi_, di_), ba in ba_
+    for (ro, di_, fi_) in walkdir(d2), ba_ in (di_, fi_), ba in ba_
 
         @assert ispath(joinpath(ro[id:end], replace(ba, re_...)))
 
     end
 
-    '-'^95
     e1 = "# $('-'^95) #"
 
-    for (el, e2, bo_) in (
+    for (fi, e2, bo_) in (
         ("README.md", "---", [false, true]),
         (".gitignore", e1, [true, false]),
         (joinpath("src", "TEMPLATE.jl"), e1, [true, false]),
         (joinpath("test", "runtests.jl"), e1, [true, false]),
     )
 
-        p1 = joinpath(d1, replace(el, re_...))
+        p1 = joinpath(d1, replace(fi, re_...))
 
         s1_ = split(read(p1, String), e2)
 
-        s2_ = split(replace(read(joinpath(d2, el), String), re_...), e2)
+        s2_ = split(replace(read(joinpath(d2, fi), String), re_...), e2)
 
         @assert lastindex(s1_) == lastindex(s2_)
 

@@ -1,6 +1,6 @@
 # 💠
 
-## Command Line Interface
+## Command line interface
 
 ![The screenshot of the help command](media/help.png)
 
