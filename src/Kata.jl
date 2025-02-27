@@ -262,6 +262,7 @@ git add, commit, and push.
 
         run(`git add -A`)
 
+        # TODO
         me = $message
 
         if success(run(`git commit --message $me`; wait = false))
@@ -297,9 +298,7 @@ Make a package or project.
 """
 @cast function make(name)
 
-    di = pwd()
-
-    cd(cp(path(name), joinpath(di, name)))
+    cd(cp(path(name), joinpath(pwd(), name)))
 
     for (be, af) in make_pair(name)
 
@@ -320,44 +319,42 @@ Match a package to its template.
 
     d2 = path(d1)
 
-    re_ = make_pair(basename(d1))
+    pa_ = make_pair(basename(d1))
 
     id = lastindex(d2) + 2
 
     for (d3, b1_, b2_) in walkdir(d2), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(d3[id:end], replace(ba, re_...)))
+        @assert ispath(joinpath(d3[id:end], replace(ba, pa_...)))
 
     end
 
-    e1 = "# $('-'^95) #"
+    de = "# $('-'^95) #"
 
-    for (fi, e2, bo_) in (
+    for (f2, de, bo_) in (
         ("README.md", "---", [false, true]),
-        (".gitignore", e1, [true, false]),
-        (joinpath("src", "TEMPLATE.jl"), e1, [true, false]),
-        (joinpath("test", "runtests.jl"), e1, [true, false]),
+        (".gitignore", de, [true, false]),
+        (joinpath("src", "TEMPLATE.jl"), de, [true, false]),
+        (joinpath("test", "runtests.jl"), de, [true, false]),
     )
 
-        p1 = joinpath(d1, replace(fi, re_...))
+        f1 = joinpath(d1, replace(f2, pa_...))
 
-        s1_ = split(read(p1, String), e2)
+        s1_ = split(read(f1, String), de)
 
-        s2_ = split(replace(read(joinpath(d2, fi), String), re_...), e2)
+        s2_ = split(replace(read(joinpath(d2, f2), String), pa_...), de)
 
         @assert lastindex(s1_) == lastindex(s2_)
 
-        s3_ = map(ifelse, bo_, s2_, s1_)
-
-        if s1_ == s3_
+        if s1_ == map!(ifelse, s2_, bo_, s2_, s1_)
 
             continue
 
         end
 
-        write(p1, join(s3_, e2))
+        write(f1, join(s2_, de))
 
-        @info "🍡 Transplanted $(Nucleus.Path.text(p1, d1))."
+        @info "🍡 Transplanted $(Nucleus.Path.text(f1, d1))."
 
     end
 

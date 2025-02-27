@@ -1,6 +1,6 @@
 using TEMPLATE
 
-for ba in readdir(@__DIR__)
+for ba in readdir()
 
     if isdir(ba) || ba == "runtests.jl"
 
@@ -8,11 +8,9 @@ for ba in readdir(@__DIR__)
 
     end
 
-    jl = joinpath(@__DIR__, ba)
+    @info "🎬 Running $ba"
 
-    @info "🎬 Running $jl"
-
-    run(`julia --project $jl`)
+    run(`julia --project $ba`)
 
 end
 

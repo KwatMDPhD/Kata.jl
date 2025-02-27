@@ -16,9 +16,9 @@ Nucleus.Path.rea(".")
 
 # ---- #
 
-for ba in (".DS_Store", ".ds_store", ".DS Store")
+for fi in (".DS_Store", ".ds_store", ".DS Store")
 
-    touch(ba)
+    touch(fi)
 
     Kata.delete()
 
