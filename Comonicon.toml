@@ -1,0 +1,21 @@
+name = "kata"
+
+[command]
+static = false
+width = 80
+dash = false
+
+[install]
+completion = true
+
+[sysimg]
+filter_stdlibs = false
+
+[sysimg.precompile]
+execution_file = ["test/runtests.jl"]
+
+[application]
+filter_stdlibs = false
+
+[application.precompile]
+execution_file = ["test/runtests.jl"]
