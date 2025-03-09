@@ -1,5 +1,3 @@
-name = "kata"
-
 [command]
 static = false
 width = 80
