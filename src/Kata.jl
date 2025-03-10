@@ -184,6 +184,7 @@ Beautify .jl and web files.
         "package\\.json",
         "node_modules/.*",
         "public/.*",
+        "Manifest\\.toml",
         "build/.*",
         "output/.*",
         "Medicine\\.pr/.*",
@@ -202,8 +203,8 @@ Beautify .jl and web files.
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|html|md)" $ar_ -print0`,
-            `xargs -0 prettier --plugin $(pr)tailwindcss/dist/index.mjs --write`,
+            `find -E . -type f -regex ".*\.(json|toml|html|md)" $ar_ -print0`,
+            `xargs -0 prettier --write --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs`,
         ),
     )
 

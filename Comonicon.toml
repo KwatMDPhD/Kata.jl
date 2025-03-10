@@ -1,6 +1,5 @@
 [command]
 static = false
-width = 80
 dash = false
 
 [install]
