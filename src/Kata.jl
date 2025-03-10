@@ -184,6 +184,7 @@ Beautify .jl and web files.
         "package\\.json",
         "node_modules/.*",
         "public/.*",
+        "build/.*",
         "output/.*",
         "Medicine\\.pr/.*",
         "gene_set/.*",
