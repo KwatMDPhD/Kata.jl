@@ -199,12 +199,17 @@ Beautify .jl and web files.
 
     end
 
-    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules", "prettier-plugin-")
+    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|toml|html|md)" $ar_ -print0`,
-            `xargs -0 prettier --write --plugin $(pr)toml/lib/index.js --plugin $(pr)tailwindcss/dist/index.mjs`,
+            `find -E . -type f -regex ".*\.(json|toml|html|md|sh|lua)" $ar_ -print0`,
+            `xargs -0 prettier \
+    --plugin $(pr)/prettier-plugin-toml/lib/index.js \
+    --plugin $(pr)/prettier-plugin-tailwindcss/dist/index.mjs \
+    --plugin $(pr)/prettier-plugin-sh/lib/index.js \
+    --plugin $(pr)/@prettier/plugin-lua/src/index.js \
+    --write`,
         ),
     )
 

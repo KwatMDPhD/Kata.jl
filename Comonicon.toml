@@ -1,6 +1,5 @@
 [command]
 static = false
-dash = false
 
 [install]
 completion = true
