@@ -46,13 +46,11 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
-    d1 = pwd()
-
     re = r"\.(git|key|numbers|pages)$"
 
-    for (d2, _, ba_) in walkdir(d1)
+    for (di, _, ba_) in walkdir(pwd())
 
-        if contains(d2, re)
+        if contains(di, re)
 
             continue
 
@@ -60,9 +58,9 @@ Name files automatically.
 
         for ba in ba_
 
-            f1 = joinpath(d2, ba)
+            f1 = joinpath(di, ba)
 
-            p1, ex = splitext(ba)
+            sp, ex = splitext(ba)
 
             ex = lowercase(ex)
 
@@ -72,13 +70,13 @@ Name files automatically.
 
             end
 
-            p2 = if style == "code"
+            st = if style == "code"
 
-                Nucleus.Tex.make_low(Nucleus.Tex.update_space(p1))
+                Nucleus.Tex.make_low(Nucleus.Tex.update_space(sp))
 
             elseif style == "human"
 
-                Nucleus.Tex.update_space(Nucleus.Tex.make_title(p1))
+                Nucleus.Tex.update_space(Nucleus.Tex.make_title(sp))
 
             elseif style == "date" || style == "datehuman"
 
@@ -103,7 +101,7 @@ Name files automatically.
                         ),
                     )
 
-                    if mi < p1[1:min(lastindex(p1), 19)]
+                    if mi < sp[1:min(lastindex(sp), 19)]
 
                         da = mi
 
@@ -111,11 +109,11 @@ Name files automatically.
 
                 end
 
-                te = Nucleus.Tex.make_title(p1)
+                st = Nucleus.Tex.make_title(sp)
 
                 if isempty(da)
 
-                    te
+                    st
 
                 elseif style == "date"
 
@@ -123,13 +121,13 @@ Name files automatically.
 
                 else
 
-                    "$da $te"
+                    "$da $st"
 
                 end
 
             end
 
-            f2 = joinpath(d2, "$p2$ex")
+            f2 = joinpath(di, "$st$ex")
 
             if f1 == f2
 
@@ -143,7 +141,7 @@ Name files automatically.
 
             end
 
-            @info "$(Nucleus.Path.text(f1, d1)) 🛸 $(Nucleus.Path.text(f2, d1))."
+            @info "$(Nucleus.Path.text(f1)) 🛸 $(Nucleus.Path.text(f2))."
 
         end
 
@@ -177,9 +175,9 @@ Beautify .jl and web files.
 
     format(".")
 
-    ar_ = String[]
+    st_ = String[]
 
-    for re in (
+    for st in (
         "\\.git/.*",
         "package\\.json",
         "node_modules/.*",
@@ -191,24 +189,24 @@ Beautify .jl and web files.
         "gene_set/.*",
     )
 
-        push!(ar_, "-not")
+        push!(st_, "-not")
 
-        push!(ar_, "-regex")
+        push!(st_, "-regex")
 
-        push!(ar_, ".*$re")
+        push!(st_, ".*$st")
 
     end
 
-    pr = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
+    no = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|toml|html|md|sh|lua)" $ar_ -print0`,
+            `find -E . -type f -regex ".*\.(json|toml|html|md|sh|lua)" $st_ -print0`,
             `xargs -0 prettier \
-    --plugin $(pr)/prettier-plugin-toml/lib/index.js \
-    --plugin $(pr)/prettier-plugin-tailwindcss/dist/index.mjs \
-    --plugin $(pr)/prettier-plugin-sh/lib/index.js \
-    --plugin $(pr)/@prettier/plugin-lua/src/index.js \
+    --plugin $no/prettier-plugin-toml/lib/index.js \
+    --plugin $no/prettier-plugin-tailwindcss/dist/index.mjs \
+    --plugin $no/prettier-plugin-sh/lib/index.js \
+    --plugin $no/@prettier/plugin-lua/src/index.js \
     --write`,
         ),
     )
@@ -217,9 +215,9 @@ end
 
 function update(ex)
 
-    d1 = pwd()
+    pw = pwd()
 
-    for (d2, ba_, _) in walkdir(d1)
+    for (di, ba_, _) in walkdir(pw)
 
         if !(".git" in ba_)
 
@@ -227,13 +225,13 @@ function update(ex)
 
         end
 
-        cd(d2)
+        cd(di)
 
-        @info "📍 $(Nucleus.Path.text(d2, d1))."
+        @info "📍 $(Nucleus.Path.text(di))."
 
         eval(ex)
 
-        cd(d1)
+        cd(pw)
 
     end
 
@@ -291,7 +289,7 @@ end
 function make_pair(ba)
 
     "TEMPLATE" => ba[1:(end - 3)],
-    "26e7aedd-919a-4e26-a588-02a954578843" => string(uuid4()),
+    "26e7aedd-919a-4e26-a588-02a954578843" => "$(uuid4())",
     "AUTHOR" => readchomp(`git config user.name`)
 
 end
@@ -307,11 +305,11 @@ Make a package or project.
 
     cd(cp(path(name), joinpath(pwd(), name)))
 
-    for (be, af) in make_pair(name)
+    for (s1, s2) in make_pair(name)
 
-        rename(be, af)
+        rename(s1, s2)
 
-        rewrite(be, af)
+        rewrite(s1, s2)
 
     end
 
@@ -322,17 +320,17 @@ Match a package to its template.
 """
 @cast function match()
 
-    d1 = pwd()
+    pw = pwd()
 
-    d2 = path(d1)
+    te = path(pw)
 
-    pa_ = make_pair(basename(d1))
+    pa_ = make_pair(basename(pw))
 
-    id = lastindex(d2) + 2
+    id = lastindex(te) + 2
 
-    for (d3, b1_, b2_) in walkdir(d2), ba_ in (b1_, b2_), ba in ba_
+    for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(d3[id:end], replace(ba, pa_...)))
+        @assert ispath(joinpath(di[id:end], replace(ba, pa_...)))
 
     end
 
@@ -345,11 +343,11 @@ Match a package to its template.
         (joinpath("test", "runtests.jl"), de, [true, false]),
     )
 
-        f1 = joinpath(d1, replace(f2, pa_...))
+        f1 = joinpath(pw, replace(f2, pa_...))
 
         s1_ = split(read(f1, String), de)
 
-        s2_ = split(replace(read(joinpath(d2, f2), String), pa_...), de)
+        s2_ = split(replace(read(joinpath(te, f2), String), pa_...), de)
 
         @assert lastindex(s1_) == lastindex(s2_)
 
@@ -361,7 +359,7 @@ Match a package to its template.
 
         write(f1, join(s2_, de))
 
-        @info "🍡 Transplanted $(Nucleus.Path.text(f1, d1))."
+        @info "🍡 Transplanted $(Nucleus.Path.text(f1))."
 
     end
 
