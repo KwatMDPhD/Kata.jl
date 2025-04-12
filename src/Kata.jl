@@ -365,8 +365,6 @@ Match a package to its template.
 
 end
 
-"""
-"""
 @main
 
 end
