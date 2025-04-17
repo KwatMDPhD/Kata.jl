@@ -12,13 +12,13 @@ using Nucleus
 
 cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
 
-Nucleus.Path.rea(".")
+Nucleus.Path.rea('.')
 
 # ---- #
 
-for fi in (".DS_Store", ".ds_store", ".DS Store")
+for ba in (".DS_Store", ".ds_store", ".DS Store")
 
-    touch(fi)
+    touch(ba)
 
     Kata.delete()
 
@@ -32,23 +32,19 @@ Kata.rename("Aa", "Zz")
 
 # ---- #
 
-const live = true
+Kata.name("code"; live = true)
 
 # ---- #
 
-Kata.name("code"; live)
+Kata.name("human"; live = true)
 
 # ---- #
 
-Kata.name("human"; live)
+Kata.name("datehuman"; live = true)
 
 # ---- #
 
-Kata.name("datehuman"; live)
-
-# ---- #
-
-Kata.name("date"; live)
+Kata.name("date"; live = true)
 
 # ---- #
 
