@@ -267,7 +267,6 @@ git add, commit, and push.
 
         run(`git add -A`)
 
-        # TODO
         me = $message
 
         if success(run(`git commit --message $me`; wait = false))
