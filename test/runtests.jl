@@ -59,12 +59,27 @@ Kata.rewrite('a', 'z')
 Kata.beautify()
 
 # ---- #
+# TODO
+
+Kata.update
+
+# ---- #
 
 Kata.festdi
 
 # ---- #
 
 Kata.adcopu
+
+# ---- #
+# TODO
+
+Kata.path
+
+# ---- #
+# TODO
+
+Kata.make_pair
 
 # ---- #
 
