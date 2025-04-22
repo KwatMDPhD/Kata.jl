@@ -32,27 +32,19 @@ Kata.rename("Aa", "Zz")
 
 # ---- #
 
-Kata.name("code"; live = true)
+for na in ("code", "human", "datehuman", "date")
+
+    Kata.name(na; live = true)
+
+end
 
 # ---- #
 
-Kata.name("human"; live = true)
+for (s1, s2) in (('A', 'Z'), ('a', 'z'))
 
-# ---- #
+    Kata.rewrite(s1, s2)
 
-Kata.name("datehuman"; live = true)
-
-# ---- #
-
-Kata.name("date"; live = true)
-
-# ---- #
-
-Kata.rewrite('A', 'Z')
-
-# ---- #
-
-Kata.rewrite('a', 'z')
+end
 
 # ---- #
 
@@ -64,10 +56,12 @@ Kata.beautify()
 Kata.update
 
 # ---- #
+# TODO
 
 Kata.festdi
 
 # ---- #
+# TODO
 
 Kata.adcopu
 
@@ -87,11 +81,21 @@ for ba in ("Name.jl", "Name.pr")
 
     Kata.make(ba)
 
-    Kata.match()
-
     activate(".")
 
     test()
+
+    cd("..")
+
+end
+
+# ---- #
+
+for ba in ("Name.jl", "Name.pr")
+
+    cd(ba)
+
+    Kata.match()
 
     cd("..")
 
