@@ -38,7 +38,7 @@ Name files automatically.
 
 # Arguments
 
-  - `style`: "code" | "human" | "date" | "datehuman".
+  - `style`: "code" | "human" | "datehuman" | "date".
 
 # Flags
 
@@ -78,7 +78,7 @@ Name files automatically.
 
                 Nucleus.Tex.update_space(Nucleus.Tex.make_title(sp))
 
-            elseif style == "date" || style == "datehuman"
+            elseif style == "datehuman" || style == "date"
 
                 da = ""
 

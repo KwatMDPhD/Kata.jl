@@ -10,7 +10,11 @@ using Nucleus
 
 # ---- #
 
-cd(cp(pkgdir(Kata, "data"), joinpath(tempdir(), "Kata"); force = true))
+const RO = pkgdir(Kata)
+
+# ---- #
+
+cd(cp(joinpath(RO, "data"), joinpath(tempdir(), "Kata"); force = true))
 
 Nucleus.Path.rea('.')
 
@@ -28,25 +32,30 @@ end
 
 # ---- #
 
-Kata.rename("Aa", "Zz")
+for (a1, a2) in (("Aa", "Zz"),)
 
-# ---- #
-
-for na in ("code", "human", "datehuman", "date")
-
-    Kata.name(na; live = true)
+    Kata.rename(a1, a2)
 
 end
 
 # ---- #
 
-for (s1, s2) in (('A', 'Z'), ('a', 'z'))
+for st in ("code", "human", "datehuman", "date")
 
-    Kata.rewrite(s1, s2)
+    Kata.name(st; live = true)
 
 end
 
 # ---- #
+
+for (a1, a2) in (('A', 'Z'), ('a', 'z'))
+
+    Kata.rewrite(a1, a2)
+
+end
+
+# ---- #
+# TODO
 
 Kata.beautify()
 
@@ -66,9 +75,13 @@ Kata.festdi
 Kata.adcopu
 
 # ---- #
-# TODO
 
-Kata.path
+for (pa, re) in
+    (("A.jl", joinpath(RO, "TEMPLATE.jl")), ("/A/B.pr", joinpath(RO, "TEMPLATE.pr")))
+
+    @test Kata.path(pa) === re
+
+end
 
 # ---- #
 # TODO
@@ -77,13 +90,13 @@ Kata.make_pair
 
 # ---- #
 
-for ba in ("Name.jl", "Name.pr")
+const BA_ = "Name.jl", "Name.pr"
+
+# ---- #
+
+for ba in BA_
 
     Kata.make(ba)
-
-    activate(".")
-
-    test()
 
     cd("..")
 
@@ -91,7 +104,7 @@ end
 
 # ---- #
 
-for ba in ("Name.jl", "Name.pr")
+for ba in BA_
 
     cd(ba)
 
@@ -103,6 +116,20 @@ end
 
 # ---- #
 
-cd(pkgdir(Kata))
+for ba in BA_
+
+    cd(ba)
+
+    activate(".")
+
+    test()
+
+    cd("..")
+
+end
+
+# ---- #
+
+cd(RO)
 
 Kata.match()
