@@ -10,11 +10,11 @@ using Nucleus
 
 # ---- #
 
-const RO = pkgdir(Kata)
+const DI = pkgdir(Kata)
 
 # ---- #
 
-cd(cp(joinpath(RO, "data"), joinpath(tempdir(), "Kata"); force = true))
+cd(cp(joinpath(DI, "data"), joinpath(tempdir(), "Kata"); force = true))
 
 Nucleus.Path.rea('.')
 
@@ -77,7 +77,7 @@ Kata.adcopu
 # ---- #
 
 for (pa, re) in
-    (("A.jl", joinpath(RO, "TEMPLATE.jl")), ("/A/B.pr", joinpath(RO, "TEMPLATE.pr")))
+    (("A.jl", joinpath(DI, "TEMPLATE.jl")), ("/A/B.pr", joinpath(DI, "TEMPLATE.pr")))
 
     @test Kata.path(pa) === re
 
@@ -130,6 +130,6 @@ end
 
 # ---- #
 
-cd(RO)
+cd(DI)
 
 Kata.match()
