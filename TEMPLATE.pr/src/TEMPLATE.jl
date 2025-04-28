@@ -1,10 +1,10 @@
 module TEMPLATE
 
-const D1 = dirname(@__DIR__)
+const PK = pkgdir(TEMPLATE)
 
-const D2 = joinpath(D1, "input")
+const IN = joinpath(PK, "input")
 
-const D3 = joinpath(D1, "output")
+const OU = joinpath(PK, "output")
 
 # ----------------------------------------------------------------------------------------------- #
 
