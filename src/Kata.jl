@@ -227,7 +227,7 @@ function update(ex)
 
         cd(di)
 
-        @info "📍 $(Nucleus.Path.text(di, pw))."
+        @info "👉 $(Nucleus.Path.text(di, pw))."
 
         eval(ex)
 
