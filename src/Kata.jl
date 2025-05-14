@@ -72,11 +72,11 @@ Name files automatically.
 
             st = if style == "code"
 
-                Nucleus.Tex.make_low(Nucleus.Tex.update_space(sp))
+                Nucleus.Tex.text_low(Nucleus.Tex.update_space(sp))
 
             elseif style == "human"
 
-                Nucleus.Tex.update_space(Nucleus.Tex.make_title(sp))
+                Nucleus.Tex.update_space(Nucleus.Tex.text_title(sp))
 
             elseif style == "datehuman" || style == "date"
 
@@ -109,7 +109,7 @@ Name files automatically.
 
                 end
 
-                st = Nucleus.Tex.make_title(sp)
+                st = Nucleus.Tex.text_title(sp)
 
                 if isempty(da)
 
