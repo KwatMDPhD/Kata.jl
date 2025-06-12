@@ -213,7 +213,7 @@ Beautify .jl and web files.
 
 end
 
-function update(ex)
+function update(st, ex)
 
     pw = pwd()
 
@@ -227,7 +227,7 @@ function update(ex)
 
         cd(di)
 
-        @info "👉 $(Nucleus.Path.text(di, pw))."
+        @info "$st $(Nucleus.Path.text(di, pw))."
 
         eval(ex)
 
@@ -242,7 +242,7 @@ git fetch, status, and diff.
 """
 @cast function festdi()
 
-    update(quote
+    update("✌️", quote
 
         run(`git fetch`)
 
@@ -263,7 +263,7 @@ git add, commit, and push.
 """
 @cast function adcopu(message)
 
-    update(quote
+    update("👍", quote
 
         run(`git add -A`)
 
