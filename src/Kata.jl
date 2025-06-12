@@ -242,7 +242,7 @@ git fetch, status, and diff.
 """
 @cast function festdi()
 
-    update("✌️", quote
+    update("👉", quote
 
         run(`git fetch`)
 
