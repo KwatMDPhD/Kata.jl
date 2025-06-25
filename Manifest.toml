@@ -248,9 +248,9 @@ version = "1.4.4"
     Parsers = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 
 [[deps.InputBuffers]]
-git-tree-sha1 = "30cdff86baf7384541e5e1ce23d81def29b807ff"
+git-tree-sha1 = "e5392ea00942566b631e991dd896942189937b2f"
 uuid = "0c81fc1b-5583-44fc-8770-48be1e1cca08"
-version = "1.0.1"
+version = "1.1.1"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -539,9 +539,9 @@ version = "0.7.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
-git-tree-sha1 = "3bac05bc7e74a75fd9cba4295cde4045d9fe2386"
+git-tree-sha1 = "9b81b8393e50b7d4e6d0a9f14e192294d3b7c109"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
-version = "1.2.1"
+version = "1.3.0"
 
 [[deps.SentinelArrays]]
 deps = ["Dates", "Random"]
