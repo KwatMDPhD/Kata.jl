@@ -181,9 +181,9 @@ version = "0.10.14"
 
 [[deps.EzXML]]
 deps = ["Printf", "XML2_jll"]
-git-tree-sha1 = "f6f44ab51d253f851d2084c1ac761bb679798408"
+git-tree-sha1 = "680a39c9aadce7c721b68d979e66dc65d2021aa6"
 uuid = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
-version = "1.2.1"
+version = "1.2.2"
 
 [[deps.FilePathsBase]]
 deps = ["Compat", "Dates"]
@@ -706,9 +706,9 @@ version = "0.10.4"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
-git-tree-sha1 = "b8b243e47228b4a3877f1dd6aee0c5d56db7fcf4"
+git-tree-sha1 = "c217bad8fccb3bbfef7d7902326eacfbd0d702ad"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.13.6+1"
+version = "2.14.4+0"
 
 [[deps.ZipArchives]]
 deps = ["ArgCheck", "CodecInflate64", "CodecZlib", "InputBuffers", "PrecompileTools", "TranscodingStreams", "Zlib_jll"]
