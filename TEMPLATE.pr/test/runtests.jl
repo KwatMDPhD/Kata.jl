@@ -1,12 +1,9 @@
 using TEMPLATE
 
-for ba in readdir()
-
-    if isdir(ba) || ba == "runtests.jl"
-
-        continue
-
-    end
+for ba in sort!(
+    filter!(ba -> ba != "runtests.jl" && !isdir(ba), readdir());
+    by = ba -> parse(Int, split(ba, '.'; limit = 2)[1]),
+)
 
     @info "🎬 Running $ba"
 
