@@ -325,11 +325,11 @@ Match a package to its template.
 
     pa_ = make_pair(basename(pw))
 
-    id = lastindex(te) + 2
+    nd = lastindex(te) + 2
 
     for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(di[id:end], replace(ba, pa_...)))
+        @assert ispath(joinpath(di[nd:end], replace(ba, pa_...)))
 
     end
 
