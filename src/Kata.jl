@@ -183,10 +183,7 @@ Beautify .jl and web files.
         "node_modules/.*",
         "public/.*",
         "Manifest\\.toml",
-        "build/.*",
-        "output/.*",
-        "Medicine\\.pr/.*",
-        "gene_set/.*",
+        "ou/.*",
     )
 
         push!(st_, "-not")

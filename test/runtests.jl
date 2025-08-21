@@ -14,7 +14,7 @@ const PK = pkgdir(Kata)
 
 # ---- #
 
-cd(cp(joinpath(PK, "data"), joinpath(tempdir(), "Kata"); force = true))
+cd(cp(joinpath(PK, "da"), joinpath(tempdir(), "Kata"); force = true))
 
 Nucleus.Path.rea('.')
 
