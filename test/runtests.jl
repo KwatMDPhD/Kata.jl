@@ -20,7 +20,7 @@ Nucleus.Path.rea('.')
 
 # ---- #
 
-for ba in (".DS_Store", ".ds_store", ".DS Store")
+for ba in (".DS_Store", ".ds_store", ".DS store", ".DS Store")
 
     touch(ba)
 
@@ -32,7 +32,7 @@ end
 
 # ---- #
 
-for (a1, a2) in (("Aa", "Zz"),)
+for (a1, a2) in (("Ff", "Zz"),)
 
     Kata.rename(a1, a2)
 
@@ -40,15 +40,13 @@ end
 
 # ---- #
 
-for st in ("code", "human", "datehuman", "date")
+Kata.name("code"; live = true)
 
-    Kata.name(st; live = true)
-
-end
+Kata.name("human"; live = true)
 
 # ---- #
 
-for (a1, a2) in (('A', 'Z'), ('a', 'z'))
+for (a1, a2) in (('G', 'Y'), ('g', 'y'))
 
     Kata.rewrite(a1, a2)
 

@@ -38,7 +38,7 @@ Name files automatically.
 
 # Arguments
 
-  - `style`: "code" | "human" | "datehuman" | "date".
+  - `style`: "code" | "human"
 
 # Flags
 
@@ -46,94 +46,74 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
-    re = r"\.(git|key|numbers|pages)$"
-
     for (di, _, ba_) in walkdir(pwd())
 
-        if contains(di, re)
+        if contains(di, r"\.(git|key|numbers|pages)(/|$)")
 
             continue
 
         end
 
-        for ba in ba_
+        for b1 in ba_
 
-            f1 = joinpath(di, ba)
+            f1 = joinpath(di, b1)
 
-            sp, ex = splitext(ba)
+            s1, e1 = splitext(Nucleus.Tex.text_strip(b1))
 
-            ex = lowercase(ex)
+            in_ = findfirst(r"^[\d_ ]+", s1)
 
-            if ex == ".jpeg"
+            s2, s3 = isnothing(in_) ? ("", s1) : (s1[in_], s1[(in_[end] + 1):end])
 
-                ex = ".jpg"
+            s4 = endswith(s2, r"[_ ]") ? s2[1:(end - 1)] : s2
 
-            end
+            e2 = lowercase(e1)
 
-            st = if style == "code"
+            e3 = e2 == ".jpeg" ? ".jpg" : e2
 
-                Nucleus.Tex.text_low(Nucleus.Tex.text_strip(sp))
+            s5, ch, s6 = if style == "code"
+
+                Nucleus.Tex.text_low(s4), '_', Nucleus.Tex.text_low(s3)
 
             elseif style == "human"
 
-                Nucleus.Tex.text_strip(Nucleus.Tex.text_title(sp))
+                if e3 == ".png" ||
+                   e3 == ".heic" ||
+                   e3 == ".jpg" ||
+                   e3 == ".mov" ||
+                   e3 == ".mp4"
 
-            elseif style == "datehuman" || style == "date"
-
-                da = ""
-
-                if ex == ".png" ||
-                   ex == ".heic" ||
-                   ex == ".jpg" ||
-                   ex == ".mov" ||
-                   ex == ".mp4"
-
-                    mi = minimum(
-                        sp -> replace(
-                            Nucleus.Strin.get_end(sp, '\t'),
-                            "00 00 00" => "__ __ __",
-                        ),
-                        eachsplit(
+                    s5 = minimum(
+                        replace(Nucleus.Strin.get_end(s5, '\t'), "00 00 00" => "__ __ __") for s5 in eachsplit(
                             readchomp(
                                 `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $f1`,
                             ),
                             '\n',
-                        ),
+                        )
                     )
 
-                    if mi < sp[1:min(lastindex(sp), 19)]
-
-                        da = mi
-
-                    end
-
-                end
-
-                st = Nucleus.Tex.text_title(sp)
-
-                if isempty(da)
-
-                    st
-
-                elseif style == "date"
-
-                    da
+                    isempty(s4) || s5 < s4 ? s5 : s4
 
                 else
 
-                    "$da $st"
+                    s4
 
-                end
+                end,
+                ' ',
+                Nucleus.Tex.text_title(s3)
 
             end
 
-            f2 = joinpath(di, "$st$ex")
+            b2 = "$s5$(isempty(s5) || isempty(s6) ? "" : ch)$s6$e3"
 
-            if f1 == f2
+            if b1 == b2
 
                 continue
 
             end
+
+            f2 = joinpath(di, b2)
+
+            em = b2[1] == '.' || 1 < count(isuppercase, b2) ? "🚨" : "🛸"
 
             if live
 
@@ -141,7 +121,7 @@ Name files automatically.
 
             end
 
-            @info "$(Nucleus.Path.text(f1)) 🛸 $(Nucleus.Path.text(f2))."
+            @info "$(Nucleus.Path.text(f1)) $em $(Nucleus.Path.text(f2))."
 
         end
 
@@ -224,7 +204,7 @@ function update(st, ex)
 
         cd(di)
 
-        @info "$st $(Nucleus.Path.text(di, pw))."
+        @info "$st $(Nucleus.Path.text(di, pw))"
 
         eval(ex)
 
@@ -355,7 +335,7 @@ Match a package to its template.
 
         write(f1, join(s2_, de))
 
-        @info "🍡 Transplanted $(Nucleus.Path.text(f1))."
+        @info "🍡 $(Nucleus.Path.text(f1))."
 
     end
 
