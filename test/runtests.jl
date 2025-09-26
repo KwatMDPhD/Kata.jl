@@ -13,7 +13,6 @@ using Nucleus
 const PK = pkgdir(Kata)
 
 # ---- #
-# TODO: Rename files
 
 cd(cp(joinpath(PK, "da"), joinpath(tempdir(), "Kata"); force = true))
 
@@ -27,13 +26,13 @@ for ba in (".DS_Store", ".ds_store", ".DS store", ".DS Store")
 
     Kata.delete()
 
-    @test lastindex(readdir()) === 14
+    @test lastindex(readdir()) === 11
 
 end
 
 # ---- #
 
-for (a1, a2) in (("Yy", "Nn"),)
+for (a1, a2) in (("Yy", "Ll"),)
 
     Kata.rename(a1, a2)
 
@@ -41,9 +40,19 @@ end
 
 # ---- #
 
-for st in ("code", "human", "datehuman")
+for st in ("", "Aa/Bb", "Aa/.Bb", "Aa/bb", "Aa/BB")
 
-    @info st
+    Kata.lo(st)
+
+end
+
+# ---- #
+
+const ST_ = "code", "human", "datehuman"
+
+# ---- #
+
+for st in ST_
 
     Kata.name(st)
 
@@ -51,7 +60,17 @@ end
 
 # ---- #
 
-for (a1, a2) in (('Z', 'O'), ('z', 'o'))
+for st in ST_
+
+    Kata.name(st; live = true)
+
+    sleep(8)
+
+end
+
+# ---- #
+
+for (a1, a2) in (('Z', 'M'), ('z', 'm'))
 
     Kata.rewrite(a1, a2)
 
@@ -80,7 +99,7 @@ Kata.adcopu
 # ---- #
 
 for (pa, re) in
-    (("A.jl", joinpath(PK, "TEMPLATE.jl")), ("/A/B.pr", joinpath(PK, "TEMPLATE.pr")))
+    (("Aa.jl", joinpath(PK, "TEMPLATE.jl")), ("/Bb/Cc.pr", joinpath(PK, "TEMPLATE.pr")))
 
     @test Kata.path(pa) === re
 

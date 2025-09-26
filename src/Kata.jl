@@ -33,9 +33,15 @@ Rename files and directories.
 
 end
 
-function is(ba)
+function lo(pa)
 
+    ba = basename(pa)
 
+    if !isempty(ba) && (startswith(ba, '.') || !isone(count(isuppercase, ba)))
+
+        @info "🚨 $pa"
+
+    end
 
 end
 
@@ -53,6 +59,12 @@ Name files automatically.
 @cast function name(style; live::Bool = false)
 
     for (di, _, ba_) in walkdir(pwd())
+
+        if style == "human" || style == "datehuman"
+
+            lo(di)
+
+        end
 
         if contains(di, r"\.(git|key|numbers|pages)")
 
@@ -74,7 +86,7 @@ Name files automatically.
 
             else
 
-                s1[in_], s1[(in_[end] + 1):end]
+                strip(s1[in_]), s1[(in_[end] + 1):end]
 
             end
 
@@ -86,20 +98,22 @@ Name files automatically.
 
             end
 
-            if style == "code"
+            ch = if style == "code"
 
                 s2 = Nucleus.Tex.text_low(s2)
 
                 s3 = Nucleus.Tex.text_low(s3)
+
+                '_'
 
             elseif style == "human" || style == "datehuman"
 
                 s2 = Nucleus.Tex.text_title(s2)
 
                 if style == "datehuman" && (
-                    ex == ".png" ||
                     ex == ".heic" ||
                     ex == ".jpg" ||
+                    ex == ".png" ||
                     ex == ".mov" ||
                     ex == ".mp4"
                 )
@@ -107,7 +121,7 @@ Name files automatically.
                     s4 = minimum(
                         replace(Nucleus.Strin.get_end(sp, '\t'), "00 00 00" => "__ __ __") for sp in eachsplit(
                             readchomp(
-                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $f1`,
+                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -CreateDate -CreationDate -DateTimeOriginal -FileModifyDate $f1`,
                             ),
                             '\n',
                         )
@@ -117,27 +131,25 @@ Name files automatically.
 
                         s2 = s4
 
-                        if !isempty(s3)
-
-                            s2 = "$s2 "
-
-                        end
-
                     end
 
                 end
 
                 s3 = Nucleus.Tex.text_title(s3)
 
-                if startswith(s3, '.') || !isempty(s3) && !isone(count(isuppercase, s3))
+                lo(s3)
 
-                    @info "🚨 $s3"
-
-                end
+                ' '
 
             end
 
-            f2 = joinpath(di, "$s2$s3$ex")
+            if isempty(s2) || isempty(s3)
+
+                ch = ""
+
+            end
+
+            f2 = joinpath(di, "$s2$ch$s3$ex")
 
             if f1 == f2
 
@@ -147,11 +159,21 @@ Name files automatically.
 
             if live
 
+                if lowercase(f1) == lowercase(f2)
+
+                    f1 = mv(f1, "$(f2)_")
+
+                end
+
                 mv(f1, f2)
 
             end
 
-            @info "$(Nucleus.Path.text(f1)) 🛸 $(Nucleus.Path.text(f2))."
+            f1 = Nucleus.Path.text(f1)
+
+            f2 = Nucleus.Path.text(f2)
+
+            @info "$f1 🛸 $f2."
 
         end
 
@@ -185,34 +207,15 @@ Beautify .jl and web files.
 
     format(".")
 
-    st_ = String[]
-
-    for st in (
-        "\\.git/.*",
-        "package\\.json",
-        "node_modules/.*",
-        "public/.*",
-        "Manifest\\.toml",
-        "ou/.*",
-    )
-
-        push!(st_, "-not")
-
-        push!(st_, "-regex")
-
-        push!(st_, ".*$st")
-
-    end
-
     di = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(json|toml|html|md|sh|lua)" $st_ -print0`,
+            `find -E . -type f -regex ".*\.(sh|json|toml|html|md|lua)" -not -regex ".*(\\.git/.*|package\\.json|node_modules/.*|public/.*|Manifest\\.toml|ou/.*)" -print0`,
             `xargs -0 prettier \
+    --plugin $di/prettier-plugin-sh/lib/index.js \
     --plugin $di/prettier-plugin-toml/lib/index.js \
     --plugin $di/prettier-plugin-tailwindcss/dist/index.mjs \
-    --plugin $di/prettier-plugin-sh/lib/index.js \
     --plugin $di/@prettier/plugin-lua/src/index.js \
     --write`,
         ),
@@ -220,13 +223,13 @@ Beautify .jl and web files.
 
 end
 
-function update(st, ex)
+function update(s1, ex)
 
     pw = pwd()
 
-    for (di, ba_, _) in walkdir(pw)
+    for (di, _, _) in walkdir(pw)
 
-        if !(".git" in ba_)
+        if !isdir(joinpath(di, ".git"))
 
             continue
 
@@ -234,7 +237,9 @@ function update(st, ex)
 
         cd(di)
 
-        @info "$st $(Nucleus.Path.text(di, pw))"
+        s2 = Nucleus.Path.text(di, pw)
+
+        @info "$s1 $s2"
 
         eval(ex)
 
@@ -286,17 +291,20 @@ git add, commit, and push.
 
 end
 
-# TODO: Pick up
 function path(pa)
 
-    pkgdir(Kata, "TEMPLATE.$(pa[(end - 1):end])")
+    st = pa[(end - 1):end]
+
+    pkgdir(Kata, "TEMPLATE.$st")
 
 end
 
 function make_pair(ba)
 
+    uu = uuid4()
+
     "TEMPLATE" => ba[1:(end - 3)],
-    "26e7aedd-919a-4e26-a588-02a954578843" => "$(uuid4())",
+    "26e7aedd-919a-4e26-a588-02a954578843" => "$uu",
     "AUTHOR" => readchomp(`git config user.name`)
 
 end
@@ -341,7 +349,9 @@ Match a package to its template.
 
     end
 
-    de = "# $('-'^95) #"
+    st = '-'^95
+
+    de = "# $st #"
 
     for (f2, de, bo_) in (
         ("README.md", "---", [false, true]),
