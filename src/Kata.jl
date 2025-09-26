@@ -15,7 +15,7 @@ Delete bad files.
 """
 @cast function delete()
 
-    run(`find -E . -iregex ".*\.ds[_ ]store" -delete`)
+    run(`find -E . -iregex ".*ds[_ ]store" -delete`)
 
 end
 
@@ -33,57 +33,79 @@ Rename files and directories.
 
 end
 
+function is(ba)
+
+
+
+end
+
 """
 Name files automatically.
 
 # Arguments
 
-  - `style`: "code" | "human"
+  - `style`: "code" | "human" | "datehuman"
 
 # Flags
 
-  - `--live`: = false.
+  - `--live`: = false
 """
 @cast function name(style; live::Bool = false)
 
     for (di, _, ba_) in walkdir(pwd())
 
-        if contains(di, r"\.(git|key|numbers|pages)(/|$)")
+        if contains(di, r"\.(git|key|numbers|pages)")
 
             continue
 
         end
 
-        for b1 in ba_
+        for ba in ba_
 
-            f1 = joinpath(di, b1)
+            f1 = joinpath(di, ba)
 
-            s1, e1 = splitext(Nucleus.Tex.text_strip(b1))
+            s1, ex = splitext(Nucleus.Tex.text_strip(ba))
 
             in_ = findfirst(r"^[\d_ ]+", s1)
 
-            s2, s3 = isnothing(in_) ? ("", s1) : (s1[in_], s1[(in_[end] + 1):end])
+            s2, s3 = if isnothing(in_)
 
-            s4 = endswith(s2, r"[_ ]") ? s2[1:(end - 1)] : s2
+                "", s1
 
-            e2 = lowercase(e1)
+            else
 
-            e3 = e2 == ".jpeg" ? ".jpg" : e2
+                s1[in_], s1[(in_[end] + 1):end]
 
-            s5, ch, s6 = if style == "code"
+            end
 
-                Nucleus.Tex.text_low(s4), '_', Nucleus.Tex.text_low(s3)
+            ex = lowercase(ex)
 
-            elseif style == "human"
+            if ex == ".jpeg"
 
-                if e3 == ".png" ||
-                   e3 == ".heic" ||
-                   e3 == ".jpg" ||
-                   e3 == ".mov" ||
-                   e3 == ".mp4"
+                ex = ".jpg"
 
-                    s5 = minimum(
-                        replace(Nucleus.Strin.get_end(s5, '\t'), "00 00 00" => "__ __ __") for s5 in eachsplit(
+            end
+
+            if style == "code"
+
+                s2 = Nucleus.Tex.text_low(s2)
+
+                s3 = Nucleus.Tex.text_low(s3)
+
+            elseif style == "human" || style == "datehuman"
+
+                s2 = Nucleus.Tex.text_title(s2)
+
+                if style == "datehuman" && (
+                    ex == ".png" ||
+                    ex == ".heic" ||
+                    ex == ".jpg" ||
+                    ex == ".mov" ||
+                    ex == ".mp4"
+                )
+
+                    s4 = minimum(
+                        replace(Nucleus.Strin.get_end(sp, '\t'), "00 00 00" => "__ __ __") for sp in eachsplit(
                             readchomp(
                                 `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -FileModifyDate -DateCreated -DateTimeOriginal -CreateDate -CreationDate $f1`,
                             ),
@@ -91,37 +113,45 @@ Name files automatically.
                         )
                     )
 
-                    isempty(s4) || s5 < s4 ? s5 : s4
+                    if isempty(s2) || s4 < s2
 
-                else
+                        s2 = s4
 
-                    s4
+                        if !isempty(s3)
 
-                end,
-                ' ',
-                Nucleus.Tex.text_title(s3)
+                            s2 = "$s2 "
+
+                        end
+
+                    end
+
+                end
+
+                s3 = Nucleus.Tex.text_title(s3)
+
+                if startswith(s3, '.') || !isempty(s3) && !isone(count(isuppercase, s3))
+
+                    @info "🚨 $s3"
+
+                end
 
             end
 
-            b2 = "$s5$(isempty(s5) || isempty(s6) ? "" : ch)$s6$e3"
+            f2 = joinpath(di, "$s2$s3$ex")
 
-            if b1 == b2
+            if f1 == f2
 
                 continue
 
             end
 
-            f2 = joinpath(di, b2)
-
-            em = b2[1] == '.' || 1 < count(isuppercase, b2) ? "🚨" : "🛸"
-
             if live
 
-                mv(lowercase(f1) == lowercase(f2) ? mv(f1, "$(f2)_") : f1, f2)
+                mv(f1, f2)
 
             end
 
-            @info "$(Nucleus.Path.text(f1)) $em $(Nucleus.Path.text(f2))."
+            @info "$(Nucleus.Path.text(f1)) 🛸 $(Nucleus.Path.text(f2))."
 
         end
 
@@ -174,16 +204,16 @@ Beautify .jl and web files.
 
     end
 
-    no = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
+    di = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
             `find -E . -type f -regex ".*\.(json|toml|html|md|sh|lua)" $st_ -print0`,
             `xargs -0 prettier \
-    --plugin $no/prettier-plugin-toml/lib/index.js \
-    --plugin $no/prettier-plugin-tailwindcss/dist/index.mjs \
-    --plugin $no/prettier-plugin-sh/lib/index.js \
-    --plugin $no/@prettier/plugin-lua/src/index.js \
+    --plugin $di/prettier-plugin-toml/lib/index.js \
+    --plugin $di/prettier-plugin-tailwindcss/dist/index.mjs \
+    --plugin $di/prettier-plugin-sh/lib/index.js \
+    --plugin $di/@prettier/plugin-lua/src/index.js \
     --write`,
         ),
     )
@@ -256,6 +286,7 @@ git add, commit, and push.
 
 end
 
+# TODO: Pick up
 function path(pa)
 
     pkgdir(Kata, "TEMPLATE.$(pa[(end - 1):end])")
@@ -275,7 +306,7 @@ Make a package or project.
 
 # Arguments
 
-  - `name`: ".jl" | ".pr".
+  - `name`: ".jl" | ".pr"
 """
 @cast function make(name)
 

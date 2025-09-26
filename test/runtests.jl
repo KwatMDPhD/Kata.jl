@@ -13,6 +13,7 @@ using Nucleus
 const PK = pkgdir(Kata)
 
 # ---- #
+# TODO: Rename files
 
 cd(cp(joinpath(PK, "da"), joinpath(tempdir(), "Kata"); force = true))
 
@@ -26,13 +27,13 @@ for ba in (".DS_Store", ".ds_store", ".DS store", ".DS Store")
 
     Kata.delete()
 
-    @test lastindex(readdir()) === 7
+    @test lastindex(readdir()) === 14
 
 end
 
 # ---- #
 
-for (a1, a2) in (("Ff", "Zz"),)
+for (a1, a2) in (("Yy", "Nn"),)
 
     Kata.rename(a1, a2)
 
@@ -40,13 +41,17 @@ end
 
 # ---- #
 
-Kata.name("code"; live = true)
+for st in ("code", "human", "datehuman")
 
-Kata.name("human"; live = true)
+    @info st
+
+    Kata.name(st)
+
+end
 
 # ---- #
 
-for (a1, a2) in (('G', 'Y'), ('g', 'y'))
+for (a1, a2) in (('Z', 'O'), ('z', 'o'))
 
     Kata.rewrite(a1, a2)
 
