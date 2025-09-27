@@ -62,7 +62,7 @@ Name files automatically.
 
         if style == "human" || style == "datehuman"
 
-            lo(di)
+            lo(Nucleus.Path.text(di))
 
         end
 
