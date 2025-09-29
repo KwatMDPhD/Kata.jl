@@ -42,7 +42,7 @@ end
 
 for st in ("", "Aa/Bb", "Aa/.Bb", "Aa/bb", "Aa/BB")
 
-    Kata.lo(st)
+    Kata.lo("lo ", st)
 
 end
 

@@ -33,13 +33,13 @@ Rename files and directories.
 
 end
 
-function lo(pa)
+function lo(st, pa)
 
     ba = basename(pa)
 
     if !isempty(ba) && (startswith(ba, '.') || !isone(count(isuppercase, ba)))
 
-        @info "🚨 $pa"
+        @info "$st $pa"
 
     end
 
@@ -60,13 +60,21 @@ Name files automatically.
 
     for (di, _, ba_) in walkdir(pwd())
 
-        if style == "human" || style == "datehuman"
+        ba = basename(di)
 
-            lo(Nucleus.Path.text(di))
+        if contains(di, r"\.(Trash|tmp|git)")
+
+            continue
 
         end
 
-        if contains(di, r"\.(git|key|numbers|pages)")
+        if style == "human" || style == "datehuman"
+
+            lo("🚨📁", Nucleus.Path.text(di))
+
+        end
+
+        if contains(di, r"\.(key|numbers|pages)")
 
             continue
 
@@ -137,7 +145,7 @@ Name files automatically.
 
                 s3 = Nucleus.Tex.text_title(s3)
 
-                lo(s3)
+                lo("🚨📜", "$s3$ex")
 
                 ' '
 
@@ -173,7 +181,7 @@ Name files automatically.
 
             f2 = Nucleus.Path.text(f2)
 
-            @info "$f1 🛸 $f2."
+            @info "$f1 👉 $f2."
 
         end
 
