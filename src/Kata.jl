@@ -145,7 +145,7 @@ Name files automatically.
 
                 s3 = Nucleus.Tex.text_title(s3)
 
-                lo("🚨📜", "$s3$ex")
+                lo("🚨📜", s3)
 
                 ' '
 
