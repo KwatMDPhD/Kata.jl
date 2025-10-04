@@ -58,6 +58,8 @@ Name files automatically.
 """
 @cast function name(style; live::Bool = false)
 
+    @assert style == "code" || style == "human" || style == "datehuman"
+
     for (di, _, ba_) in walkdir(pwd())
 
         ba = basename(di)
@@ -84,7 +86,9 @@ Name files automatically.
 
             f1 = joinpath(di, ba)
 
-            s1, ex = splitext(Nucleus.Tex.text_strip(ba))
+            s1, ex = splitext(ba)
+
+            s1 = Nucleus.Tex.text_strip(s1)
 
             in_ = findfirst(r"^[\d_ ]+", s1)
 

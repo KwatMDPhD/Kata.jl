@@ -26,13 +26,13 @@ for ba in (".DS_Store", ".ds_store", ".DS store", ".DS Store")
 
     Kata.delete()
 
-    @test lastindex(readdir()) === 11
+    @test lastindex(readdir()) === 12
 
 end
 
 # ---- #
 
-for (a1, a2) in (("Yy", "Ll"),)
+for (a1, a2) in (("Xx", "Ll"),)
 
     Kata.rename(a1, a2)
 
@@ -70,7 +70,7 @@ end
 
 # ---- #
 
-for (a1, a2) in (('Z', 'M'), ('z', 'm'))
+for (a1, a2) in (('Y', 'M'), ('y', 'm'))
 
     Kata.rewrite(a1, a2)
 
