@@ -1,10 +1,10 @@
-using Test: @test
-
 using Kata
 
 # ----------------------------------------------------------------------------------------------- #
 
 using Pkg: activate, test
+
+using Test: @test
 
 using Nucleus
 

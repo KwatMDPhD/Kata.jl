@@ -15,7 +15,7 @@ Delete bad files.
 """
 @cast function delete()
 
-    run(`find -E . -iregex ".*ds[_ ]store" -delete`)
+    run(`find -E . -iregex ".*ds[ _]store" -delete`)
 
 end
 
@@ -39,7 +39,7 @@ function lo(st, pa)
 
     if !isempty(ba) && (startswith(ba, '.') || !isone(count(isuppercase, ba)))
 
-        @info "$st $pa"
+        @info "$st $pa."
 
     end
 
@@ -60,11 +60,9 @@ Name files automatically.
 
     @assert style == "code" || style == "human" || style == "datehuman"
 
-    for (di, _, ba_) in walkdir(pwd())
+    for (di, _, ba_) in walkdir()
 
-        ba = basename(di)
-
-        if contains(di, r"\.(Trash|tmp|git)")
+        if contains(di, r"\.(Trash|git|tmp)")
 
             continue
 
@@ -133,7 +131,7 @@ Name files automatically.
                     s4 = minimum(
                         replace(Nucleus.Strin.get_end(sp, '\t'), "00 00 00" => "__ __ __") for sp in eachsplit(
                             readchomp(
-                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -DateCreated -CreateDate -CreationDate -DateTimeOriginal -FileModifyDate $f1`,
+                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $f1`,
                             ),
                             '\n',
                         )
@@ -213,7 +211,7 @@ Rewrite files.
 end
 
 """
-Beautify .jl and web files.
+Beautify .jl, .sh, .json, .toml, .html, .md, and .lua.
 """
 @cast function beautify()
 
@@ -224,12 +222,7 @@ Beautify .jl and web files.
     run(
         pipeline(
             `find -E . -type f -regex ".*\.(sh|json|toml|html|md|lua)" -not -regex ".*(\\.git/.*|package\\.json|node_modules/.*|public/.*|Manifest\\.toml|ou/.*)" -print0`,
-            `xargs -0 prettier \
-    --plugin $di/prettier-plugin-sh/lib/index.js \
-    --plugin $di/prettier-plugin-toml/lib/index.js \
-    --plugin $di/prettier-plugin-tailwindcss/dist/index.mjs \
-    --plugin $di/@prettier/plugin-lua/src/index.js \
-    --write`,
+            `xargs -0 prettier --plugin $di/prettier-plugin-sh/lib/index.js --plugin $di/prettier-plugin-toml/lib/index.js --plugin $di/prettier-plugin-tailwindcss/dist/index.mjs --plugin $di/@prettier/plugin-lua/src/index.js --write`,
         ),
     )
 
@@ -239,7 +232,7 @@ function update(s1, ex)
 
     pw = pwd()
 
-    for (di, _, _) in walkdir(pw)
+    for (di, _, _) in walkdir()
 
         if !isdir(joinpath(di, ".git"))
 
@@ -255,9 +248,9 @@ function update(s1, ex)
 
         eval(ex)
 
-        cd(pw)
-
     end
+
+    cd(pw)
 
 end
 
@@ -316,7 +309,7 @@ function make_pair(ba)
     uu = uuid4()
 
     "TEMPLATE" => ba[1:(end - 3)],
-    "26e7aedd-919a-4e26-a588-02a954578843" => "$uu",
+    "11111111-1111-1111-1111-111111111111" => "$uu",
     "AUTHOR" => readchomp(`git config user.name`)
 
 end
@@ -353,42 +346,44 @@ Match a package to its template.
 
     pa_ = make_pair(basename(pw))
 
-    nd = lastindex(te) + 2
-
     for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(di[nd:end], replace(ba, pa_...)))
+        @assert ispath(joinpath(di[(lastindex(te) + 2):end], replace(ba, pa_...)))
 
     end
 
-    st = '-'^95
+    de = '-'^95
 
-    de = "# $st #"
+    de = "# $de #"
 
-    for (f2, de, bo_) in (
+    bo_ = [true, false]
+
+    for (pa, de, bo_) in (
         ("README.md", "---", [false, true]),
-        (".gitignore", de, [true, false]),
-        (joinpath("src", "TEMPLATE.jl"), de, [true, false]),
-        (joinpath("test", "runtests.jl"), de, [true, false]),
+        (".gitignore", de, bo_),
+        (joinpath("src", "TEMPLATE.jl"), de, bo_),
+        (joinpath("test", "runtests.jl"), de, bo_),
     )
 
-        f1 = joinpath(pw, replace(f2, pa_...))
+        s1_ = split(replace(read(joinpath(te, pa), String), pa_...), de)
 
-        s1_ = split(read(f1, String), de)
+        fi = joinpath(pw, replace(pa, pa_...))
 
-        s2_ = split(replace(read(joinpath(te, f2), String), pa_...), de)
+        s2_ = split(read(fi, String), de)
 
         @assert lastindex(s1_) == lastindex(s2_)
 
-        if s1_ == map!(ifelse, s2_, bo_, s2_, s1_)
+        if map!(ifelse, s1_, bo_, s1_, s2_) == s2_
 
             continue
 
         end
 
-        write(f1, join(s2_, de))
+        write(fi, join(s1_, de))
 
-        @info "🍡 $(Nucleus.Path.text(f1))."
+        fi = Nucleus.Path.text(fi)
+
+        @info "🍡 $fi."
 
     end
 
