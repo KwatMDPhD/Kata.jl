@@ -54,13 +54,7 @@ const ST_ = "code", "human", "datehuman"
 
 for st in ST_
 
-    Kata.name(st)
-
-end
-
-# ---- #
-
-for st in ST_
+    @info st
 
     Kata.name(st; live = true)
 

@@ -39,7 +39,7 @@ function lo(st, pa)
 
     if !isempty(ba) && (startswith(ba, '.') || !isone(count(isuppercase, ba)))
 
-        @info "$st $pa."
+        @info "$st$pa."
 
     end
 
@@ -70,7 +70,7 @@ Name files automatically.
 
         if style == "human" || style == "datehuman"
 
-            lo("🚨📁", Nucleus.Path.text(di))
+            lo("🚨📁 ", Nucleus.Path.text(di))
 
         end
 
@@ -147,7 +147,7 @@ Name files automatically.
 
                 s3 = Nucleus.Tex.text_title(s3)
 
-                lo("🚨📜", s3)
+                lo("🚨📜 ", s3)
 
                 ' '
 
@@ -183,7 +183,7 @@ Name files automatically.
 
             f2 = Nucleus.Path.text(f2)
 
-            @info "$f1 👉 $f2."
+            @info "📛\n$f1\n$f2"
 
         end
 
@@ -346,9 +346,11 @@ Match a package to its template.
 
     pa_ = make_pair(basename(pw))
 
+    nd = lastindex(te) + 2
+
     for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
 
-        @assert ispath(joinpath(di[(lastindex(te) + 2):end], replace(ba, pa_...)))
+        @assert ispath(joinpath(di[nd:end], replace(ba, pa_...)))
 
     end
 
