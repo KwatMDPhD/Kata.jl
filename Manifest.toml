@@ -434,9 +434,13 @@ version = "1.8.1"
 
 [[deps.PDMats]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse"]
-git-tree-sha1 = "f07c06228a1c670ae4c87d1276b92c7c597fdda0"
+git-tree-sha1 = "d922b4d80d1e12c658da7785e754f4796cc1d60d"
 uuid = "90014a1f-27ba-587c-ab20-58faa44d9150"
-version = "0.11.35"
+version = "0.11.36"
+weakdeps = ["StatsBase"]
+
+    [deps.PDMats.extensions]
+    StatsBaseExt = "StatsBase"
 
 [[deps.PackageCompiler]]
 deps = ["Artifacts", "Glob", "LazyArtifacts", "Libdl", "Pkg", "Printf", "RelocatableFolders", "TOML", "UUIDs", "p7zip_jll"]
