@@ -1,10 +1,8 @@
 module TEMPLATE
 
-const PK = pkgdir(TEMPLATE)
+const IN = pkgdir(TEMPLATE, "in")
 
-const IN = joinpath(PK, "in")
-
-const OU = joinpath(PK, "ou")
+const OU = pkgdir(TEMPLATE, "ou")
 
 # ----------------------------------------------------------------------------------------------- #
 
