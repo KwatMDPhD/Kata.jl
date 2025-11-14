@@ -1,8 +1,8 @@
 module TEMPLATE
 
-const IN = pkgdir(TEMPLATE, "in")
+const P1 = pkgdir(TEMPLATE, "in")
 
-const OU = pkgdir(TEMPLATE, "ou")
+const P2 = pkgdir(TEMPLATE, "ou")
 
 # ----------------------------------------------------------------------------------------------- #
 
