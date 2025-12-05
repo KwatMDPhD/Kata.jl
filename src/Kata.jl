@@ -8,7 +8,7 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-using Nucleus
+using Public
 
 """
 Delete bad files.
@@ -70,7 +70,7 @@ Name files automatically.
 
         if style == "human" || style == "datehuman"
 
-            lo("🚨📁 ", Nucleus.Path.text(di))
+            lo("🚨📁 ", Public.text_path(di))
 
         end
 
@@ -86,7 +86,7 @@ Name files automatically.
 
             s1, ex = splitext(ba)
 
-            s1 = Nucleus.Tex.text_strip(s1)
+            s1 = Public.text_space(s1)
 
             in_ = findfirst(r"^[\d_ ]+", s1)
 
@@ -110,15 +110,15 @@ Name files automatically.
 
             ch = if style == "code"
 
-                s2 = Nucleus.Tex.text_low(s2)
+                s2 = Public.text_low(s2)
 
-                s3 = Nucleus.Tex.text_low(s3)
+                s3 = Public.text_low(s3)
 
                 '_'
 
             elseif style == "human" || style == "datehuman"
 
-                s2 = Nucleus.Tex.text_title(s2)
+                s2 = Public.text_title(s2)
 
                 if style == "datehuman" && (
                     ex == ".heic" ||
@@ -129,7 +129,7 @@ Name files automatically.
                 )
 
                     s4 = minimum(
-                        replace(Nucleus.Strin.get_end(sp, '\t'), "00 00 00" => "__ __ __") for sp in eachsplit(
+                        replace(rsplit(sp, '\t'; limit = 2)[2], "00 00 00" => "__ __ __") for sp in eachsplit(
                             readchomp(
                                 `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $f1`,
                             ),
@@ -145,7 +145,7 @@ Name files automatically.
 
                 end
 
-                s3 = Nucleus.Tex.text_title(s3)
+                s3 = Public.text_title(s3)
 
                 lo("🚨📜 ", s3)
 
@@ -179,9 +179,9 @@ Name files automatically.
 
             end
 
-            f1 = Nucleus.Path.text(f1)
+            f1 = Public.text_path(f1)
 
-            f2 = Nucleus.Path.text(f2)
+            f2 = Public.text_path(f2)
 
             @info "📛\n$f1\n$f2"
 
@@ -242,7 +242,7 @@ function update(s1, ex)
 
         cd(di)
 
-        s2 = Nucleus.Path.text(di, pw)
+        s2 = Public.text_path(di, pw)
 
         @info "$s1 $s2"
 
@@ -346,7 +346,7 @@ Match a package to its template.
 
     pa_ = make_pair(basename(pw))
 
-    nd = lastindex(te) + 2
+    nd = length(te) + 2
 
     for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
 
@@ -373,7 +373,7 @@ Match a package to its template.
 
         s2_ = split(read(fi, String), de)
 
-        @assert lastindex(s1_) == lastindex(s2_)
+        @assert length(s1_) == length(s2_)
 
         if map!(ifelse, s1_, bo_, s1_, s2_) == s2_
 
@@ -383,7 +383,7 @@ Match a package to its template.
 
         write(fi, join(s1_, de))
 
-        fi = Nucleus.Path.text(fi)
+        fi = Public.text_path(fi)
 
         @info "🍡 $fi."
 

@@ -6,7 +6,7 @@ using Pkg: activate, test
 
 using Test: @test
 
-using Nucleus
+using Public
 
 # ---- #
 
@@ -16,7 +16,7 @@ const PK = pkgdir(Kata)
 
 cd(cp(joinpath(PK, "da"), joinpath(tempdir(), "Kata"); force = true))
 
-Nucleus.Path.rea('.')
+Public.read_path('.')
 
 # ---- #
 
