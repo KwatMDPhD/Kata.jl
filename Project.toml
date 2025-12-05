@@ -1,7 +1,7 @@
 name = "Kata"
 uuid = "8e59351d-29f6-4c3f-9afc-53528ae58453"
-authors = ["KwatMDPhD"]
 version = "0.1.0"
+authors = ["KwatMDPhD"]
 
 [deps]
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
@@ -10,6 +10,9 @@ Nucleus = "cd814215-3b54-4e50-ac5e-8a2c7852bc16"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
+[sources]
+Nucleus = { path = "../Nucleus.jl" }
 
 [compat]
 Comonicon = "1.0.8"
