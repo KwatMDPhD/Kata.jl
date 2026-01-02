@@ -1,6 +1,6 @@
 module Kata
 
-# ----------------------------------------------------------------------------------------------- #
+# ------------------------------------ #
 
 using Comonicon: @cast, @main
 
@@ -29,7 +29,12 @@ Rename files and directories.
 """
 @cast function rename(before, after)
 
-    run(pipeline(`find . -print0`, `xargs -0 rename --subst-all $before $after`))
+    run(
+        pipeline(
+            `find . -print0`,
+            `xargs -0 rename --subst-all $before $after`,
+        ),
+    )
 
 end
 
@@ -70,7 +75,7 @@ Name files automatically.
 
         if style == "human" || style == "datehuman"
 
-            lo("🚨📁 ", Public.text_path(di))
+            lo("🚨📁 ", Public.path_short(di))
 
         end
 
@@ -129,7 +134,10 @@ Name files automatically.
                 )
 
                     s4 = minimum(
-                        replace(rsplit(sp, '\t'; limit = 2)[2], "00 00 00" => "__ __ __") for sp in eachsplit(
+                        replace(
+                            rsplit(sp, '\t'; limit = 2)[2],
+                            "00 00 00" => "__ __ __",
+                        ) for sp in eachsplit(
                             readchomp(
                                 `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $f1`,
                             ),
@@ -179,9 +187,9 @@ Name files automatically.
 
             end
 
-            f1 = Public.text_path(f1)
+            f1 = Public.path_short(f1)
 
-            f2 = Public.text_path(f2)
+            f2 = Public.path_short(f2)
 
             @info "📛\n$f1\n$f2"
 
@@ -242,7 +250,7 @@ function update(s1, ex)
 
         cd(di)
 
-        s2 = Public.text_path(di, pw)
+        s2 = Public.path_short(di, pw)
 
         @info "$s1 $s2"
 
@@ -354,7 +362,7 @@ Match a package to its template.
 
     end
 
-    de = '-'^95
+    de = '-' ^ 36
 
     de = "# $de #"
 
@@ -383,7 +391,7 @@ Match a package to its template.
 
         write(fi, join(s1_, de))
 
-        fi = Public.text_path(fi)
+        fi = Public.path_short(fi)
 
         @info "🍡 $fi."
 

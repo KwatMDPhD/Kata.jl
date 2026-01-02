@@ -1,6 +1,6 @@
 using Kata
 
-# ----------------------------------------------------------------------------------------------- #
+# ------------------------------------ #
 
 using Pkg: activate, test
 
@@ -90,8 +90,10 @@ Kata.adcopu
 
 # ---- #
 
-for (pa, re) in
-    (("Aa.jl", joinpath(PK, "TEMPLATE.jl")), ("/Bb/Cc.pr", joinpath(PK, "TEMPLATE.pr")))
+for (pa, re) in (
+    ("Aa.jl", joinpath(PK, "TEMPLATE.jl")),
+    ("/Bb/Cc.pr", joinpath(PK, "TEMPLATE.pr")),
+)
 
     @test Kata.path(pa) === re
 
