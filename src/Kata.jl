@@ -12,83 +12,16 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-function text_space(st)
-
-    replace(strip(st), r" +" => ' ')
-
-end
-
-function text_title(s1)
-
-    s2 = uppercasefirst(s1)
-
-    for pa_ in (
-            ('_' => ' ', r"(?<=\d)th"i => "th"),
-            (
-                Regex(s3, "i") => s3 for
-                s3 in ("'d", "'m", "'re", "'s", "'ve", "1st", "2nd", "3rd")
-            ),
-            (
-                Regex("(?<= )$s3(?= )", "i") => s3 for s3 in (
-                    "a",
-                    "an",
-                    "and",
-                    "as",
-                    "at",
-                    "but",
-                    "by",
-                    "for",
-                    "from",
-                    "in",
-                    "into",
-                    "nor",
-                    "of",
-                    "off",
-                    "on",
-                    "onto",
-                    "or",
-                    "out",
-                    "over",
-                    "the",
-                    "to",
-                    "up",
-                    "vs",
-                    "with",
-                )
-            ),
-        ),
-        pa in pa_
-
-        s2 = replace(s2, pa)
-
-    end
-
-    s2
-
-end
-
-function text_extension(s1)
-
-    s2 = lowercase(s1)
-
-    if s2 == ".jpeg"
-
-        ".jpg"
-
-    else
-
-        s2
-
-    end
-
-end
-
+"""
+"""
 @cast function delete()
 
-    run(`find -E . -iregex '.*ds.store' -delete`)
+    run(`find . -name .DS_Store -delete`)
 
 end
 
+"""
+"""
 @cast function rename(before, after)
 
     run(
@@ -112,6 +45,8 @@ function log(s1, an)
 
 end
 
+"""
+"""
 @cast function name(; live::Bool = false)
 
     nd = length(pwd()) + 2
@@ -140,7 +75,7 @@ end
 
             p2 = joinpath(p1, s1)
 
-            s2, s3 = splitext(text_space(s1))
+            s2, s3 = splitext(replace(strip(s1), r" +" => ' '))
 
             in_ = findfirst(r"^[\d ]+", s2)
 
@@ -154,19 +89,25 @@ end
 
             end
 
-            s6 = text_extension(s3)
+            s3 = lowercase(s3)
 
-            if s6 == ".heic" ||
-               s6 == ".jpg" ||
-               s6 == ".png" ||
-               s6 == ".mov" ||
-               s6 == ".mp4"
+            if s3 == ".jpeg"
 
-                s7 = minimum(
+                s3 = ".jpg"
+
+            end
+
+            if s3 == ".heic" ||
+               s3 == ".jpg" ||
+               s3 == ".png" ||
+               s3 == ".mov" ||
+               s3 == ".mp4"
+
+                s6 = minimum(
                     replace(
-                        rsplit(s9, '\t'; limit = 2)[2],
+                        rsplit(s7, '\t'; limit = 2)[2],
                         "00 00 00" => "__ __ __",
-                    ) for s9 in eachsplit(
+                    ) for s7 in eachsplit(
                         readchomp(
                             `exiftool -tab -dateFormat '%Y %m %d %H %M %S' -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $p2`,
                         ),
@@ -174,9 +115,9 @@ end
                     )
                 )
 
-                if isempty(s4) || s7 < s4
+                if isempty(s4) || s6 < s4
 
-                    s4 = s7
+                    s4 = s6
 
                 end
 
@@ -192,9 +133,50 @@ end
 
             end
 
-            s8 = text_title(s5)
+            s5 = uppercasefirst(s5)
 
-            p3 = joinpath(p1, "$s4$an$s8$s6")
+            for pa_ in (
+                    ('_' => ' ', r"(?<=\d)th"i => "th"),
+                    (
+                        Regex(s7, "i") => s7 for s7 in
+                        ("'d", "'m", "'re", "'s", "'ve", "1st", "2nd", "3rd")
+                    ),
+                    (
+                        Regex("(?<= )$s7(?= )", "i") => s7 for s7 in (
+                            "a",
+                            "an",
+                            "and",
+                            "as",
+                            "at",
+                            "but",
+                            "by",
+                            "for",
+                            "from",
+                            "in",
+                            "into",
+                            "nor",
+                            "of",
+                            "off",
+                            "on",
+                            "onto",
+                            "or",
+                            "out",
+                            "over",
+                            "the",
+                            "to",
+                            "up",
+                            "vs",
+                            "with",
+                        )
+                    ),
+                ),
+                pa in pa_
+
+                s5 = replace(s5, pa)
+
+            end
+
+            p3 = joinpath(p1, "$s4$an$s5$s3")
 
             log("📜", p3)
 
@@ -206,21 +188,11 @@ end
 
             if live
 
-                p4 = if lowercase(p2) == lowercase(p3)
-
-                    mv(p2, "$(p3)_")
-
-                else
-
-                    p2
-
-                end
-
-                mv(p4, p3)
+                mv(mv(p2, "$(p3)_"), p3)
 
             end
 
-            a1 = p4[nd:end]
+            a1 = p2[nd:end]
 
             a2 = p3[nd:end]
 
@@ -232,6 +204,8 @@ end
 
 end
 
+"""
+"""
 @cast function rewrite(before, after)
 
     run(
@@ -243,6 +217,8 @@ end
 
 end
 
+"""
+"""
 @cast function beautify()
 
     format(".")
@@ -255,6 +231,87 @@ end
             `xargs -0 prettier --plugin $pa/prettier-plugin-tailwindcss/dist/index.mjs --plugin $pa/prettier-plugin-sh/lib/index.js --plugin $pa/prettier-plugin-toml/lib/index.js --plugin $pa/@prettier/plugin-lua/src/index.js --write`,
         ),
     )
+
+end
+
+const PA = pkgdir(Kata, "TEMPLATE.jl")
+
+const IN = length(PA) + 2
+
+function pair(st)
+
+    uu = uuid4()
+
+    "TEMPLATE" => st[1:(end - 3)],
+    "11111111-1111-1111-1111-111111111111" => "$uu",
+    "AUTHOR" => readchomp(`git config user.name`)
+
+end
+
+"""
+"""
+@cast function make(name)
+
+    cd(cp(PA, joinpath(pwd(), name)))
+
+    for (s1, s2) in pair(name)
+
+        rename(s1, s2)
+
+        rewrite(s1, s2)
+
+    end
+
+end
+
+const ST = "# ------------------------------------ " * '#'
+
+const BO_ = [true, false]
+
+"""
+"""
+@cast function match()
+
+    p1 = pwd()
+
+    pa_ = pair(basename(p1))
+
+    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
+
+        @assert ispath(joinpath(p2[IN:end], replace(st, pa_...))) st
+
+    end
+
+    nd = length(p1) + 2
+
+    for (an, st, bo_) in (
+        ("README.md", "---", [false, true]),
+        (".gitignore", ST, BO_),
+        (joinpath("src", "TEMPLATE.jl"), ST, BO_),
+        (joinpath("test", "runtests.jl"), ST, BO_),
+    )
+
+        s1_ = split(replace(read(joinpath(PA, an), String), pa_...), st)
+
+        p2 = joinpath(p1, replace(an, pa_...))
+
+        s2_ = split(read(p2, String), st)
+
+        @assert length(s1_) == length(s2_) p2
+
+        if map!(ifelse, s1_, bo_, s1_, s2_) == s2_
+
+            continue
+
+        end
+
+        write(p2, join(s1_, st))
+
+        an = p2[nd:end]
+
+        @info "🍡 $an"
+
+    end
 
 end
 
@@ -286,6 +343,8 @@ function read2(st, ex)
 
 end
 
+"""
+"""
 @cast function fsd()
 
     read2("🪞", quote
@@ -300,6 +359,8 @@ end
 
 end
 
+"""
+"""
 @cast function acp(message)
 
     read2("👾", quote
@@ -315,83 +376,6 @@ end
         end
 
     end)
-
-end
-
-const PA = pkgdir(Kata, "TEMPLATE.jl")
-
-const IN = length(PA) + 2
-
-function pair(st)
-
-    uu = uuid4()
-
-    "TEMPLATE" => st[1:(end - 3)],
-    "11111111-1111-1111-1111-111111111111" => "$uu",
-    "AUTHOR" => readchomp(`git config user.name`)
-
-end
-
-@cast function make(name)
-
-    cd(cp(PA, joinpath(pwd(), name)))
-
-    for (s1, s2) in pair(name)
-
-        rename(s1, s2)
-
-        rewrite(s1, s2)
-
-    end
-
-end
-
-const ST = "# ------------------------------------ " * '#'
-
-const BO_ = [true, false]
-
-@cast function match()
-
-    p1 = pwd()
-
-    nd = length(p1) + 2
-
-    pa_ = pair(basename(p1))
-
-    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
-
-        @assert ispath(joinpath(p2[IN:end], replace(st, pa_...)))
-
-    end
-
-    for (an, st, bo_) in (
-        ("README.md", "---", [false, true]),
-        (".gitignore", ST, BO_),
-        (joinpath("src", "TEMPLATE.jl"), ST, BO_),
-        (joinpath("test", "runtests.jl"), ST, BO_),
-    )
-
-        s1_ = split(replace(read(joinpath(PA, an), String), pa_...), st)
-
-        p2 = joinpath(p1, replace(an, pa_...))
-
-        s2_ = split(read(p2, String), st)
-
-        @assert length(s1_) == length(s2_) an
-
-        if map!(ifelse, s1_, bo_, s1_, s2_) == s2_
-
-            continue
-
-        end
-
-        write(p2, join(s1_, st))
-
-        an = p2[nd:end]
-
-        @info "🍡 $an"
-
-    end
 
 end
 
