@@ -15,7 +15,7 @@ Delete bad files.
 """
 @cast function delete()
 
-    run(`find -E . -iregex ".*ds[ _]store" -delete`)
+    run(`find -E . -iregex '.*ds[ _]store' -delete`)
 
 end
 
@@ -38,13 +38,29 @@ Rename files and directories.
 
 end
 
-function lo(st, pa)
+function text_extension(s1)
 
-    ba = basename(pa)
+    s2 = lowercase(s1)
 
-    if !isempty(ba) && (startswith(ba, '.') || !isone(count(isuppercase, ba)))
+    if s2 == "jpeg"
 
-        @info "$st$pa."
+        "jpg"
+
+    else
+
+        s2
+
+    end
+
+end
+
+function log(s1, pa)
+
+    s2 = basename(pa)
+
+    if startswith(s2, '.') || !isone(count(isuppercase, s2))
+
+        @info "$s1$pa."
 
     end
 
@@ -53,123 +69,93 @@ end
 """
 Name files automatically.
 
-# Arguments
-
-  - `style`: "code" | "human" | "datehuman"
-
 # Flags
 
   - `--live`: = false
 """
-@cast function name(style; live::Bool = false)
+@cast function name(; live::Bool = false)
 
-    @assert style == "code" || style == "human" || style == "datehuman"
+    for (p1, _, st_) in walkdir()
 
-    for (di, _, ba_) in walkdir()
-
-        if contains(di, r"\.(Trash|git|tmp)")
-
-            continue
-
-        end
-
-        if style == "human" || style == "datehuman"
-
-            lo("🚨📁 ", Public.path_short(di))
-
-        end
-
-        if contains(di, r"\.(key|numbers|pages)")
+        if contains(p1, ".tmp") ||
+           contains(p1, ".Trash") ||
+           contains(p1, ".git")
 
             continue
 
         end
 
-        for ba in ba_
+        log("🚨📁 ", Public.path_short(p1))
 
-            f1 = joinpath(di, ba)
+        if contains(p1, ".key") ||
+           contains(p1, ".numbers") ||
+           contains(p1, ".pages")
 
-            s1, ex = splitext(ba)
+            continue
 
-            s1 = Public.text_space(s1)
+        end
 
-            in_ = findfirst(r"^[\d_ ]+", s1)
+        for s1 in st_
 
-            s2, s3 = if isnothing(in_)
+            p2 = joinpath(p1, s1)
 
-                "", s1
+            s2, s3 = splitext(Public.text_space(s1))
+
+            in_ = findfirst(r"^[\d ]+", s2)
+
+            s4, s5 = if isnothing(in_)
+
+                "", s2
 
             else
 
-                strip(s1[in_]), s1[(in_[end] + 1):end]
+                strip(s2[in_]), s2[(in_[end] + 1):end]
 
             end
 
-            ex = lowercase(ex)
+            s6 = text_extension(s3)
 
-            if ex == ".jpeg"
+            if s6 == ".heic" ||
+               s6 == ".jpg" ||
+               s6 == ".png" ||
+               s6 == ".mov" ||
+               s6 == ".mp4"
 
-                ex = ".jpg"
-
-            end
-
-            ch = if style == "code"
-
-                s2 = Public.text_low(s2)
-
-                s3 = Public.text_low(s3)
-
-                '_'
-
-            elseif style == "human" || style == "datehuman"
-
-                s2 = Public.text_title(s2)
-
-                if style == "datehuman" && (
-                    ex == ".heic" ||
-                    ex == ".jpg" ||
-                    ex == ".png" ||
-                    ex == ".mov" ||
-                    ex == ".mp4"
+                s7 = minimum(
+                    replace(
+                        rsplit(s9, '\t'; limit = 2)[2],
+                        "00 00 00" => "__ __ __",
+                    ) for s9 in eachsplit(
+                        readchomp(
+                            `exiftool -tab -dateFormat '%Y %m %d %H %M %S' -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $p2`,
+                        ),
+                        '\n',
+                    )
                 )
 
-                    s4 = minimum(
-                        replace(
-                            rsplit(sp, '\t'; limit = 2)[2],
-                            "00 00 00" => "__ __ __",
-                        ) for sp in eachsplit(
-                            readchomp(
-                                `exiftool -tab -dateFormat "%Y %m %d %H %M %S" -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $f1`,
-                            ),
-                            '\n',
-                        )
-                    )
+                if isempty(s4) || s7 < s4
 
-                    if isempty(s2) || s4 < s2
-
-                        s2 = s4
-
-                    end
+                    s4 = s7
 
                 end
 
-                s3 = Public.text_title(s3)
+            end
 
-                lo("🚨📜 ", s3)
+            s8 = if isempty(s4) || isempty(s5)
+
+                ""
+
+            else
 
                 ' '
 
             end
 
-            if isempty(s2) || isempty(s3)
+            p3 = joinpath(p1, "$s4$s8$s5$s6")
 
-                ch = ""
+            log("🚨📜 ", p3)
 
-            end
-
-            f2 = joinpath(di, "$s2$ch$s3$ex")
-
-            if f1 == f2
+            if p2 == p3
 
                 continue
 
@@ -177,21 +163,25 @@ Name files automatically.
 
             if live
 
-                if lowercase(f1) == lowercase(f2)
+                p4 = if lowercase(p2) == lowercase(p3)
 
-                    f1 = mv(f1, "$(f2)_")
+                    mv(p2, "$(p3)_")
+
+                else
+
+                    p2
 
                 end
 
-                mv(f1, f2)
+                mv(p4, p3)
 
             end
 
-            f1 = Public.path_short(f1)
+            p5 = Public.path_short(p4)
 
-            f2 = Public.path_short(f2)
+            p6 = Public.path_short(p3)
 
-            @info "📛\n$f1\n$f2"
+            @info "📛\n$p5\n$p6"
 
         end
 
@@ -212,25 +202,25 @@ Rewrite files.
     run(
         pipeline(
             `rg --no-ignore --files-with-matches $before`,
-            `xargs sed -i "" "s/$before/$after/g"`,
+            `xargs sed -i '' 's/$before/$after/g'`,
         ),
     )
 
 end
 
 """
-Beautify .jl, .sh, .json, .toml, .html, .md, and .lua.
+Beautify .jl, .json, .html, .md, .sh, .toml, and .lua.
 """
 @cast function beautify()
 
     format(".")
 
-    di = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
+    pa = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
-            `find -E . -type f -regex ".*\.(sh|json|toml|html|md|lua)" -not -regex ".*(\\.git/.*|package\\.json|node_modules/.*|public/.*|Manifest\\.toml|ou/.*)" -print0`,
-            `xargs -0 prettier --plugin $di/prettier-plugin-sh/lib/index.js --plugin $di/prettier-plugin-toml/lib/index.js --plugin $di/prettier-plugin-tailwindcss/dist/index.mjs --plugin $di/@prettier/plugin-lua/src/index.js --write`,
+            `find -E . -type f -regex '.*\.(json|html|md|sh|toml|lua)' ! -regex '.*/(\.git|node_modules|public|ou)/.*' ! -regex '.*/(package\.json|Manifest\.toml)$' -print0`,
+            `xargs -0 prettier --plugin $pa/prettier-plugin-sh/lib/index.js --plugin $pa/prettier-plugin-toml/lib/index.js --plugin $pa/prettier-plugin-tailwindcss/dist/index.mjs --plugin $pa/@prettier/plugin-lua/src/index.js --write`,
         ),
     )
 
@@ -238,27 +228,27 @@ end
 
 function update(s1, ex)
 
-    pw = pwd()
+    p1 = pwd()
 
-    for (di, _, _) in walkdir()
+    for (p2, _, _) in walkdir()
 
-        if !isdir(joinpath(di, ".git"))
+        if !isdir(joinpath(p2, ".git"))
 
             continue
 
         end
 
-        cd(di)
+        cd(p2)
 
-        s2 = Public.path_short(di, pw)
+        p3 = Public.path_short(p2, p1)
 
-        @info "$s1 $s2"
+        @info "$s1 $p3"
 
         eval(ex)
 
     end
 
-    cd(pw)
+    cd(p1)
 
 end
 
@@ -267,7 +257,7 @@ git fetch, status, and diff.
 """
 @cast function festdi()
 
-    update("👉", quote
+    update("🪞", quote
 
         run(`git fetch`)
 
@@ -288,7 +278,7 @@ git add, commit, and push.
 """
 @cast function adcopu(message)
 
-    update("👍", quote
+    update("👾", quote
 
         run(`git add -A`)
 
@@ -304,34 +294,28 @@ git add, commit, and push.
 
 end
 
-function path(pa)
+const PA = pkgdir(Kata, "TEMPLATE.jl")
 
-    st = pa[(end - 1):end]
-
-    pkgdir(Kata, "TEMPLATE.$st")
-
-end
-
-function make_pair(ba)
+function make_pair(st)
 
     uu = uuid4()
 
-    "TEMPLATE" => ba[1:(end - 3)],
+    "TEMPLATE" => st[1:(end - 3)],
     "11111111-1111-1111-1111-111111111111" => "$uu",
     "AUTHOR" => readchomp(`git config user.name`)
 
 end
 
 """
-Make a package or project.
+Make a package.
 
 # Arguments
 
-  - `name`: ".jl" | ".pr"
+  - `name`: ".jl"
 """
 @cast function make(name)
 
-    cd(cp(path(name), joinpath(pwd(), name)))
+    cd(cp(PA, joinpath(pwd(), name)))
 
     for (s1, s2) in make_pair(name)
 
@@ -348,38 +332,34 @@ Match a package to its template.
 """
 @cast function match()
 
-    pw = pwd()
+    p1 = pwd()
 
-    te = path(pw)
+    pa_ = make_pair(basename(p1))
 
-    pa_ = make_pair(basename(pw))
+    nd = length(PA) + 2
 
-    nd = length(te) + 2
+    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), s2 in s3_
 
-    for (di, b1_, b2_) in walkdir(te), ba_ in (b1_, b2_), ba in ba_
-
-        @assert ispath(joinpath(di[nd:end], replace(ba, pa_...)))
+        @assert ispath(joinpath(p2[nd:end], replace(s2, pa_...)))
 
     end
 
-    de = '-' ^ 36
-
-    de = "# $de #"
+    s1 = "# ------------------------------------ #"
 
     bo_ = [true, false]
 
-    for (pa, de, bo_) in (
+    for (p2, s2, bo_) in (
         ("README.md", "---", [false, true]),
-        (".gitignore", de, bo_),
-        (joinpath("src", "TEMPLATE.jl"), de, bo_),
-        (joinpath("test", "runtests.jl"), de, bo_),
+        (".gitignore", s1, bo_),
+        (joinpath("src", "TEMPLATE.jl"), s1, bo_),
+        (joinpath("test", "runtests.jl"), s1, bo_),
     )
 
-        s1_ = split(replace(read(joinpath(te, pa), String), pa_...), de)
+        s1_ = split(replace(read(joinpath(PA, p2), String), pa_...), s2)
 
-        fi = joinpath(pw, replace(pa, pa_...))
+        p3 = joinpath(p1, replace(p2, pa_...))
 
-        s2_ = split(read(fi, String), de)
+        s2_ = split(read(p3, String), s2)
 
         @assert length(s1_) == length(s2_)
 
@@ -389,11 +369,11 @@ Match a package to its template.
 
         end
 
-        write(fi, join(s1_, de))
+        write(p3, join(s1_, s2))
 
-        fi = Public.path_short(fi)
+        p4 = Public.path_short(p3)
 
-        @info "🍡 $fi."
+        @info "🍡 $p4."
 
     end
 
