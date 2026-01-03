@@ -278,7 +278,8 @@ const BO_ = [true, false]
 
     for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
 
-        @assert ispath(joinpath(p2[IN:end], replace(st, pa_...))) st
+        @assert st == "Manifest.toml" ||
+                ispath(joinpath(p2[IN:end], replace(st, pa_...))) st
 
     end
 
