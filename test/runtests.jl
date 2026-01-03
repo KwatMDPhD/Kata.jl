@@ -6,146 +6,34 @@ using Pkg: activate, test
 
 using Test: @test
 
-using Public
+cd(cp(pkgdir(Kata, "in"), joinpath(tempdir(), "Kata"); force = true))
 
-# ---- #
+run(`open --background .`)
 
-const PK = pkgdir(Kata)
+Kata.rename("xx", "mm")
 
-# ---- #
+Kata.name(; live = true)
 
-cd(cp(joinpath(PK, "da"), joinpath(tempdir(), "Kata"); force = true))
-
-Public.read_path('.')
-
-# ---- #
-
-for ba in (".DS_Store", ".ds_store", ".DS store", ".DS Store")
-
-    touch(ba)
-
-    Kata.delete()
-
-    @test lastindex(readdir()) === 12
-
-end
-
-# ---- #
-
-for (a1, a2) in (("Xx", "Ll"),)
-
-    Kata.rename(a1, a2)
-
-end
-
-# ---- #
-
-for st in ("", "Aa/Bb", "Aa/.Bb", "Aa/bb", "Aa/BB")
-
-    Kata.lo("lo ", st)
-
-end
-
-# ---- #
-
-const ST_ = "code", "human", "datehuman"
-
-# ---- #
-
-for st in ST_
-
-    Kata.name(st; live = true)
-
-    sleep(8)
-
-end
-
-# ---- #
-
-for (a1, a2) in (('Y', 'M'), ('y', 'm'))
+for (a1, a2) in (('Y', 'N'), ('y', 'n'))
 
     Kata.rewrite(a1, a2)
 
 end
 
-# ---- #
-# TODO
+const ST = "Name.jl"
+
+Kata.make(ST)
+
+@test basename(pwd()) === ST
 
 Kata.beautify()
 
-# ---- #
-# TODO
+Kata.match()
 
-Kata.update
+activate(".")
 
-# ---- #
-# TODO
+test()
 
-Kata.festdi
-
-# ---- #
-# TODO
-
-Kata.adcopu
-
-# ---- #
-
-for (pa, re) in (
-    ("Aa.jl", joinpath(PK, "TEMPLATE.jl")),
-    ("/Bb/Cc.pr", joinpath(PK, "TEMPLATE.pr")),
-)
-
-    @test Kata.path(pa) === re
-
-end
-
-# ---- #
-# TODO
-
-Kata.make_pair
-
-# ---- #
-
-const BA_ = "Name.jl", "Name.pr"
-
-# ---- #
-
-for ba in BA_
-
-    Kata.make(ba)
-
-    cd("..")
-
-end
-
-# ---- #
-
-for ba in BA_
-
-    cd(ba)
-
-    Kata.match()
-
-    cd("..")
-
-end
-
-# ---- #
-
-for ba in BA_
-
-    cd(ba)
-
-    activate(".")
-
-    test()
-
-    cd("..")
-
-end
-
-# ---- #
-
-cd(PK)
+cd(pkgdir(Kata))
 
 Kata.match()

@@ -8,25 +8,83 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-using Public
+function text_space(st)
 
-"""
-Delete bad files.
-"""
-@cast function delete()
-
-    run(`find -E . -iregex '.*ds[ _]store' -delete`)
+    replace(strip(st), r" +" => ' ')
 
 end
 
-"""
-Rename files and directories.
+function text_title(s1)
 
-# Arguments
+    s2 = uppercasefirst(s1)
 
-  - `before`:
-  - `after`:
-"""
+    for pa_ in (
+            ('_' => ' ', r"(?<=\d)th"i => "th"),
+            (
+                Regex(s3, "i") => s3 for
+                s3 in ("'d", "'m", "'re", "'s", "'ve", "1st", "2nd", "3rd")
+            ),
+            (
+                Regex("(?<= )$s3(?= )", "i") => s3 for s3 in (
+                    "a",
+                    "an",
+                    "and",
+                    "as",
+                    "at",
+                    "but",
+                    "by",
+                    "for",
+                    "from",
+                    "in",
+                    "into",
+                    "nor",
+                    "of",
+                    "off",
+                    "on",
+                    "onto",
+                    "or",
+                    "out",
+                    "over",
+                    "the",
+                    "to",
+                    "up",
+                    "vs",
+                    "with",
+                )
+            ),
+        ),
+        pa in pa_
+
+        s2 = replace(s2, pa)
+
+    end
+
+    s2
+
+end
+
+function text_extension(s1)
+
+    s2 = lowercase(s1)
+
+    if s2 == ".jpeg"
+
+        ".jpg"
+
+    else
+
+        s2
+
+    end
+
+end
+
+@cast function delete()
+
+    run(`find -E . -iregex '.*ds.store' -delete`)
+
+end
+
 @cast function rename(before, after)
 
     run(
@@ -38,42 +96,21 @@ Rename files and directories.
 
 end
 
-function text_extension(s1)
+function log(s1, an)
 
-    s2 = lowercase(s1)
-
-    if s2 == "jpeg"
-
-        "jpg"
-
-    else
-
-        s2
-
-    end
-
-end
-
-function log(s1, pa)
-
-    s2 = basename(pa)
+    s2 = basename(an)
 
     if startswith(s2, '.') || !isone(count(isuppercase, s2))
 
-        @info "$s1$pa."
+        @info "🚨 $s1 $an"
 
     end
 
 end
 
-"""
-Name files automatically.
-
-# Flags
-
-  - `--live`: = false
-"""
 @cast function name(; live::Bool = false)
+
+    nd = length(pwd()) + 2
 
     for (p1, _, st_) in walkdir()
 
@@ -85,7 +122,7 @@ Name files automatically.
 
         end
 
-        log("🚨📁 ", Public.path_short(p1))
+        log("📁", p1[nd:end])
 
         if contains(p1, ".key") ||
            contains(p1, ".numbers") ||
@@ -99,7 +136,7 @@ Name files automatically.
 
             p2 = joinpath(p1, s1)
 
-            s2, s3 = splitext(Public.text_space(s1))
+            s2, s3 = splitext(text_space(s1))
 
             in_ = findfirst(r"^[\d ]+", s2)
 
@@ -141,7 +178,7 @@ Name files automatically.
 
             end
 
-            s8 = if isempty(s4) || isempty(s5)
+            an = if isempty(s4) || isempty(s5)
 
                 ""
 
@@ -151,9 +188,11 @@ Name files automatically.
 
             end
 
-            p3 = joinpath(p1, "$s4$s8$s5$s6")
+            s8 = text_title(s5)
 
-            log("🚨📜 ", p3)
+            p3 = joinpath(p1, "$s4$an$s8$s6")
+
+            log("📜", p3)
 
             if p2 == p3
 
@@ -177,11 +216,11 @@ Name files automatically.
 
             end
 
-            p5 = Public.path_short(p4)
+            a1 = p4[nd:end]
 
-            p6 = Public.path_short(p3)
+            a2 = p3[nd:end]
 
-            @info "📛\n$p5\n$p6"
+            @info "📛\n$a1\n$a2"
 
         end
 
@@ -189,28 +228,17 @@ Name files automatically.
 
 end
 
-"""
-Rewrite files.
-
-# Arguments
-
-  - `before`:
-  - `after`:
-"""
 @cast function rewrite(before, after)
 
     run(
         pipeline(
             `rg --no-ignore --files-with-matches $before`,
-            `xargs sed -i '' 's/$before/$after/g'`,
+            `xargs sed -i '' "s/$before/$after/g"`,
         ),
     )
 
 end
 
-"""
-Beautify .jl, .json, .html, .md, .sh, .toml, and .lua.
-"""
 @cast function beautify()
 
     format(".")
@@ -219,16 +247,18 @@ Beautify .jl, .json, .html, .md, .sh, .toml, and .lua.
 
     run(
         pipeline(
-            `find -E . -type f -regex '.*\.(json|html|md|sh|toml|lua)' ! -regex '.*/(\.git|node_modules|public|ou)/.*' ! -regex '.*/(package\.json|Manifest\.toml)$' -print0`,
-            `xargs -0 prettier --plugin $pa/prettier-plugin-sh/lib/index.js --plugin $pa/prettier-plugin-toml/lib/index.js --plugin $pa/prettier-plugin-tailwindcss/dist/index.mjs --plugin $pa/@prettier/plugin-lua/src/index.js --write`,
+            `find -E . -type f -regex '.*\.(json|html|md|sh|toml|lua)' ! -regex '.*/(\.git|node_modules|public|ou)/.*' ! -regex '.*/(package\.json|Manifest\.toml)' -print0`,
+            `xargs -0 prettier --plugin $pa/prettier-plugin-tailwindcss/dist/index.mjs --plugin $pa/prettier-plugin-sh/lib/index.js --plugin $pa/prettier-plugin-toml/lib/index.js --plugin $pa/@prettier/plugin-lua/src/index.js --write`,
         ),
     )
 
 end
 
-function update(s1, ex)
+function read2(st, ex)
 
     p1 = pwd()
+
+    nd = length(p1) + 2
 
     for (p2, _, _) in walkdir()
 
@@ -240,9 +270,9 @@ function update(s1, ex)
 
         cd(p2)
 
-        p3 = Public.path_short(p2, p1)
+        an = p2[nd:end]
 
-        @info "$s1 $p3"
+        @info "$st $an"
 
         eval(ex)
 
@@ -252,12 +282,9 @@ function update(s1, ex)
 
 end
 
-"""
-git fetch, status, and diff.
-"""
-@cast function festdi()
+@cast function fsd()
 
-    update("🪞", quote
+    read2("🪞", quote
 
         run(`git fetch`)
 
@@ -269,22 +296,15 @@ git fetch, status, and diff.
 
 end
 
-"""
-git add, commit, and push.
+@cast function acp(message)
 
-# Arguments
-
-  - `message`:
-"""
-@cast function adcopu(message)
-
-    update("👾", quote
+    read2("👾", quote
 
         run(`git add -A`)
 
-        me = $message
+        st = $message
 
-        if success(run(`git commit --message $me`; wait = false))
+        if success(run(`git commit --message $st`; wait = false))
 
             run(`git push`)
 
@@ -296,7 +316,9 @@ end
 
 const PA = pkgdir(Kata, "TEMPLATE.jl")
 
-function make_pair(st)
+const IN = length(PA) + 2
+
+function pair(st)
 
     uu = uuid4()
 
@@ -306,18 +328,11 @@ function make_pair(st)
 
 end
 
-"""
-Make a package.
-
-# Arguments
-
-  - `name`: ".jl"
-"""
 @cast function make(name)
 
     cd(cp(PA, joinpath(pwd(), name)))
 
-    for (s1, s2) in make_pair(name)
+    for (s1, s2) in pair(name)
 
         rename(s1, s2)
 
@@ -327,39 +342,36 @@ Make a package.
 
 end
 
-"""
-Match a package to its template.
-"""
+const ST = "# ------------------------------------ #"
+
+const BO_ = [true, false]
+
 @cast function match()
 
     p1 = pwd()
 
-    pa_ = make_pair(basename(p1))
+    nd = length(p1) + 2
 
-    nd = length(PA) + 2
+    pa_ = pair(basename(p1))
 
-    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), s2 in s3_
+    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
 
-        @assert ispath(joinpath(p2[nd:end], replace(s2, pa_...)))
+        @assert ispath(joinpath(p2[IN:end], replace(st, pa_...)))
 
     end
 
-    s1 = "# ------------------------------------ #"
-
-    bo_ = [true, false]
-
-    for (p2, s2, bo_) in (
+    for (an, st, bo_) in (
         ("README.md", "---", [false, true]),
-        (".gitignore", s1, bo_),
-        (joinpath("src", "TEMPLATE.jl"), s1, bo_),
-        (joinpath("test", "runtests.jl"), s1, bo_),
+        (".gitignore", ST, BO_),
+        (joinpath("src", "TEMPLATE.jl"), ST, BO_),
+        (joinpath("test", "runtests.jl"), ST, BO_),
     )
 
-        s1_ = split(replace(read(joinpath(PA, p2), String), pa_...), s2)
+        s1_ = split(replace(read(joinpath(PA, an), String), pa_...), st)
 
-        p3 = joinpath(p1, replace(p2, pa_...))
+        p2 = joinpath(p1, replace(an, pa_...))
 
-        s2_ = split(read(p3, String), s2)
+        s2_ = split(read(p2, String), st)
 
         @assert length(s1_) == length(s2_)
 
@@ -369,11 +381,11 @@ Match a package to its template.
 
         end
 
-        write(p3, join(s1_, s2))
+        write(p2, join(s1_, st))
 
-        p4 = Public.path_short(p3)
+        an = p2[nd:end]
 
-        @info "🍡 $p4."
+        @info "🍡 $an"
 
     end
 

@@ -7,12 +7,8 @@ authors = ["KwatMDPhD"]
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-Public = "c947c6f8-4499-4aba-9a07-9ad9f868b827"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
-
-[sources]
-Public = { path = "../Public.jl" }
 
 [compat]
 Comonicon = "1.0.8"
