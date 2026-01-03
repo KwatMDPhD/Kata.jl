@@ -1,5 +1,9 @@
 module Kata
 
+const P1 = pkgdir(Kata, "in")
+
+const P2 = pkgdir(Kata, "ou")
+
 # ------------------------------------ #
 
 using Comonicon: @cast, @main
@@ -342,7 +346,7 @@ end
 
 end
 
-const ST = "# ------------------------------------ #"
+const ST = "# ------------------------------------ " * '#'
 
 const BO_ = [true, false]
 
@@ -373,7 +377,7 @@ const BO_ = [true, false]
 
         s2_ = split(read(p2, String), st)
 
-        @assert length(s1_) == length(s2_)
+        @assert length(s1_) == length(s2_) an
 
         if map!(ifelse, s1_, bo_, s1_, s2_) == s2_
 
