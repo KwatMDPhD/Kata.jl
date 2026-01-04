@@ -227,7 +227,7 @@ end
 
     run(
         pipeline(
-            `find -E . -type f -regex '.*\.(json|html|md|sh|toml|lua)' ! -regex '.*/(\.git|node_modules|public|ou)/.*' ! -regex '.*/(package\.json|Manifest\.toml)' -print0`,
+            `find -E . -type f -regex '.*\.(json|html|md|sh|toml|lua)' ! -regex '.*/(\.git|node_modules|public|ou)/.*' ! -regex '.*/(package\.json|Manifest\.toml|msigdb.*\.json)' -print0`,
             `xargs -0 prettier --plugin $pa/prettier-plugin-tailwindcss/dist/index.mjs --plugin $pa/prettier-plugin-sh/lib/index.js --plugin $pa/prettier-plugin-toml/lib/index.js --plugin $pa/@prettier/plugin-lua/src/index.js --write`,
         ),
     )
