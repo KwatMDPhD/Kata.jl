@@ -8,9 +8,3 @@ Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
-
-[compat]
-Comonicon = "1.0.8"
-JuliaFormatter = "2.2.0"
-Pkg = "1.11.0"
-UUIDs = "1.11.0"
