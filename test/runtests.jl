@@ -6,7 +6,7 @@ using Pkg: activate, test
 
 ########################################
 
-cd(cp(pkgdir(Kata, "in"), joinpath(tempdir(), "Kata"); force = true))
+cd(cp(Kata.P1, joinpath(tempdir(), "Kata"); force = true))
 
 run(`open --background .`)
 
