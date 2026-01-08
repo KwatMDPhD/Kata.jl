@@ -1,5 +1,7 @@
-```bash
-julia --project deps/build.jl
+## Install
+
+```julia
+]build
 ```
 
 ---
