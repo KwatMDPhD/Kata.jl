@@ -1,16 +1,15 @@
 [command]
 static = false
 
-[install]
-completion = true
-
 [sysimg]
+incremental = false
 filter_stdlibs = false
 
 [sysimg.precompile]
 execution_file = ["test/runtests.jl"]
 
 [application]
+incremental = false
 filter_stdlibs = false
 
 [application.precompile]
