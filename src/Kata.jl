@@ -378,9 +378,11 @@ end
 
         st = $message
 
-        run(`git commit --message $st`)
+        if success(`git commit --message $st`)
 
-        run(`git push`)
+            run(`git push`)
+
+        end
 
     end)
 
