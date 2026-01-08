@@ -1,10 +1,14 @@
 ## Install
 
 ```julia
+# julia
+
 ]build
 ```
 
-```bash
+```zsh
+# zsh
+
 kata --help
 ```
 
