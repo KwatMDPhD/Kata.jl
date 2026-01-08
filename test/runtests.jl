@@ -16,17 +16,17 @@ Kata.rename("yy", "jj")
 
 Kata.name(; live = true)
 
-Kata.rewrite('Z', 'K')
+########################################
 
-Kata.rewrite('z', 'k')
+Kata.rewrite("zz", "Kk")
 
 ########################################
 
 Kata.make("Name.jl")
 
-Kata.match()
-
 Kata.beautify()
+
+Kata.match()
 
 activate(".")
 

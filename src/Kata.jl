@@ -79,7 +79,7 @@ end
 
             p2 = joinpath(p1, s1)
 
-            s2, s3 = splitext(replace(strip(s1), r" +" => ' '))
+            s2, s3 = splitext(strip(replace(s1, r" +" => ' ')))
 
             in_ = findfirst(r"^[\d ]+", s2)
 
@@ -89,7 +89,7 @@ end
 
             else
 
-                strip(s2[in_]), s2[(in_[end] + 1):end]
+                rstrip(s2[in_]), s2[(in_[end] + 1):end]
 
             end
 
@@ -108,10 +108,8 @@ end
                s3 == ".mp4"
 
                 s6 = minimum(
-                    replace(
-                        rsplit(s7, '\t'; limit = 2)[2],
-                        "00 00 00" => "__ __ __",
-                    ) for s7 in eachsplit(
+                    # TODO: Use julia package
+                    replace(rsplit(s7, '\t'; limit = 2)[2], "00 00 00" => '_') for s7 in eachsplit(
                         readchomp(
                             `exiftool -tab -dateFormat '%Y %m %d %H %M %S' -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $p2`,
                         ),
@@ -127,23 +125,13 @@ end
 
             end
 
-            an = if isempty(s4) || isempty(s5)
-
-                ""
-
-            else
-
-                ' '
-
-            end
-
             s5 = uppercasefirst(s5)
 
             for pa_ in (
                     ('_' => ' ', r"(?<=\d)th"i => "th"),
                     (
                         Regex(s7, "i") => s7 for s7 in
-                        ("'d", "'m", "'re", "'s", "'ve", "1st", "2nd", "3rd")
+                        ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve")
                     ),
                     (
                         Regex("(?<= )$s7(?= )", "i") => s7 for s7 in (
@@ -177,6 +165,16 @@ end
                 pa in pa_
 
                 s5 = replace(s5, pa)
+
+            end
+
+            an = if isempty(s4) || isempty(s5)
+
+                ""
+
+            else
+
+                ' '
 
             end
 
@@ -380,11 +378,9 @@ end
 
         st = $message
 
-        if success(run(`git commit --message $st`; wait = false))
+        run(`git commit --message $st`)
 
-            run(`git push`)
-
-        end
+        run(`git push`)
 
     end)
 
