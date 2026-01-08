@@ -1,14 +1,20 @@
 ## Install
 
-```julia
-# julia
+```zsh
+git clone https://github.com/KwatMDPhD/Kata.jl
 
+cd Kata.jl
+
+julia --project
+```
+
+```julia
 ]build
 ```
 
-```zsh
-# zsh
+## Use
 
+```zsh
 kata --help
 ```
 
