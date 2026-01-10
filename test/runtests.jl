@@ -6,7 +6,19 @@ using Pkg: activate, test
 
 ########################################
 
-cd(cp(Kata.P1, joinpath(tempdir(), "Kata"); force = true))
+for st in filter!(!=(".keep"), readdir(Kata.P2))
+
+    rm(joinpath(Kata.P2, st); recursive = true)
+
+end
+
+for st in filter!(!=(".keep"), readdir(Kata.P1))
+
+    cp(joinpath(Kata.P1, st), joinpath(Kata.P2, st))
+
+end
+
+cd(Kata.P2)
 
 run(`open --background .`)
 
