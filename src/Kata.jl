@@ -330,7 +330,7 @@ function read2(st, ex)
 
     nd = length(p1) + 2
 
-    for (p2, _, _) in walkdir()
+    for (p2,) in walkdir()
 
         if !isdir(joinpath(p2, ".git"))
 
