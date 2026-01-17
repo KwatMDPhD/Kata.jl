@@ -12,6 +12,8 @@ julia --project
 ]build
 ```
 
+Find the executable at `~/.julia/bin/kata`.
+
 ## Use
 
 ```zsh
