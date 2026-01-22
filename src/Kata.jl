@@ -194,11 +194,7 @@ end
 
             end
 
-            a1 = p2[nd:end]
-
-            a2 = p3[nd:end]
-
-            @info "📛\n$a1\n$a2"
+            @info "📛" * '\n' * p2[nd:end] * '\n' * p3[nd:end]
 
         end
 
@@ -289,8 +285,6 @@ const BO_ = [true, false]
 
     end
 
-    nd = length(p1) + 2
-
     for (an, st, bo_) in (
         ("README.md", "---", [false, true]),
         (".gitignore", ST, BO_),
@@ -314,9 +308,7 @@ const BO_ = [true, false]
 
         write(p2, join(s1_, st))
 
-        an = p2[nd:end]
-
-        @info "🍡 $an"
+        @info "🍡 " * p2[(length(p1) + 2):end]
 
     end
 
@@ -328,8 +320,6 @@ function read2(st, ex)
 
     p1 = pwd()
 
-    nd = length(p1) + 2
-
     for (p2,) in walkdir()
 
         if !isdir(joinpath(p2, ".git"))
@@ -340,9 +330,7 @@ function read2(st, ex)
 
         cd(p2)
 
-        an = p2[nd:end]
-
-        @info "$st $an"
+        @info "$st " * p2[(length(p1) + 2):end]
 
         eval(ex)
 
