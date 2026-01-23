@@ -194,7 +194,7 @@ end
 
             end
 
-            @info "📛" * '\n' * p2[nd:end] * '\n' * p3[nd:end]
+            @info "📛\n$(p2[nd:end])\n$(p3[nd:end])"
 
         end
 
@@ -308,7 +308,7 @@ const BO_ = [true, false]
 
         write(p2, join(s1_, st))
 
-        @info "🍡 " * p2[(length(p1) + 2):end]
+        @info "🍡 $(p2[(length(p1) + 2):end])"
 
     end
 
@@ -330,7 +330,7 @@ function read2(st, ex)
 
         cd(p2)
 
-        @info "$st " * p2[(length(p1) + 2):end]
+        @info "$st $(p2[(length(p1) + 2):end])"
 
         eval(ex)
 
