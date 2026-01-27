@@ -14,6 +14,20 @@ using UUIDs: uuid4
 
 ########################################
 
+function text(st, pa_)
+
+    for pa in pa_
+
+        st = replace(st, pa)
+
+    end
+
+    st
+
+end
+
+########################################
+
 """
 """
 @cast function delete()
@@ -79,9 +93,9 @@ end
 
             p2 = joinpath(p1, s1)
 
-            s2, s3 = splitext(strip(replace(s1, r" +" => ' ')))
+            s2, s3 = splitext(strip(replace(s1, r"\s+" => ' ')))
 
-            in_ = findfirst(r"^[\d ]+", s2)
+            in_ = findfirst(r"^[\d\s]+", s2)
 
             s4, s5 = if isnothing(in_)
 
@@ -128,43 +142,42 @@ end
             s5 = uppercasefirst(s5)
 
             for pa_ in (
-                    ('_' => ' ', r"(?<=\d)th"i => "th"),
-                    (
-                        Regex(s7, "i") => s7 for s7 in
-                        ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve")
-                    ),
-                    (
-                        Regex("(?<= )$s7(?= )", "i") => s7 for s7 in (
-                            "a",
-                            "an",
-                            "and",
-                            "as",
-                            "at",
-                            "but",
-                            "by",
-                            "for",
-                            "from",
-                            "in",
-                            "into",
-                            "nor",
-                            "of",
-                            "off",
-                            "on",
-                            "onto",
-                            "or",
-                            "out",
-                            "over",
-                            "the",
-                            "to",
-                            "up",
-                            "vs",
-                            "with",
-                        )
-                    ),
+                ('_' => ' ', r"(?<=\d)th"i => "th"),
+                (
+                    Regex(s7, "i") => s7 for
+                    s7 in ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve")
                 ),
-                pa in pa_
+                (
+                    Regex("(?<= )$s7(?= )", "i") => s7 for s7 in (
+                        "a",
+                        "an",
+                        "and",
+                        "as",
+                        "at",
+                        "but",
+                        "by",
+                        "for",
+                        "from",
+                        "in",
+                        "into",
+                        "nor",
+                        "of",
+                        "off",
+                        "on",
+                        "onto",
+                        "or",
+                        "out",
+                        "over",
+                        "the",
+                        "to",
+                        "up",
+                        "vs",
+                        "with",
+                    )
+                ),
+            )
 
-                s5 = replace(s5, pa)
+                s5 = text(s5, pa_)
 
             end
 
@@ -281,7 +294,7 @@ const BO_ = [true, false]
     for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
 
         @assert st == "Manifest.toml" ||
-                ispath(joinpath(p2[IN:end], replace(st, pa_...))) st
+                ispath(joinpath(p2[IN:end], text(st, pa_))) st
 
     end
 
@@ -292,9 +305,9 @@ const BO_ = [true, false]
         (joinpath("test", "runtests.jl"), ST, BO_),
     )
 
-        s1_ = split(replace(read(joinpath(PA, an), String), pa_...), st)
+        s1_ = split(text(read(joinpath(PA, an), String), pa_), st)
 
-        p2 = joinpath(p1, replace(an, pa_...))
+        p2 = joinpath(p1, text(an, pa_))
 
         s2_ = split(read(p2, String), st)
 
