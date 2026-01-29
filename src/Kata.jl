@@ -12,8 +12,6 @@ using JuliaFormatter: format
 
 using UUIDs: uuid4
 
-########################################
-
 function text(st, pa_)
 
     for pa in pa_
@@ -26,8 +24,6 @@ function text(st, pa_)
 
 end
 
-########################################
-
 """
 """
 @cast function delete()
@@ -35,8 +31,6 @@ end
     run(`find . -name .DS_Store -delete`)
 
 end
-
-########################################
 
 """
 """
@@ -215,8 +209,6 @@ end
 
 end
 
-########################################
-
 """
 """
 @cast function rewrite(before, after)
@@ -246,8 +238,6 @@ end
     )
 
 end
-
-########################################
 
 const PA = pkgdir(Kata, "TEMPLATE.jl")
 
@@ -326,8 +316,6 @@ const BO_ = [true, false]
     end
 
 end
-
-########################################
 
 function read2(st, ex)
 

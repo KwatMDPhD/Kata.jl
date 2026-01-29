@@ -1,10 +1,6 @@
 ## Install
 
 ```zsh
-git clone https://github.com/KwatMDPhD/Kata.jl
-
-cd Kata.jl
-
 julia --project
 ```
 
