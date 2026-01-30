@@ -49,13 +49,13 @@ end
 
 end
 
-function log(s1, an)
+function log(s1, s2)
 
-    s2 = basename(an)
+    s3 = basename(s2)
 
-    if startswith(s2, '.') || !isone(count(isuppercase, s2))
+    if startswith(s3, '.') || !isone(count(isuppercase, s3))
 
-        @info "🚨 $s1 $an"
+        @info "🚨 $s1 $s2"
 
     end
 
