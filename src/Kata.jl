@@ -120,7 +120,7 @@ end
                s3 == ".mp4"
 
                 s6 = minimum(
-                    # TODO: Use julia package
+                    # TODO: Avoid exiftool
                     replace(rsplit(s7, '\t'; limit = 2)[2], "00 00 00" => '_') for s7 in eachsplit(
                         readchomp(
                             `exiftool -tab -dateFormat '%Y %m %d %H %M %S' -CreateDate -CreationDate -DateCreated -DateTimeOriginal -FileModifyDate $p2`,
