@@ -4,19 +4,13 @@ using Kata
 
 using Pkg: activate, test
 
-function is(st)
-
-    st != ".keep"
-
-end
-
-for st in filter!(is, readdir(Kata.P2))
+for st in filter!(!=(".keep"), readdir(Kata.P2))
 
     rm(joinpath(Kata.P2, st); recursive = true)
 
 end
 
-for st in filter!(is, readdir(Kata.P1))
+for st in filter!(!=(".keep"), readdir(Kata.P1))
 
     cp(joinpath(Kata.P1, st), joinpath(Kata.P2, st))
 
