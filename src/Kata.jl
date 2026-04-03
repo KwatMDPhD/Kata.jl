@@ -232,7 +232,7 @@ end
 
     format(".")
 
-    pa = joinpath(homedir(), ".bun", "install", "global", "node_modules")
+    pa = joinpath(readchomp(`brew --prefix`), "lib", "node_modules")
 
     run(
         pipeline(
