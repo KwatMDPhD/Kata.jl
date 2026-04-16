@@ -277,7 +277,7 @@ end
 
 const ST = "# ------------------------------------ " * '#'
 
-const BO_ = [true, false]
+const BO_ = true, false
 
 """
 """
@@ -295,7 +295,7 @@ const BO_ = [true, false]
     end
 
     for (an, st, bo_) in (
-        ("README.md", "---", [false, true]),
+        ("README.md", "---", (false, true)),
         (".gitignore", ST, BO_),
         (joinpath("src", "TEMPLATE.jl"), ST, BO_),
         (joinpath("test", "runtests.jl"), ST, BO_),
