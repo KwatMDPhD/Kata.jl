@@ -1,10 +1,10 @@
-name = "Kata"
-uuid = "8e59351d-29f6-4c3f-9afc-53528ae58453"
-version = "0.1.0"
+name = "He"
+uuid = "7c63630d-7295-45e0-bb0e-2a97078b5dd7"
 authors = ["KwatMDPhD"]
+version = "0.1.0"
 
 [deps]
-Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
-JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
+[apps]
+he = {}

@@ -1,0 +1,4 @@
+name = "NAME"
+uuid = "UUID"
+authors = ["AUTHORS"]
+version = "0.1.0"
