@@ -10,6 +10,8 @@ using UUIDs: uuid4
 
 function name()
 
+    nd = length(pwd()) + 2
+
     for (p1, s1_, s2_) in walkdir()
 
         if contains(p1, ".git") ||
@@ -21,13 +23,13 @@ function name()
 
         end
 
-        p2 = p1[(lenght(p1) + 2):end]
+        p2 = p1[nd:end]
 
         for s3_ in (s1_, s2_), s1 in s3_
 
             if startswith(s1, '.') || !isone(count(isuppercase, s1))
 
-                @info "🚨 $p2 $s1"
+                @info "🚨 $(joinpath(p2, s1))"
 
             end
 
@@ -115,6 +117,8 @@ function make(name)
 
 end
 
+const ST = "# ---- #"
+
 function match()
 
     p1 = pwd()
@@ -136,13 +140,13 @@ function match()
             joinpath("test", "runtests.jl"),
         )
 
-        p3 = joinpath(p1, replace(p2, pa_[1]))
+        s1 = replace(read(joinpath(PA, p2), String), pa_...)
 
-        s1 = read(joinpath(PA, p2), String)
+        p3 = joinpath(p1, replace(p2, pa_[1]))
 
         s2 = read(p3, String)
 
-        s3 = join((split(s1; limit = 2)[1], split(s2; limit = 2)[2]), "# ---- #")
+        s3 = join((split(s1, ST; limit = 2)[1], split(s2, ST; limit = 2)[2]), ST)
 
         if s2 == s3
 
@@ -162,11 +166,9 @@ end
 
 function (@main)(ARGS)
 
-    @info ARGS
-
     st = ARGS[1]
 
-    if st == "name"
+    return if st == "name"
 
         name()
 
