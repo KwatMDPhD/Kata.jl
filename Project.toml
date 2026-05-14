@@ -1,10 +1,9 @@
 name = "He"
-uuid = "7c63630d-7295-45e0-bb0e-2a97078b5dd7"
+uuid = "213a5344-5feb-43db-8ff5-8c1e53dc3878"
 authors = ["KwatMDPhD"]
 version = "0.1.0"
 
 [deps]
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
-[apps]
-he = {}
+[apps.he]

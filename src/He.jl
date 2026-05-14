@@ -8,6 +8,7 @@ const P2 = pkgdir(He, "ou")
 
 using UUIDs: uuid4
 
+# TODO: Test
 function name()
 
     nd = length(pwd()) + 2
@@ -34,11 +35,15 @@ function name()
             end
 
             s2 = replace(
-                s1, r"^\s+" => "",
+                s1,
+                r"^\s+" => "",
                 r"\s+$" => "",
                 r"\s{2,}" => ' ',
                 r"(?<=\d)th"i => "th",
-                (Regex(s3, "i") => s3 for s3 in ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve"))...,
+                (
+                    Regex(s3, "i") => s3 for s3 in
+                        ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve")
+                )...,
                 (
                     Regex("(?<= )$s3(?= )", "i") => s3 for s3 in (
                             "a",
@@ -66,12 +71,12 @@ function name()
                             "vs",
                             "with",
                         )
-                )...
+                )...,
             )
 
             if s1 != s2
 
-                @info "🚨 $p2\n$s1\n$s2"
+                @info "📛 $p2\n$s1\n$s2"
 
             end
 
@@ -85,9 +90,13 @@ end
 
 const PA = pkgdir(He, "NAME.jl")
 
+const IN = length(PA) + 2
+
 function pair(st)
 
-    return "NAME" => splitext(st)[1], "UUID" => "$(uuid4())", "AUTHORS" => readchomp(`git config user.name`)
+    return "NAME" => splitext(st)[1],
+        "11111111-1111-1111-1111-111111111111" => "$(uuid4())",
+        "AUTHORS" => readchomp(`git config user.name`)
 
 end
 
@@ -97,17 +106,14 @@ function make(name)
 
     for (s1, s2) in pair(name)
 
-        run(
-            pipeline(
-                `find . -print0`,
-                `xargs -0 rename --subst-all $s1 $s2`,
-            ),
-        )
+        s3 = "s/$s1/$s2/g"
+
+        run(pipeline(`find . -print0`, `xargs -0 rename $s3`))
 
         run(
             pipeline(
                 `rg --no-ignore --files-with-matches $s1`,
-                `xargs sed -i '' "s/$s1/$s2/g"`,
+                `xargs sed -i '' $s3`,
             ),
         )
 
@@ -123,14 +129,21 @@ function match()
 
     p1 = pwd()
 
-    pa_ = pair(basename(p1))
+    nd = length(p1) + 2
 
-    nd = length(PA) + 2
+    pa_ = pair(basename(p1))
 
     for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
 
-        @assert st == "Manifest.toml" ||
-            ispath(joinpath(p2[nd:end], replace(st, pa_[1]))) st
+        if st == "Manifest.toml"
+
+            continue
+
+        end
+
+        p3 = joinpath(p2[IN:end], replace(st, pa_[1]))
+
+        @assert ispath(p3) p3
 
     end
 
@@ -140,23 +153,21 @@ function match()
             joinpath("test", "runtests.jl"),
         )
 
-        s1 = replace(read(joinpath(PA, p2), String), pa_...)
-
         p3 = joinpath(p1, replace(p2, pa_[1]))
 
-        s2 = read(p3, String)
+        s1 = read(p3, String)
 
-        s3 = join((split(s1, ST; limit = 2)[1], split(s2, ST; limit = 2)[2]), ST)
+        s2 = "$(split(replace(read(joinpath(PA, p2), String), pa_...), ST; limit = 2)[1])$ST$(split(s1, ST; limit = 2)[2])"
 
-        if s2 == s3
+        if s1 == s2
 
             continue
 
         end
 
-        write(p3, s3)
+        write(p3, s2)
 
-        @info "🍡 $(p3[(length(p1) + 2):end])"
+        @info "🍡 $(p3[nd:end])"
 
     end
 
@@ -168,7 +179,7 @@ function (@main)(ARGS)
 
     st = ARGS[1]
 
-    return if st == "name"
+    if st == "name"
 
         name()
 
@@ -181,6 +192,8 @@ function (@main)(ARGS)
         match()
 
     end
+
+    return
 
 end
 
