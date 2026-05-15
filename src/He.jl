@@ -8,7 +8,6 @@ const P2 = pkgdir(He, "ou")
 
 using UUIDs: uuid4
 
-# TODO: Test
 function name()
 
     nd = length(pwd()) + 2
