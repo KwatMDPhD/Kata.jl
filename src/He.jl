@@ -12,7 +12,7 @@ function name()
 
     nd = length(pwd()) + 2
 
-    for (p1, s1_, s2_) in walkdir()
+    for (p1, p1_, p2_) in walkdir()
 
         if contains(p1, ".git") ||
                 contains(p1, ".key") ||
@@ -25,26 +25,26 @@ function name()
 
         p2 = p1[nd:end]
 
-        for s3_ in (s1_, s2_), s1 in s3_
+        for p3_ in (p1_, p2_), p3 in p3_
 
-            if startswith(s1, '.') || !isone(count(isuppercase, s1))
+            if startswith(p3, '.') || !isone(count(isuppercase, p3))
 
-                @info "🚨 $(joinpath(p2, s1))"
+                @info "🚨 $(joinpath(p2, p3))"
 
             end
 
-            s2 = replace(
-                s1,
+            p4 = replace(
+                p3,
                 r"^\s+" => "",
                 r"\s+$" => "",
                 r"\s{2,}" => ' ',
                 r"(?<=\d)th"i => "th",
                 (
-                    Regex(s3, "i") => s3 for s3 in
+                    Regex(st, "i") => st for st in
                         ("1st", "2nd", "3rd", "'d", "'m", "'re", "'s", "'ve")
                 )...,
                 (
-                    Regex("(?<= )$s3(?= )", "i") => s3 for s3 in (
+                    Regex("(?<= )$st(?= )", "i") => st for st in (
                             "a",
                             "an",
                             "and",
@@ -73,9 +73,9 @@ function name()
                 )...,
             )
 
-            if s1 != s2
+            if p3 != p4
 
-                @info "📛 $p2\n$s1\n$s2"
+                @info "📛 $p2\n$p3\n$p4"
 
             end
 
@@ -91,9 +91,9 @@ const PA = pkgdir(He, "NAME.jl")
 
 const IN = length(PA) + 2
 
-function pair(st)
+function pair(pa)
 
-    return "NAME" => splitext(st)[1],
+    return "NAME" => splitext(pa)[1],
         "11111111-1111-1111-1111-111111111111" => "$(uuid4())",
         "AUTHORS" => readchomp(`git config user.name`)
 
@@ -132,15 +132,15 @@ function match()
 
     pa_ = pair(basename(p1))
 
-    for (p2, s1_, s2_) in walkdir(PA), s3_ in (s1_, s2_), st in s3_
+    for (p2, p1_, p2_) in walkdir(PA), p3_ in (p1_, p2_), p2 in p3_
 
-        if st == "Manifest.toml"
+        if p2 == "Manifest.toml"
 
             continue
 
         end
 
-        p3 = joinpath(p2[IN:end], replace(st, pa_[1]))
+        p3 = joinpath(p2[IN:end], replace(p2, pa_[1]))
 
         @assert ispath(p3) p3
 
