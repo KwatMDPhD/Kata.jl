@@ -33,7 +33,7 @@ function log()
 
             if startswith(p3, '.') || !isone(count(isuppercase, p3))
 
-                @info "🚨 $(joinpath(p2, p3))"
+                @info "📛 $(joinpath(p2, p3))"
 
             end
 
@@ -93,6 +93,8 @@ end
 
 const P3 = pkgdir(He, "NAME.jl")
 
+const IN = length(P3) + 2
+
 function write2(pa)
 
     cd(cp(P3, pa))
@@ -136,8 +138,6 @@ function write2()
 
     p1 = basename(pwd())
 
-    nd = length(P3) + 2
-
     for (p2, p1_, p2_) in walkdir(P3), p3_ in (p1_, p2_), p3 in p3_
 
         if p3 == "Manifest.toml"
@@ -150,7 +150,7 @@ function write2()
 
         end
 
-        p4 = joinpath(p2[nd:end], p3)
+        p4 = joinpath(p2[IN:end], p3)
 
         @assert ispath(p4) p4
 
