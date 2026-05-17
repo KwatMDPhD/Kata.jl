@@ -8,9 +8,13 @@ const P2 = pkgdir(He, "ou")
 
 using UUIDs: uuid4
 
-function name()
+function path(pa)
 
-    nd = length(pwd()) + 2
+    return pa[(length(pwd()) + 2):end]
+
+end
+
+function name()
 
     for (p1, p1_, p2_) in walkdir()
 
@@ -23,7 +27,7 @@ function name()
 
         end
 
-        p2 = p1[nd:end]
+        p2 = path(p1)
 
         for p3_ in (p1_, p2_), p3 in p3_
 
@@ -122,11 +126,9 @@ end
 
 function write3(p1, s1)
 
-    p2 = pwd()
+    p2 = joinpath(pwd(), replace(p1, "NAME" => s1))
 
-    p3 = joinpath(p2, replace(p1, "NAME" => s1))
-
-    s2 = read(p3, String)
+    s2 = read(p2, String)
 
     s3 = "$(replace(split(read(joinpath(P3, p1), String), "# ---- #"; limit = 2)[1], "NAME" => s1))# ---- #$(split(s2, "# ---- #"; limit = 2)[2])"
 
@@ -136,9 +138,9 @@ function write3(p1, s1)
 
     end
 
-    write(p3, s3)
+    write(p2, s3)
 
-    @info "🍡 $(p3[(length(p2) + 2):end])"
+    @info "🍡 $(path(p2))"
 
     return
 
