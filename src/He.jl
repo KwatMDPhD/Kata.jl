@@ -118,15 +118,13 @@ function write2(fu, p1, p2)
 
     s2 = "$(fu(split(read(p1, String), "# ---- #"; limit = 2)[1]))# ---- #$(split(s1, "# ---- #"; limit = 2)[2])"
 
-    if s1 == s2
+    if s1 != s2
 
-        return
+        write(p2, s2)
+
+        @info "🍡 $(path(p2))"
 
     end
-
-    write(p2, s2)
-
-    @info "🍡 $(path(p2))"
 
     return
 
