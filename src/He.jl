@@ -101,12 +101,10 @@ function write2(pa)
 
     mv(joinpath("src", "NAME.jl"), joinpath("src", pa))
 
-    TODO = readchomp(`git config user.name`)
-
     run(
         pipeline(
             `find . -type f -print0`,
-            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g -e s/AUTHORS/$TODO/g`,
+            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g`,
         ),
     )
 
