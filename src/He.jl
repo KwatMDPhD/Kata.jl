@@ -93,16 +93,18 @@ end
 
 const P3 = pkgdir(He, "NAME.jl")
 
-function write2(s1, s2)
+function make(pa)
 
-    s3 = "s/$s1/$s2/g"
+    cd(cp(P3, pa))
 
-    run(pipeline(`find . -print0`, `xargs -0 rename $s3`))
+    mv(joinpath("src", "NAME.jl"), joinpath("src", pa))
+
+    st = readchomp(`git config user.name`)
 
     run(
         pipeline(
-            `rg --no-ignore --files-with-matches $s1`,
-            `xargs sed -i '' $s3`,
+            `find . -type f -print0`,
+            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g -e s/AUTHORS/$st/g`,
         ),
     )
 
@@ -110,35 +112,19 @@ function write2(s1, s2)
 
 end
 
-function make(name)
+function write2(fu, p1, p2)
 
-    cd(cp(P3, joinpath(pwd(), name)))
+    s1 = read(p2, String)
 
-    write2("NAME", splitext(name)[1])
+    s2 = "$(fu(split(read(p1, String), "# ---- #"; limit = 2)[1]))# ---- #$(split(s1, "# ---- #"; limit = 2)[2])"
 
-    write2("11111111-1111-1111-1111-111111111111", uuid4())
-
-    write2("AUTHORS", readchomp(`git config user.name`))
-
-    return
-
-end
-
-function write3(p1, s1)
-
-    p2 = joinpath(pwd(), replace(p1, "NAME" => s1))
-
-    s2 = read(p2, String)
-
-    s3 = "$(replace(split(read(joinpath(P3, p1), String), "# ---- #"; limit = 2)[1], "NAME" => s1))# ---- #$(split(s2, "# ---- #"; limit = 2)[2])"
-
-    if s2 == s3
+    if s1 == s2
 
         return
 
     end
 
-    write(p2, s3)
+    write(p2, s2)
 
     @info "🍡 $(path(p2))"
 
@@ -148,29 +134,39 @@ end
 
 function match()
 
-    st = splitext(basename(pwd()))[1]
+    p1 = basename(pwd())
+
+    pa = "NAME" => splitext(p1)[1]
 
     nd = length(P3) + 2
 
-    for (p1, p1_, p2_) in walkdir(P3), p3_ in (p1_, p2_), p2 in p3_
+    for (p2, p1_, p2_) in walkdir(P3), p3_ in (p1_, p2_), p3 in p3_
 
-        if p2 == "Manifest.toml"
+        if p3 == "Manifest.toml"
 
             continue
 
         end
 
-        p3 = joinpath(p1[nd:end], replace(p2, "NAME" => st))
+        p4 = joinpath(p2[nd:end], replace(p3, pa))
 
-        @assert ispath(p3) p3
+        @assert ispath(p4) p4
 
     end
 
-    write3(".gitignore", st)
+    write2(identity, joinpath(P3, ".gitignore"), ".gitignore")
 
-    write3(joinpath("src", "NAME.jl"), st)
+    write2(
+        st -> replace(st, pa),
+        joinpath(P3, "src", "NAME.jl"),
+        joinpath("src", p1),
+    )
 
-    write3(joinpath("test", "runtests.jl"), st)
+    write2(
+        st -> replace(st, pa),
+        joinpath(P3, "test", "runtests.jl"),
+        joinpath("test", "runtests.jl"),
+    )
 
     return
 
