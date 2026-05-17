@@ -14,7 +14,7 @@ function path(pa)
 
 end
 
-function name()
+function log()
 
     for (p1, p1_, p2_) in walkdir()
 
@@ -93,18 +93,18 @@ end
 
 const P3 = pkgdir(He, "NAME.jl")
 
-function make(pa)
+function write2(pa)
 
     cd(cp(P3, pa))
 
     mv(joinpath("src", "NAME.jl"), joinpath("src", pa))
 
-    st = readchomp(`git config user.name`)
+    TODO = readchomp(`git config user.name`)
 
     run(
         pipeline(
             `find . -type f -print0`,
-            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g -e s/AUTHORS/$st/g`,
+            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g -e s/AUTHORS/$TODO/g`,
         ),
     )
 
@@ -112,29 +112,29 @@ function make(pa)
 
 end
 
-function write2(fu, p1, p2)
+function write2(s1, pa)
 
-    s1 = read(p2, String)
+    s2 = read(pa, String)
 
-    s2 = "$(fu(split(read(p1, String), "# ---- #"; limit = 2)[1]))# ---- #$(split(s1, "# ---- #"; limit = 2)[2])"
+    s3 = "$(split(s1, "# ---- #"; limit = 2)[1])# ---- #$(split(s2, "# ---- #"; limit = 2)[2])"
 
-    if s1 != s2
+    if s2 == s3
 
-        write(p2, s2)
-
-        @info "🍡 $(path(p2))"
+        return
 
     end
+
+    write(pa, s3)
+
+    @info "🍡 $(path(pa))"
 
     return
 
 end
 
-function match()
+function write2()
 
     p1 = basename(pwd())
-
-    pa = "NAME" => splitext(p1)[1]
 
     nd = length(P3) + 2
 
@@ -144,25 +144,29 @@ function match()
 
             continue
 
+        elseif p3 == "NAME.jl"
+
+            p3 = p1
+
         end
 
-        p4 = joinpath(p2[nd:end], replace(p3, pa))
+        p4 = joinpath(p2[nd:end], p3)
 
         @assert ispath(p4) p4
 
     end
 
-    write2(identity, joinpath(P3, ".gitignore"), ".gitignore")
+    write2(read(joinpath(P3, ".gitignore"), String), ".gitignore")
+
+    pa = "NAME" => splitext(p1)[1]
 
     write2(
-        st -> replace(st, pa),
-        joinpath(P3, "src", "NAME.jl"),
+        replace(read(joinpath(P3, "src", "NAME.jl"), String), pa),
         joinpath("src", p1),
     )
 
     write2(
-        st -> replace(st, pa),
-        joinpath(P3, "test", "runtests.jl"),
+        replace(read(joinpath(P3, "test", "runtests.jl"), String), pa),
         joinpath("test", "runtests.jl"),
     )
 
@@ -174,17 +178,23 @@ function (@main)(ARGS)
 
     st = ARGS[1]
 
-    if st == "name"
+    um = length(ARGS)
 
-        name()
+    if st == "lo"
 
-    elseif st == "make"
+        log()
 
-        make(ARGS[2])
+    elseif st == "te" && um == 2
 
-    elseif st == "match"
+        write2(ARGS[2])
 
-        match()
+    elseif st == "te" && isone(um)
+
+        write2()
+
+    else
+
+        erorr(ARGS)
 
     end
 
