@@ -87,7 +87,7 @@ function name()
 
 end
 
-const PA = pkgdir(He, "NAME.jl")
+const P3 = pkgdir(He, "NAME.jl")
 
 function write2(s1, s2)
 
@@ -108,11 +108,11 @@ end
 
 function make(name)
 
-    cd(cp(PA, joinpath(pwd(), name)))
+    cd(cp(P3, joinpath(pwd(), name)))
 
     write2("NAME", splitext(name)[1])
 
-    write2("11111111-1111-1111-1111-111111111111", "$(uuid4())")
+    write2("11111111-1111-1111-1111-111111111111", uuid4())
 
     write2("AUTHORS", readchomp(`git config user.name`))
 
@@ -120,23 +120,25 @@ function make(name)
 
 end
 
-function write3(st, p1)
+function write3(p1, s1)
 
     p2 = pwd()
 
-    p3 = joinpath(p2, replace(p1, "NAME" => st))
+    p3 = joinpath(p2, replace(p1, "NAME" => s1))
 
-    s1 = read(p3, String)
+    s2 = read(p3, String)
 
-    s2 = "$(replace(split(read(joinpath(PA, p1), String), "# ---- #"; limit = 2)[1], "NAME" => st))# ---- #$(split(s1, "# ---- #"; limit = 2)[2])"
+    s3 = "$(replace(split(read(joinpath(P3, p1), String), "# ---- #"; limit = 2)[1], "NAME" => s1))# ---- #$(split(s2, "# ---- #"; limit = 2)[2])"
 
-    if s1 != s2
+    if s2 == s3
 
-        write(p3, s2)
-
-        @info "🍡 $(p3[(length(p2) + 2):end])"
+        return
 
     end
+
+    write(p3, s3)
+
+    @info "🍡 $(p3[(length(p2) + 2):end])"
 
     return
 
@@ -146,9 +148,9 @@ function match()
 
     st = splitext(basename(pwd()))[1]
 
-    nd = length(PA) + 2
+    nd = length(P3) + 2
 
-    for (p1, p1_, p2_) in walkdir(PA), p3_ in (p1_, p2_), p2 in p3_
+    for (p1, p1_, p2_) in walkdir(P3), p3_ in (p1_, p2_), p2 in p3_
 
         if p2 == "Manifest.toml"
 
@@ -162,11 +164,11 @@ function match()
 
     end
 
-    write3(st, ".gitignore")
+    write3(".gitignore", st)
 
-    write3(st, joinpath("src", "NAME.jl"))
+    write3(joinpath("src", "NAME.jl"), st)
 
-    write3(st, joinpath("test", "runtests.jl"))
+    write3(joinpath("test", "runtests.jl"), st)
 
     return
 
