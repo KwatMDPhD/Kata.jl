@@ -150,7 +150,7 @@ function write2()
 
         p4 = joinpath(p2[IN:end], p3)
 
-        @assert ispath(p4) p4
+        @assert ispath(p4)
 
     end
 
