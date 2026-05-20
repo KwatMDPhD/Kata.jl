@@ -1,18 +1,4 @@
-module He
-
-const P1 = pkgdir(He, "in")
-
-const P2 = pkgdir(He, "ou")
-
-# ---- #
-
-using UUIDs: uuid4
-
-function path(pa)
-
-    return pa[(length(pwd()) + 2):end]
-
-end
+module Tree
 
 function log()
 
@@ -27,7 +13,7 @@ function log()
 
         end
 
-        p2 = path(p1)
+        p2 = p1[(length(pwd()) + 2):end]
 
         for p3_ in (p1_, p2_), p3 in p3_
 
@@ -84,115 +70,6 @@ function log()
             end
 
         end
-
-    end
-
-    return
-
-end
-
-const P3 = pkgdir(He, "NAME.jl")
-
-const IN = length(P3) + 2
-
-function write2(pa)
-
-    cd(cp(P3, pa))
-
-    mv(joinpath("src", "NAME.jl"), joinpath("src", pa))
-
-    run(
-        pipeline(
-            `find . -type f -print0`,
-            `xargs -0 sed -i '' -e s/NAME/$(splitext(pa)[1])/g -e s/11111111-1111-1111-1111-111111111111/$(uuid4())/g`,
-        ),
-    )
-
-    return
-
-end
-
-function write2(s1, pa)
-
-    s2 = read(pa, String)
-
-    s3 = "$(split(s1, "# ---- #"; limit = 2)[1])# ---- #$(split(s2, "# ---- #"; limit = 2)[2])"
-
-    if s2 == s3
-
-        return
-
-    end
-
-    write(pa, s3)
-
-    @info "🍡 $(path(pa))"
-
-    return
-
-end
-
-function write2()
-
-    p1 = basename(pwd())
-
-    for (p2, p1_, p2_) in walkdir(P3), p3_ in (p1_, p2_), p3 in p3_
-
-        if p3 == "Manifest.toml"
-
-            continue
-
-        elseif p3 == "NAME.jl"
-
-            p3 = p1
-
-        end
-
-        p4 = joinpath(p2[IN:end], p3)
-
-        @assert ispath(p4)
-
-    end
-
-    write2(read(joinpath(P3, ".gitignore"), String), ".gitignore")
-
-    pa = "NAME" => splitext(p1)[1]
-
-    write2(
-        replace(read(joinpath(P3, "src", "NAME.jl"), String), pa),
-        joinpath("src", p1),
-    )
-
-    write2(
-        replace(read(joinpath(P3, "test", "runtests.jl"), String), pa),
-        joinpath("test", "runtests.jl"),
-    )
-
-    return
-
-end
-
-function (@main)(ARGS)
-
-    st = ARGS[1]
-
-    um = length(ARGS)
-
-    if st == "lo"
-
-        log()
-
-    elseif st == "te" && um == 2
-
-        write2(ARGS[2])
-
-    elseif st == "te" && isone(um)
-
-        write2()
-
-    else
-
-        erorr(ARGS)
 
     end
 
