@@ -24,13 +24,13 @@ function (@main)(ARGS)
 
     elseif st == "template"
 
-        if isone(um)
-
-            Template.write2()
-
-        elseif um == 2
+        if um == 2
 
             Template.write2(ARGS[2])
+
+        elseif isone(um)
+
+            Template.write2()
 
         end
 
