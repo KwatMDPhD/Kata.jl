@@ -39,7 +39,7 @@ function write2(s1, pa)
 
     write(pa, s3)
 
-    @info "🍡 $(pa[(length(pwd()) + 2):end])"
+    @info "🍡 $pa"
 
     return
 

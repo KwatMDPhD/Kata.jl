@@ -18,7 +18,7 @@ function (@main)(ARGS)
 
     if st == "log"
 
-        log()
+        Tree.log()
 
     elseif st == "template" && um == 2
 
@@ -26,7 +26,7 @@ function (@main)(ARGS)
 
     elseif st == "template" && isone(um)
 
-        write2()
+        Template.write2()
 
     else
 
