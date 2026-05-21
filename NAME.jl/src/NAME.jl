@@ -4,9 +4,13 @@ const P1 = pkgdir(NAME, "in")
 
 const P2 = pkgdir(NAME, "ou")
 
-for pa in filter!(!=("NAME.jl"), readdir(pkgdir(NAME, "src")))
+for pa in readdir(pkgdir(NAME, "src"))
 
-    include(pa)
+    if pa != "NAME.jl"
+
+        include(pa)
+
+    end
 
 end
 
