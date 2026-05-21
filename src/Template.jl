@@ -1,10 +1,10 @@
 module Template
 
+using Base: write as write1
+
 using UUIDs: uuid4
 
-using ..Help
-
-const PA = pkgdir(Help, "NAME.jl")
+const PA = pkgdir(Template, "NAME.jl")
 
 const IN = length(PA) + 2
 
@@ -37,7 +37,7 @@ function write2(s1, pa)
 
     end
 
-    write(pa, s3)
+    write1(pa, s3)
 
     @info "🍡 $pa"
 
@@ -63,7 +63,7 @@ function write2()
 
         p4 = joinpath(p2[IN:end], p3)
 
-        @assert ispath(p4)
+        @assert ispath(p4) p4
 
     end
 

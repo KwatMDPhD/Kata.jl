@@ -4,11 +4,13 @@ const P1 = pkgdir(Help, "in")
 
 const P2 = pkgdir(Help, "ou")
 
+for pa in filter!(!=("Help.jl"), readdir(pkgdir(Help, "src")))
+
+    include(pa)
+
+end
+
 # ---- #
-
-include("Tree.jl")
-
-include("Template.jl")
 
 function (@main)(ARGS)
 
@@ -20,17 +22,17 @@ function (@main)(ARGS)
 
         Tree.log()
 
-    elseif st == "template" && um == 2
+    elseif st == "template"
 
-        Template.write2(ARGS[2])
+        if isone(um)
 
-    elseif st == "template" && isone(um)
+            Template.write2()
 
-        Template.write2()
+        elseif um == 2
 
-    else
+            Template.write2(ARGS[2])
 
-        error(ARGS)
+        end
 
     end
 

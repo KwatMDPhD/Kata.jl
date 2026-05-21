@@ -6,7 +6,10 @@ function number(pa)
 
 end
 
-for pa in sort!(filter!(!=("runtests.jl"), readdir()); by = number)
+for pa in sort!(
+        filter!(!=("runtests.jl"), readdir(pkgdir(NAME, "test")));
+        by = number,
+    )
 
     @info "🎬 $pa"
 

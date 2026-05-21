@@ -19,7 +19,7 @@ function log()
 
             if startswith(p3, '.') || !isone(count(isuppercase, p3))
 
-                @info "📛 $(joinpath(p2, p3))"
+                @info "🟡 $(joinpath(p2, p3))"
 
             end
 
@@ -65,7 +65,7 @@ function log()
 
             if p3 != p4
 
-                @info "📛 $p2\n$p3\n$p4"
+                @info "🔴 $p2\n$p3\n$p4"
 
             end
 
