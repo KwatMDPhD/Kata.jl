@@ -1,15 +1,12 @@
 using Help
 
-function number(pa)
+for pa in readdir(pkgdir(Help, "test"))
 
-    return parse(Int, split(pa, '.'; limit = 2)[1])
+    if pa == "runtests.jl"
 
-end
+        continue
 
-for pa in sort!(
-        filter!(!=("runtests.jl"), readdir(pkgdir(Help, "test")));
-        by = number,
-    )
+    end
 
     @info "🎬 $pa"
 
