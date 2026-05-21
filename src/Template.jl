@@ -1,6 +1,6 @@
 module Template
 
-using Base: write as write1
+using Base: write as Basewrite
 
 using UUIDs: uuid4
 
@@ -8,7 +8,7 @@ const PA = pkgdir(Template, "NAME.jl")
 
 const IN = length(PA) + 2
 
-function write2(pa)
+function write(pa)
 
     cd(cp(PA, pa))
 
@@ -25,7 +25,7 @@ function write2(pa)
 
 end
 
-function write2(s1, pa)
+function write(s1, pa)
 
     s2 = read(pa, String)
 
@@ -37,7 +37,7 @@ function write2(s1, pa)
 
     end
 
-    write1(pa, s3)
+    Basewrite(pa, s3)
 
     @info "🍡 $pa"
 
@@ -45,7 +45,7 @@ function write2(s1, pa)
 
 end
 
-function write2()
+function write()
 
     p1 = basename(pwd())
 
@@ -67,16 +67,16 @@ function write2()
 
     end
 
-    write2(read(joinpath(PA, ".gitignore"), String), ".gitignore")
+    write(read(joinpath(PA, ".gitignore"), String), ".gitignore")
 
     pa = "NAME" => splitext(p1)[1]
 
-    write2(
+    write(
         replace(read(joinpath(PA, "src", "NAME.jl"), String), pa),
         joinpath("src", p1),
     )
 
-    write2(
+    write(
         replace(read(joinpath(PA, "test", "runtests.jl"), String), pa),
         joinpath("test", "runtests.jl"),
     )

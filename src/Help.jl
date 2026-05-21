@@ -30,11 +30,11 @@ function (@main)(ARGS)
 
         if um == 2
 
-            Template.write2(ARGS[2])
+            Template.write(ARGS[2])
 
         elseif isone(um)
 
-            Template.write2()
+            Template.write()
 
         end
 
